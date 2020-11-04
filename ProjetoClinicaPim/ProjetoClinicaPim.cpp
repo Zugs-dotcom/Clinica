@@ -158,6 +158,11 @@ int main() {
 	strcpy(usuario[2].senha, "123");
 	strcpy(usuario[2].unidade, "2");
 
+	strcpy(usuario[3].usuario, "julia");
+	strcpy(usuario[3].senha, "123");
+	strcpy(usuario[3].unidade, "2");
+
+
 	//Inclui dados do Paciente 1
 	paciente[0].codigo = 1;
 	strcpy(paciente[0].nome, "Lydia");
