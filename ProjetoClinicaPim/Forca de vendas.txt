@@ -1,0 +1,41 @@
+1;Junior;14;12;
+15;jUNIOR DIAS;959;151;
+15;Junior;56;;
+2;Ams;54;;
+8;JUnior;48;55;
+15;Junior;;;
+2;das;6;1;1;Junior;123;631;
+1;Tase;15;2;
+1;jUNIOR;25;23;
+99;Junior;123;456;
+1;J;5;1;
+6;jU;;;
+1;ju;;;
+1;Lydia;4749;3232;
+1;s;;;
+1;Joao;15;15;
+1;jUNIOR;231;12;
+6;Junior;;;
+15;das;;;
+1;ds;15;1;
+5;L;;;
+2;L;;;
+1;L;1;1;
+1;Junior;47499;1234;
+123;;474;123;
+1;jUNIOR;1;1;
+1;junior;11;1;
+1;jun;1;1;
+1;Junior;11;11;
+2;ju;1;1;
+1;junior;5;5;
+1;junior;m99;99;55;
+1;Junior;m520296734;520296734;11940633029;Rua nao sei;nao tem;;nao existe;nao falou
+1;Junior;m52029673;52029673;123;Avenida rola;nao tem;;Ci;SL
+1;Junior;f123;123;123;Avenida;Av;;123;123
+15;Junior;f05516020;05516020;113726;Avenida;Naotem;05516020;C;l
+1;Junior;m;0552;123;aVEN;123;105503;cA;L
+5;Junior;m;;;dsa;sa;;das;das
+3;Jurandir;m;5203;123;Aven;NASA;1553;123;122
+3;Jax;m;552;123;Av;Av;15;aS;AS
+3;Jolio;m;155;15;V;v;5;a;b
