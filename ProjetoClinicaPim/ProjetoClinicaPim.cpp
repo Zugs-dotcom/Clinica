@@ -6,31 +6,6 @@
 
 int op;
 
-time_t txt_data(char teste[])
-{ // Funcao para converter uma string em time_t
-
-	int dia, mes, ano, hora, minuto;
-	struct tm conversao = { 0 };
-
-	sscanf_s(teste, "%d/%d/%d %d:%d", &dia, &mes, &ano, &hora, &minuto);
-
-	conversao.tm_mday = dia;
-	conversao.tm_mon = mes - 1;
-	conversao.tm_year = ano - 1900;
-	conversao.tm_hour = hora - 1;
-	conversao.tm_min = minuto;
-
-	return mktime(&conversao);
-}
-
-//Variavel global temporaria para realizar a conversao de time_t para string
-char data_texto[18];
-void data_txt(time_t teste)
-{
-	struct tm* reversao = localtime(&teste);
-	strftime(data_texto, 17, "%d/%m/%y %H:%M", reversao);
-}
-
 //Estrutura da tabela endereço
 typedef struct {
 	char logradouro[50];
