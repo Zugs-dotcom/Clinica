@@ -1011,15 +1011,15 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 		system("pause");
 	}
 	else
-	{
-		printf("Para visualizar todos os pedidos de um determinado dia entre com a data OBS:(apenas numeros) \n");
+	{/*
+		printf("Dia que sera agendado:\n");
 		printf("Dia: ");
 		scanf(" %s", agendamento->diaMarcado);
 		printf("Mes: ");
 		scanf(" %s", agendamento->mesMarcado);
 		printf("Ano: ");
 		scanf(" %s", agendamento->anoMarcado);
-
+		*/
 		obterData(&agendamento[*contAgendamento]);
 		*contAgendamento += 1;
 		if (*contAgendamento == 10)
