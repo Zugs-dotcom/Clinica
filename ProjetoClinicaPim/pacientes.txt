@@ -30,3 +30,4 @@
 6;roNADLO;M;55;33;05;15;5;an;as
 1;Jack;m;55;11;Av;trona;200;Cax;SP
 1;Jack;M;2147483648;1137268224;Avenida Troan;200;5516020;Caxingui;Sp
+1;Joao;m;55;123;123;123;55;cax;sp
