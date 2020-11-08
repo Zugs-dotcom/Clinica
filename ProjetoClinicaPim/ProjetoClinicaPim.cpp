@@ -446,8 +446,6 @@ Pct cadastrarPaciente(Pct* paciente, int* contPaciente, int identificador) {
 				}
 				break;
 			} while (1);
-
-			printf("	Bairro: ");
 			printf("	Bairro: ");
 			scanf(" %[^\n]s", &aux);
 			strcpy(paciente[i].endereco.bairro, aux);
@@ -504,17 +502,17 @@ void buscarPaciente(Pct* paciente, int contPaciente) {
 	printf("|         busca de Pacientes	           |");
 	printf("\n|__________________________________________|\n");
 	int i, marcador = 0;
-	int codigoPaciente;
+	int rgPaciente;
 	char nomePaciente[50];
 
-	printf("	Digite o nome ou o codigo do paciente que deseja buscar: ");
+	printf("	Digite o nome ou o rg do paciente que deseja buscar: ");
 	scanf(" %[^\n]s", nomePaciente);
 	printf("\n");
-	codigoPaciente = strtol(nomePaciente, NULL, 10);
+	rgPaciente = strtol(nomePaciente, NULL, 10);
 
 	for (i = 0; i < contPaciente; i++)
 	{
-		if (paciente[i].codigo == codigoPaciente || strcmp(paciente[i].nome, nomePaciente) == 0)
+		if (paciente[i].rg == rgPaciente || strcmp(paciente[i].nome, nomePaciente) == 0)
 		{
 			imprimirPaciente(paciente[i]);
 			marcador = 1;
@@ -529,18 +527,17 @@ void buscarPaciente(Pct* paciente, int contPaciente) {
 	system("cls");
 }
 
-
 void AtualizarPaciente(Pct* paciente, int contPaciente, int identificador) {
-	int codigo, i, marcador = 0;
+	int codigo, i,codigoPaciente, marcador = 0;
 	char aux[50];
-	char codigoPaciente[10];
+	char rgPaciente[10];
 
 	do
 	{
-		printf("Codigo do paciente que deseja atualizar: ");
-		scanf(" %s", codigoPaciente);
+		printf("RG do paciente que deseja atualizar: ");
+		scanf(" %s", rgPaciente);
 
-		codigo = strtol(codigoPaciente, NULL, 10);
+		codigo = strtol(rgPaciente, NULL, 10);
 		if (codigo == 0)
 		{
 			printf("\n		!!ERRO!!\n	Apenas numeros para o codigo\n");
@@ -552,8 +549,9 @@ void AtualizarPaciente(Pct* paciente, int contPaciente, int identificador) {
 	} while (1);
 	for (i = 0; i < contPaciente; i++)
 	{
-		if (paciente[i].codigo == codigo)
+		if (paciente[i].rg == codigo)
 		{
+			codigoPaciente = paciente[i].codigo;
 			marcador = 1;
 			break;
 		}
@@ -565,20 +563,20 @@ void AtualizarPaciente(Pct* paciente, int contPaciente, int identificador) {
 		printf("\n	ENTRE COM OS DADOS ATUALIZADOS\n");
 		printf("	Digite o nome do Paciente: ");
 		scanf(" %[^\n]s", &aux);
-		strcpy(paciente[codigo - 1].nome, aux);
+		strcpy(paciente[codigoPaciente - 1].nome, aux);
 		printf("	Sexo [M/F]:  ");
 		scanf(" %[^\n]s", &aux);
-		strcpy(paciente[codigo - 1].sexo, aux);
+		strcpy(paciente[codigoPaciente - 1].sexo, aux);
 
 		do
 		{
 			printf("	Rg: ");
 			scanf(" %10s", aux);
 
-			paciente[codigo - 1].rg = strtol(aux, NULL, 10); //Faz a conversão de alfabetico para inteiro
+			paciente[codigoPaciente - 1].rg = strtol(aux, NULL, 10); //Faz a conversão de alfabetico para inteiro
 			if (identificador == 0)
 			{
-				if (paciente[codigo - 1].rg == 0)
+				if (paciente[codigoPaciente - 1].rg == 0)
 				{
 					printf("\n		!!OPCAO INVALIDA\n	Apenas numeros para o codigo\n");
 					system("pause");
@@ -591,7 +589,7 @@ void AtualizarPaciente(Pct* paciente, int contPaciente, int identificador) {
 			}
 			else
 			{
-				if (paciente[codigo - 1].rg == 0 && strlen(aux) > 0)
+				if (paciente[codigoPaciente - 1].rg == 0 && strlen(aux) > 0)
 				{
 					printf("\n		!!OPCAO INVALIDA\n	Apenas numeros para o codigo\n");
 					printf("\n____________________________________________\n");
@@ -609,10 +607,10 @@ void AtualizarPaciente(Pct* paciente, int contPaciente, int identificador) {
 			printf("	Telefone: ");
 			scanf(" %10s", aux);
 
-			paciente[codigo - 1].telefone = strtol(aux, NULL, 10); //Faz a conversão de alfabetico para inteiro
+			paciente[codigoPaciente - 1].telefone = strtol(aux, NULL, 10); //Faz a conversão de alfabetico para inteiro
 			if (identificador == 0)
 			{
-				if (paciente[codigo - 1].telefone == 0)
+				if (paciente[codigoPaciente - 1].telefone == 0)
 				{
 					printf("\n		!!OPCAO INVALIDA\n	Apenas numeros para o codigo\n");
 					system("pause");
@@ -625,7 +623,7 @@ void AtualizarPaciente(Pct* paciente, int contPaciente, int identificador) {
 			}
 			else
 			{
-				if (paciente[codigo - 1].telefone == 0 && strlen(aux) > 0)
+				if (paciente[codigoPaciente - 1].telefone == 0 && strlen(aux) > 0)
 				{
 					printf("\n		!!OPCAO INVALIDA\n	Apenas numeros para o codigo\n");
 					printf("\n____________________________________________\n");
@@ -641,20 +639,20 @@ void AtualizarPaciente(Pct* paciente, int contPaciente, int identificador) {
 
 		printf("	Logradouro: ");
 		scanf(" %[^\n]s", &aux);
-		strcpy(paciente[codigo - 1].endereco.logradouro, aux);
+		strcpy(paciente[codigoPaciente - 1].endereco.logradouro, aux);
 		printf("	Complemento: ");
 		scanf(" %[^\n]s", &aux);
-		strcpy(paciente[codigo - 1].endereco.complemento, aux);
+		strcpy(paciente[codigoPaciente - 1].endereco.complemento, aux);
 
 		do
 		{
 			printf("	CEP :");
 			scanf(" %10s", aux);
 
-			paciente[codigo - 1].endereco.cep = strtol(aux, NULL, 10); //Faz a conversão de alfabetico para inteiro
+			paciente[codigoPaciente - 1].endereco.cep = strtol(aux, NULL, 10); //Faz a conversão de alfabetico para inteiro
 			if (identificador == 0)
 			{
-				if (paciente[codigo - 1].endereco.cep == 0)
+				if (paciente[codigoPaciente - 1].endereco.cep == 0)
 				{
 					printf("\n		!!OPCAO INVALIDA\n	Apenas numeros para o codigo\n");
 					system("pause");
@@ -667,7 +665,7 @@ void AtualizarPaciente(Pct* paciente, int contPaciente, int identificador) {
 			}
 			else
 			{
-				if (paciente[codigo - 1].endereco.cep == 0 && strlen(aux) > 0)
+				if (paciente[codigoPaciente - 1].endereco.cep == 0 && strlen(aux) > 0)
 				{
 					printf("\n		!!OPCAO INVALIDA\n	Apenas numeros para o codigo\n");
 					printf("\n____________________________________________\n");
@@ -683,17 +681,16 @@ void AtualizarPaciente(Pct* paciente, int contPaciente, int identificador) {
 
 		printf("	Bairro: ");
 		scanf(" %[^\n]s", &aux);
-		strcpy(paciente[codigo - 1].endereco.bairro, aux);
+		strcpy(paciente[codigoPaciente - 1].endereco.bairro, aux);
 		printf("	Cidade: ");
 		scanf(" %[^\n]s", &aux);
-		strcpy(paciente[codigo - 1].endereco.cidade, aux);
+		strcpy(paciente[codigoPaciente - 1].endereco.cidade, aux);
+
+		printf("\n	PACIENTE ATUALIZADO COM SUCESSO\n");
 	}
-	printf("\n	PACIENTE ATUALIZADO COM SUCESSO\n");
 	system("pause");
 	system("cls");
 }
-
-
 
 // Codigo da função que gerencia os exames
 void gerenciaDeExame(Exm* exame, int* contExame, FILE* arquivo) {
