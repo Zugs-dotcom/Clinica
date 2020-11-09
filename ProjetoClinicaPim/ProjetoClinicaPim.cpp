@@ -3,6 +3,7 @@
 #include<string.h>
 #include <io.h>
 #include <time.h>
+#include <windows.h>
 
 int op;
 
@@ -66,6 +67,13 @@ typedef struct {
 	Uni unidadeQueTrabalha;
 }Fnc;
 
+typedef struct {
+	Pct Paciente;
+	Exm Exame;
+	Uni Unidade;
+	Fnc Funcionario;
+}Rlt;
+
 //Declaração da função que de Menu
 void menu();
 
@@ -102,6 +110,9 @@ void ListarAgendamentoDeUmDia(Agd*, int);
 void AtualizarAgendamento(Agd*, int);
 void imprimirAgendamento(Agd);
 
+void gerenciaDeRelatorio(Pct*, Uni*, Fnc*, Exm*, int, int);
+void RelatorioDePacientesPorUnidade(Pct*, Uni*, int, int);
+
 void inicializar(Pct*, Exm*, Fnc*, Uni*, User*);
 
 //Função Principal
@@ -115,7 +126,7 @@ int main() {
 	Uni* unidade; //Declarando um ponteiro para estrutura de uniadades hospitalares
 	User* usuario; //Declarando um ponteiro para estrutura agendamento
 
-	int contPaciente = 3, contExame = 3, contAgendamento = 1, contFuncionario = 3, contUnidade = 2; //Inicilizando os contadores
+	int contPaciente = 6, contExame = 3, contAgendamento = 1, contFuncionario = 3, contUnidade = 2; //Inicilizando os contadores
 	arquivo = calloc(100, sizeof(FILE));
 	paciente = calloc(100, sizeof(Pct));
 	exame = calloc(100, sizeof(Exm));;
@@ -176,6 +187,9 @@ int main() {
 			break;
 		case 4:
 			gerenciaDeFuncionario(funcionario, unidade, &contFuncionario, arquivo);
+			break;
+		case 5:
+			gerenciaDeRelatorio(paciente, unidade, funcionario, exame, contPaciente, contUnidade);
 			break;
 		default:
 			printf("	!!COMANDO INVALIDO!!\n	Entre com o comando novamente\n");
@@ -292,6 +306,71 @@ void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User
 	paciente[1].endereco.cep = 05516020;
 	strcpy(paciente[1].endereco.bairro, "Caxingui");
 	strcpy(paciente[1].endereco.cidade, "SP");
+
+	//Inclui dados do Paciente 3
+	paciente[2].codigo = 3;
+	paciente[2].unidadeQueCadastrou = unidade[1];
+	strcpy(paciente[2].nome, "Leticia");
+	strcpy(paciente[2].sexo, "m");
+	paciente[2].rg = 12313;
+	paciente[2].telefone = 1137268225;
+	strcpy(paciente[2].endereco.logradouro, "Avenida trona");
+	strcpy(paciente[2].endereco.complemento, "Ola amigios");
+	paciente[2].endereco.cep = 05516020;
+	strcpy(paciente[2].endereco.bairro, "Caxingui");
+	strcpy(paciente[2].endereco.cidade, "SP");
+
+	//Inclui dados do Paciente 4
+	paciente[3].codigo = 4;
+	paciente[3].unidadeQueCadastrou = unidade[0];
+	strcpy(paciente[3].nome, "Jandira");
+	strcpy(paciente[3].sexo, "m");
+	paciente[3].rg = 12313;
+	paciente[3].telefone = 1137268225;
+	strcpy(paciente[3].endereco.logradouro, "Avenida trona");
+	strcpy(paciente[3].endereco.complemento, "Ola amigios");
+	paciente[3].endereco.cep = 05516020;
+	strcpy(paciente[3].endereco.bairro, "Caxingui");
+	strcpy(paciente[3].endereco.cidade, "SP");
+
+	//Inclui dados do Paciente 5
+	paciente[4].codigo = 5;
+	paciente[4].unidadeQueCadastrou = unidade[0];
+	strcpy(paciente[4].nome, "Clodoviu");
+	strcpy(paciente[4].sexo, "m");
+	paciente[4].rg = 12313;
+	paciente[4].telefone = 1137268225;
+	strcpy(paciente[4].endereco.logradouro, "Avenida trona");
+	strcpy(paciente[4].endereco.complemento, "Ola amigios");
+	paciente[4].endereco.cep = 05516020;
+	strcpy(paciente[4].endereco.bairro, "Caxingui");
+	strcpy(paciente[4].endereco.cidade, "SP");
+
+	//Inclui dados do Paciente 6
+	paciente[5].codigo = 6;
+	paciente[5].unidadeQueCadastrou = unidade[1];
+	strcpy(paciente[5].nome, "Arnico");
+	strcpy(paciente[5].sexo, "m");
+	paciente[5].rg = 12313;
+	paciente[5].telefone = 1137268225;
+	strcpy(paciente[5].endereco.logradouro, "Avenida trona");
+	strcpy(paciente[5].endereco.complemento, "Ola amigios");
+	paciente[5].endereco.cep = 05516020;
+	strcpy(paciente[5].endereco.bairro, "Caxingui");
+	strcpy(paciente[5].endereco.cidade, "SP");
+
+	//Inclui dados do Paciente 7
+	paciente[6].codigo = 7;
+	paciente[6].unidadeQueCadastrou = unidade[1];
+	strcpy(paciente[6].nome, "Arnico");
+	strcpy(paciente[6].sexo, "m");
+	paciente[6].rg = 12313;
+	paciente[6].telefone = 1137268225;
+	strcpy(paciente[6].endereco.logradouro, "Avenida trona");
+	strcpy(paciente[6].endereco.complemento, "Ola amigios");
+	paciente[6].endereco.cep = 05516020;
+	strcpy(paciente[6].endereco.bairro, "Caxingui");
+	strcpy(paciente[6].endereco.cidade, "SP");
 }
 
 
@@ -303,8 +382,9 @@ void menu() {
 	printf("	2 - Gerencia de Exame\n");
 	printf("	3 - Gerencia de Agendamentos\n");
 	printf("	4 - Gerencia de Funcionarios\n");
+	printf("	5 - Gerencia de Relatorios\n");
 	printf("	0 - Sair\n");
-	printf("Digite um comando para prosseguir: ");
+	printf("	Digite um comando para prosseguir: ");
 	scanf(" %d", &op);
 	system("cls");
 }
@@ -1310,7 +1390,6 @@ void gerenciaDeFuncionario(Fnc* funcionario, Uni* unidade, int* contFuncionario,
 			cadastrarFuncionario(funcionario, unidade, *contFuncionario, identificador);
 			*contFuncionario += 1;
 			break;
-			break;
 		case 2:
 			listarFuncionario(funcionario, *contFuncionario);
 			break;
@@ -1319,15 +1398,6 @@ void gerenciaDeFuncionario(Fnc* funcionario, Uni* unidade, int* contFuncionario,
 			break;
 		case 4:
 			AtualizarFuncionario(funcionario, *contFuncionario, identificador);
-			break;
-		case 5:
-			arquivo = fopen("funcionarios.txt", "rb");
-			printf("__________Abrindo o banco de dados____________\n");
-
-			while (fgets(funcionario, 20, arquivo) != NULL)
-				printf("%s", funcionario);
-
-			fclose(arquivo);
 			break;
 		default:
 			printf("	!!OPCAO INVALIDA!!\n	Digite novamente outra opcao\n");
@@ -1497,4 +1567,57 @@ void AtualizarFuncionario(Fnc* funcionario, int contFuncionario, int identificad
 	}
 	system("pause");
 	system("cls");
+}
+
+// Codigo da função que gerencia os funcionarios
+void gerenciaDeRelatorio(Pct* paciente, Uni* unidade, Fnc* funcionario, Exm* exame, int contPaciente, int contUnidade) {
+	int opcao;
+	int identificador = 0;
+	do
+	{
+
+		printf("\n____________________________________________\n");
+		printf("|         Gerencia de Relatorios	   |");
+		printf("\n|__________________________________________|\n\n");
+		printf("	1 - Relatorio de pacientes por unidade: \n");
+		printf("	0 - Voltar ao menu principal\n");
+		printf("	Digite um comando para prosseguir: ");
+		scanf("%d", &opcao);
+		system("cls");
+
+		switch (opcao)
+		{
+		case 0:menu();
+			break;
+		case 1:
+			RelatorioDePacientesPorUnidade(paciente, unidade, contPaciente, contUnidade);
+			break;
+		default:
+			printf("	!!OPCAO INVALIDA!!\n	Digite novamente outra opcao\n");
+			system("pause");
+			system("cls");
+		}
+		break;
+	} while (1);
+}
+
+void RelatorioDePacientesPorUnidade(Pct* paciente, Uni* unidade, int contPaciente, int contUnidade) {
+	char aux[50];
+	int i, j;
+	int contUnidade1 = 0, contUnidade2 = 0;
+	printf("\n____________________________________________\n");
+	printf("|         Relatorio das unidades	   |");
+	printf("\n|__________________________________________|\n\n");
+	for (i = 0; i <= contPaciente; i++)
+	{
+		if (paciente[i].unidadeQueCadastrou.codigo == 1)
+			contUnidade1 += 1;
+		if (paciente[i].unidadeQueCadastrou.codigo == 2)
+			contUnidade2 += 1;
+	}
+	printf("\n	A unidade:%s \n	Possui:%d pacientes\n", unidade[0].nome, contUnidade1);
+	printf("\n	A unidade:%s \n	Possui:%d pacientes\n", unidade[1].nome, contUnidade2);
+	system("Pause");
+	system("cls");
+	return;
 }
