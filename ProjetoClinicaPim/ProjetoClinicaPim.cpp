@@ -63,6 +63,7 @@ typedef struct {
 	int codigo;
 	char nome[50];
 	char cargo[50];
+	Uni unidadeQueTrabalha;
 }Fnc;
 
 //Declaração da função que de Menu
@@ -85,8 +86,8 @@ void AtualizarExame(Exm*, int, int);
 void imprimirExame(Exm);
 
 //Declaração da função que gerencia os funcionarios
-void gerenciaDeFuncionario(Fnc*, int*, FILE*);
-Fnc cadastrarFuncionario(Fnc*, int*, int);
+void gerenciaDeFuncionario(Fnc*, Uni*, int*, FILE*);
+Fnc cadastrarFuncionario(Fnc*, Uni*, int*, int);
 void listarFuncionario(Fnc*, int);
 void buscarFuncionario(Fnc*, int);
 void AtualizarFuncionario(Fnc*, int, int);
@@ -174,7 +175,7 @@ int main() {
 			gerenciaDeAgendamento(agendamento, paciente, exame, unidade, &contAgendamento, contPaciente, contExame, contUnidade);
 			break;
 		case 4:
-			gerenciaDeFuncionario(funcionario, &contFuncionario, arquivo);
+			gerenciaDeFuncionario(funcionario, unidade, &contFuncionario, arquivo);
 			break;
 		default:
 			printf("	!!COMANDO INVALIDO!!\n	Entre com o comando novamente\n");
@@ -254,13 +255,15 @@ void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User
 	strcpy(exame[1].nome, "Pediatra");
 	exame[1].valor = 300.0;
 
-	//Inclui dados do Exame 1
+	//Inclui dados do Funcionario 1
 	funcionario[0].codigo = 1;
+	funcionario[0].unidadeQueTrabalha = unidade[0];
 	strcpy(funcionario[0].nome, "Angela");
 	strcpy(funcionario[0].cargo, "Recepcionista");
 
-	//Inclui dados do Exame 2
+	//Inclui dados do Funcionario 2
 	funcionario[1].codigo = 2;
+	funcionario[1].unidadeQueTrabalha = unidade[0];
 	strcpy(funcionario[1].nome, "Fernando");
 	strcpy(funcionario[1].cargo, "Faxineiro");
 
@@ -375,6 +378,16 @@ Pct cadastrarPaciente(Pct* paciente, Uni* unidade, int* contPaciente, int identi
 				if (unidade[teste - 1].codigo == teste)
 				{
 					paciente[i].unidadeQueCadastrou = unidade[teste - 1];
+				}
+				else
+				{
+					printf("\n	!!OPCAO INVALIDA!!\n	Unidade nao encontrada\n");
+					system("pause");
+					system("cls");
+					printf("\n____________________________________________\n");
+					printf("|         Cadastro de Paciente	           |");
+					printf("\n|__________________________________________|\n");
+					continue;
 				}
 				break;
 			} while (1);
@@ -1179,7 +1192,6 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 	}
 
 	system("cls");
-	menu();
 }
 
 void obterData(Agd* agendamento) {
@@ -1218,18 +1230,16 @@ void listarAgendamentoDeUmPaciente(Agd* agendamento, int contAgendamento) {
 		system("pause");
 	}
 	system("cls");
-	menu();
 }
 
 void imprimirAgendamento(Agd agendamento) {
 	int i;
 
-	printf("\nNome do paciente: %s\nPEDIDOS", agendamento.pacienteQuePediu.nome);
+	printf("\n	Nome do paciente: %s\n	AGENDAMENTOS: ", agendamento.pacienteQuePediu.nome);
 	for (i = 0; i < agendamento.qtd; i++)
 	{
 		printf("\n	Exame: %s\n", agendamento.examePedido.nome);
-		printf("	Data: %d/%d/%d", agendamento.dia, agendamento.mes, agendamento.ano);
-		printf("	Dia Marcado: %d", agendamento.diaMarcado);
+		printf("\	Data: %d/%d/%d", agendamento.dia, agendamento.mes, agendamento.ano);
 		printf("\n	Hospital: %s", agendamento.UnidadeParaAgendar.nome);
 	}
 	printf("\n===============================\n");
@@ -1271,11 +1281,10 @@ void ListarAgendamentoDeUmDia(Agd* agendamento, int contAgendamento) {
 		system("cls");
 	}
 	system("cls");
-	menu();
 }
 
 // Codigo da função que gerencia os funcionarios
-void gerenciaDeFuncionario(Fnc* funcionario, int* contFuncionario, FILE* arquivo) {
+void gerenciaDeFuncionario(Fnc* funcionario, Uni* unidade, int* contFuncionario, FILE* arquivo) {
 	int opcao;
 	int identificador = 0;
 	do
@@ -1298,7 +1307,7 @@ void gerenciaDeFuncionario(Fnc* funcionario, int* contFuncionario, FILE* arquivo
 		case 0:menu();
 			break;
 		case 1:
-			cadastrarFuncionario(funcionario, *contFuncionario, identificador);
+			cadastrarFuncionario(funcionario, unidade, *contFuncionario, identificador);
 			*contFuncionario += 1;
 			break;
 			break;
@@ -1330,8 +1339,9 @@ void gerenciaDeFuncionario(Fnc* funcionario, int* contFuncionario, FILE* arquivo
 }
 
 //Função que cadastra funcionario
-Fnc cadastrarFuncionario(Fnc* funcionario, int* contFuncionario, int identificador) {
+Fnc cadastrarFuncionario(Fnc* funcionario, Uni* unidade, int* contFuncionario, int identificador) {
 	char aux[50];
+	int teste;
 	printf("\n____________________________________________\n");
 	printf("|         Cadastro de Funcionarios        |");
 	printf("\n|__________________________________________|\n");
@@ -1342,6 +1352,28 @@ Fnc cadastrarFuncionario(Fnc* funcionario, int* contFuncionario, int identificad
 		{
 			printf("\n	Proximo Codigo de funcionario eh : %d\n", i + 1);
 			funcionario[i].codigo = i + 1;
+			do
+			{
+				printf("	Digite o codigo da unidade: ");
+				scanf(" %10s", aux);
+				teste = strtol(aux, NULL, 10);
+				if (unidade[teste - 1].codigo == teste)
+				{
+					funcionario[i].unidadeQueTrabalha = unidade[teste - 1];
+					break;
+				}
+				else
+				{
+					printf("\n	!!OPCAO INVALIDA!!\n	Unidade nao encontrada\n");
+					system("pause");
+					system("cls");
+					printf("\n____________________________________________\n");
+					printf("|         Cadastro de Funcionarios	           |");
+					printf("\n|__________________________________________|\n");
+					continue;
+				}
+				break;
+			} while (1);
 			printf("	Digite o nome do funcionario: ");
 			scanf(" %[^\n]s", &aux);
 			strcpy(funcionario[i].nome, aux);
@@ -1382,6 +1414,7 @@ void listarFuncionario(Fnc* funcionario, int contFuncionario) {
 
 void imprimirFuncionario(Fnc funcionario) {
 	printf("\n	Codigo: %d\n", funcionario.codigo);
+	printf("	Unidade: %s\n", funcionario.unidadeQueTrabalha.nome);
 	printf("	Nome: %s\n", funcionario.nome);
 	printf("	Cargo: %s\n", funcionario.cargo);
 }
