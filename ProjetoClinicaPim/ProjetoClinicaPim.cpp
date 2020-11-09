@@ -15,6 +15,10 @@ typedef struct {
 	char cidade[20];
 }End;
 
+typedef struct {
+	int codigo;
+	char nome[50];
+}Uni;
 //Estrutura da tabela paciente
 typedef struct {
 	int codigo;
@@ -23,21 +27,17 @@ typedef struct {
 	float rg;
 	float telefone;
 	End endereco;
-
+	Uni unidadeQueCadastrou;
 }Pct;
 
 //Estrutura da tabela Exames
 typedef struct {
 	int codigo;
+	Uni unidadeDoExame;
 	char nome[50];
 	char nomeMedico[50];
 	float valor;
 }Exm;
-
-typedef struct {
-	int codigo;
-	char nome[50];
-}Uni;
 
 typedef struct {
 	int codigo;
@@ -69,16 +69,16 @@ typedef struct {
 void menu();
 
 //Declaração da função que gerencia os Paciente
-void gerenciaDePaciente(Pct*, int*, FILE*);
-Pct cadastrarPaciente(Pct*, int*, int);
+void gerenciaDePaciente(Pct*, Uni*, int*, FILE*);
+Pct cadastrarPaciente(Pct*, Uni*, int*, int);
 void listarPaciente(Pct*, int);
 void buscarPaciente(Pct*, int);
 void AtualizarPaciente(Pct*, int, int);
 void imprimirPaciente(Pct);
 
 //Declaração da função que gerencia os Exame
-void gerenciaDeExame(Exm*, int*, FILE*);
-Exm cadastrarExame(Exm*, int*, int);
+void gerenciaDeExame(Exm*, Uni*, int*, FILE*);
+Exm cadastrarExame(Exm*, Uni*, int*, int);
 void listarExame(Exm*, int);
 void buscarExame(Exm*, int);
 void AtualizarExame(Exm*, int, int);
@@ -101,6 +101,8 @@ void ListarAgendamentoDeUmDia(Agd*, int);
 void AtualizarAgendamento(Agd*, int);
 void imprimirAgendamento(Agd);
 
+void inicializar(Pct*, Exm*, Fnc*, Uni*, User*);
+
 //Função Principal
 int main() {
 
@@ -121,102 +123,7 @@ int main() {
 	funcionario = calloc(50, sizeof(Fnc));
 	unidade = calloc(50, sizeof(Uni));
 
-	// inicializa Pacientes e exmes
-	for (int i = 0; i < 50; i++) {
-		paciente[i].codigo = 0;
-		strcpy(paciente[i].nome, "");
-		strcpy(paciente[i].sexo, "");
-		paciente[i].rg = 0;
-		paciente[i].telefone = 0;
-		strcpy(paciente[i].endereco.logradouro, "");
-		strcpy(paciente[i].endereco.complemento, "");
-		paciente[i].endereco.cep = 0;
-		strcpy(paciente[i].endereco.bairro, "");
-		strcpy(paciente[i].endereco.cidade, "");
-
-		exame[i].codigo = 0;
-		strcpy(exame[i].nomeMedico, "");
-		strcpy(exame[i].nome, "");
-		exame[i].valor = 0.0;
-
-		funcionario[i].codigo = 0;
-		strcpy(funcionario[i].nome, "");
-		strcpy(funcionario[i].cargo, "");
-
-		unidade[i].codigo = 0;
-		strcpy(unidade[i].nome, "");
-	}
-
-	//Inclui dados dos usuarios
-	strcpy(usuario[0].usuario, "junior");
-	strcpy(usuario[0].senha, "123");
-	strcpy(usuario[0].unidade, "1");
-
-	strcpy(usuario[1].usuario, "lydia");
-	strcpy(usuario[1].senha, "123");
-	strcpy(usuario[1].unidade, "1");
-
-	strcpy(usuario[2].usuario, "joao");
-	strcpy(usuario[2].senha, "123");
-	strcpy(usuario[2].unidade, "2");
-
-	strcpy(usuario[3].usuario, "julia");
-	strcpy(usuario[3].senha, "123");
-	strcpy(usuario[3].unidade, "2");
-
-
-	//Inclui dados do Paciente 1
-	paciente[0].codigo = 1;
-	strcpy(paciente[0].nome, "Lydia");
-	strcpy(paciente[0].sexo, "f");
-	paciente[0].rg = 1234;
-	paciente[0].telefone = 11940633029;
-	strcpy(paciente[0].endereco.logradouro, "Naosei");
-	strcpy(paciente[0].endereco.complemento, "ntem");
-	paciente[0].endereco.cep = 051615203;
-	strcpy(paciente[0].endereco.bairro, "Naofacodeia");
-	strcpy(paciente[0].endereco.cidade, "ola");
-
-	//Inclui dados do Paciente 2
-	paciente[1].codigo = 2;
-	strcpy(paciente[1].nome, "Junior");
-	strcpy(paciente[1].sexo, "m");
-	paciente[1].rg = 12313;
-	paciente[1].telefone = 1137268225;
-	strcpy(paciente[1].endereco.logradouro, "Avenida trona");
-	strcpy(paciente[1].endereco.complemento, "Ola amigios");
-	paciente[1].endereco.cep = 05516020;
-	strcpy(paciente[1].endereco.bairro, "Caxingui");
-	strcpy(paciente[1].endereco.cidade, "SP");
-
-	//Inclui dados do Exame 1
-	exame[0].codigo = 1;
-	strcpy(exame[0].nomeMedico, "Rodolfo");
-	strcpy(exame[0].nome, "Urologista");
-	exame[0].valor = 500.0;
-
-	//Inclui dados do Exame 2
-	exame[1].codigo = 2;
-	strcpy(exame[1].nomeMedico, "Marcelo");
-	strcpy(exame[1].nome, "Pediatra");
-	exame[1].valor = 300.0;
-
-	//Inclui dados do Exame 1
-	funcionario[0].codigo = 1;
-	strcpy(funcionario[0].nome, "Angela");
-	strcpy(funcionario[0].cargo, "Recepcionista");
-
-	//Inclui dados do Exame 2
-	funcionario[1].codigo = 2;
-	strcpy(funcionario[1].nome, "Fernando");
-	strcpy(funcionario[1].cargo, "Faxineiro");
-
-	//Inclui dados do Clinica 1
-	unidade[0].codigo = 1;
-	strcpy(unidade[0].nome, "Hospital LeForte");
-	//Inclui dados do Clinica 2
-	unidade[1].codigo = 2;
-	strcpy(unidade[1].nome, "Hospital Albert");
+	inicializar(paciente, exame, funcionario, unidade, usuario);
 
 	/*
 	char login[20];
@@ -258,10 +165,10 @@ int main() {
 			exit(1);
 			break;
 		case 1:
-			gerenciaDePaciente(paciente, &contPaciente, arquivo);
+			gerenciaDePaciente(paciente, unidade, &contPaciente, arquivo);
 			break;
 		case 2:
-			gerenciaDeExame(exame, &contExame, arquivo);
+			gerenciaDeExame(exame, unidade, &contExame, arquivo);
 			break;
 		case 3:
 			gerenciaDeAgendamento(agendamento, paciente, exame, unidade, &contAgendamento, contPaciente, contExame, contUnidade);
@@ -280,6 +187,111 @@ int main() {
 	return 0;
 }//fim da função principal
 
+
+void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User* usuario) {
+	// inicializa Pacientes e exmes
+	for (int i = 0; i < 50; i++) {
+		paciente[i].codigo = 0;
+		strcpy(paciente[i].nome, "");
+		strcpy(paciente[i].sexo, "");
+		paciente[i].rg = 0;
+		paciente[i].telefone = 0;
+		strcpy(paciente[i].endereco.logradouro, "");
+		strcpy(paciente[i].endereco.complemento, "");
+		paciente[i].endereco.cep = 0;
+		strcpy(paciente[i].endereco.bairro, "");
+		strcpy(paciente[i].endereco.cidade, "");
+		paciente[i].unidadeQueCadastrou.codigo = 0;
+
+		exame[i].codigo = 0;
+		strcpy(exame[i].nomeMedico, "");
+		strcpy(exame[i].nome, "");
+		exame[i].valor = 0.0;
+
+		funcionario[i].codigo = 0;
+		strcpy(funcionario[i].nome, "");
+		strcpy(funcionario[i].cargo, "");
+
+		unidade[i].codigo = 0;
+		strcpy(unidade[i].nome, "");
+	}
+
+	//Inclui dados dos usuarios
+	strcpy(usuario[0].usuario, "junior");
+	strcpy(usuario[0].senha, "123");
+	strcpy(usuario[0].unidade, "1");
+
+	strcpy(usuario[1].usuario, "lydia");
+	strcpy(usuario[1].senha, "123");
+	strcpy(usuario[1].unidade, "1");
+
+	strcpy(usuario[2].usuario, "joao");
+	strcpy(usuario[2].senha, "123");
+	strcpy(usuario[2].unidade, "2");
+
+	strcpy(usuario[3].usuario, "julia");
+	strcpy(usuario[3].senha, "123");
+	strcpy(usuario[3].unidade, "2");
+
+	//Inclui dados do Clinica 1
+	unidade[0].codigo = 1;
+	strcpy(unidade[0].nome, "Hospital LeForte");
+	//Inclui dados do Clinica 2
+	unidade[1].codigo = 2;
+	strcpy(unidade[1].nome, "Hospital Albert");
+
+	//Inclui dados do Exame 1
+	exame[0].codigo = 1;
+	exame[0].unidadeDoExame = unidade[0];
+	strcpy(exame[0].nomeMedico, "Rodolfo");
+	strcpy(exame[0].nome, "Urologista");
+	exame[0].valor = 500.0;
+
+	//Inclui dados do Exame 2
+	exame[1].codigo = 2;
+	exame[1].unidadeDoExame = unidade[0];
+	strcpy(exame[1].nomeMedico, "Marcelo");
+	strcpy(exame[1].nome, "Pediatra");
+	exame[1].valor = 300.0;
+
+	//Inclui dados do Exame 1
+	funcionario[0].codigo = 1;
+	strcpy(funcionario[0].nome, "Angela");
+	strcpy(funcionario[0].cargo, "Recepcionista");
+
+	//Inclui dados do Exame 2
+	funcionario[1].codigo = 2;
+	strcpy(funcionario[1].nome, "Fernando");
+	strcpy(funcionario[1].cargo, "Faxineiro");
+
+	//Inclui dados do Paciente 1
+	paciente[0].codigo = 1;
+	paciente[0].unidadeQueCadastrou = unidade[0];
+	strcpy(paciente[0].nome, "Lydia");
+	strcpy(paciente[0].sexo, "f");
+	paciente[0].rg = 1234;
+	paciente[0].telefone = 11940633029;
+	strcpy(paciente[0].endereco.logradouro, "Naosei");
+	strcpy(paciente[0].endereco.complemento, "ntem");
+	paciente[0].endereco.cep = 051615203;
+	strcpy(paciente[0].endereco.bairro, "Naofacodeia");
+	strcpy(paciente[0].endereco.cidade, "ola");
+
+	//Inclui dados do Paciente 2
+	paciente[1].codigo = 2;
+	paciente[1].unidadeQueCadastrou = unidade[1];
+	strcpy(paciente[1].nome, "Junior");
+	strcpy(paciente[1].sexo, "m");
+	paciente[1].rg = 12313;
+	paciente[1].telefone = 1137268225;
+	strcpy(paciente[1].endereco.logradouro, "Avenida trona");
+	strcpy(paciente[1].endereco.complemento, "Ola amigios");
+	paciente[1].endereco.cep = 05516020;
+	strcpy(paciente[1].endereco.bairro, "Caxingui");
+	strcpy(paciente[1].endereco.cidade, "SP");
+}
+
+
 void menu() {
 	printf("\n____________________________________________\n");
 	printf("|         Clinica NoMercy	           |");
@@ -295,7 +307,7 @@ void menu() {
 }
 
 // Codigo da função que gerencia os pacientes
-void gerenciaDePaciente(Pct* paciente, int* contPaciente, FILE* arquivo) {
+void gerenciaDePaciente(Pct* paciente, Uni* unidade, int* contPaciente, FILE* arquivo) {
 	int opcao;
 	int identificador = 0;
 	do
@@ -319,7 +331,7 @@ void gerenciaDePaciente(Pct* paciente, int* contPaciente, FILE* arquivo) {
 			menu();
 			break;
 		case 1:
-			cadastrarPaciente(paciente, *contPaciente, identificador);
+			cadastrarPaciente(paciente, unidade, *contPaciente, identificador);
 			*contPaciente += 1;
 			break;
 		case 2:
@@ -332,7 +344,7 @@ void gerenciaDePaciente(Pct* paciente, int* contPaciente, FILE* arquivo) {
 			AtualizarPaciente(paciente, *contPaciente, identificador);
 			break;
 		default:
-			printf("		!!OPCAO INVALIDA\n	Digite novamente outra opcao\n");
+			printf("		!!OPCAO INVALIDA!!\n	Digite novamente outra opcao\n");
 			system("pause");
 			system("cls");
 		}
@@ -341,8 +353,9 @@ void gerenciaDePaciente(Pct* paciente, int* contPaciente, FILE* arquivo) {
 }
 
 //Função que cadastra paciente
-Pct cadastrarPaciente(Pct* paciente, int* contPaciente, int identificador) {
+Pct cadastrarPaciente(Pct* paciente, Uni* unidade, int* contPaciente, int identificador) {
 	char aux[50];
+	int teste;
 	printf("\n____________________________________________\n");
 	printf("|         Cadastro de Pacientes	           |");
 	printf("\n|__________________________________________|\n");
@@ -353,6 +366,19 @@ Pct cadastrarPaciente(Pct* paciente, int* contPaciente, int identificador) {
 		{
 			printf("\n	Proximo Codigo de Paciente eh : %d\n", i + 1);
 			paciente[i].codigo = i + 1;
+
+			do
+			{
+				printf("	Digite o codigo da unidade: ");
+				scanf(" %10s", aux);
+				teste = strtol(aux, NULL, 10);
+				if (unidade[teste - 1].codigo == teste)
+				{
+					paciente[i].unidadeQueCadastrou = unidade[teste - 1];
+				}
+				break;
+			} while (1);
+
 			printf("	Digite o nome do Paciente: ");
 			scanf(" %[^\n]s", &aux);
 			strcpy(paciente[i].nome, aux);
@@ -370,7 +396,7 @@ Pct cadastrarPaciente(Pct* paciente, int* contPaciente, int identificador) {
 				{
 					if (paciente[i].rg == 0)
 					{
-						printf("\n		!!OPCAO INVALIDA\n	Apenas numeros para o codigo\n");
+						printf("\n		!!OPCAO INVALIDA!!\n	Apenas numeros para o codigo\n");
 						system("pause");
 						system("cls");
 						printf("\n____________________________________________\n");
@@ -383,7 +409,7 @@ Pct cadastrarPaciente(Pct* paciente, int* contPaciente, int identificador) {
 				{
 					if (paciente[i].rg == 0 && strlen(aux) > 0)
 					{
-						printf("\n		!!OPCAO INVALIDA\n	Apenas numeros para o codigo\n");
+						printf("\n		!!OPCAO INVALIDA!!\n	Apenas numeros para o codigo\n");
 						printf("\n____________________________________________\n");
 						printf("|         Cadastro de Pacientes	           |");
 						printf("\n|__________________________________________|\n");
@@ -404,7 +430,7 @@ Pct cadastrarPaciente(Pct* paciente, int* contPaciente, int identificador) {
 				{
 					if (paciente[i].telefone == 0)
 					{
-						printf("\n		!!OPCAO INVALIDA\n	Apenas numeros para o codigo\n");
+						printf("\n		!!OPCAO INVALIDA!!\n	Apenas numeros para o codigo\n");
 						system("pause");
 						system("cls");
 						printf("\n____________________________________________\n");
@@ -417,7 +443,7 @@ Pct cadastrarPaciente(Pct* paciente, int* contPaciente, int identificador) {
 				{
 					if (paciente[i].telefone == 0 && strlen(aux) > 0)
 					{
-						printf("\n		!!OPCAO INVALIDA\n	Apenas numeros para o codigo\n");
+						printf("\n		!!OPCAO INVALIDA!!\n	Apenas numeros para o codigo\n");
 						printf("\n____________________________________________\n");
 						printf("|         Cadastro de Pacientes	           |");
 						printf("\n|__________________________________________|\n");
@@ -446,7 +472,7 @@ Pct cadastrarPaciente(Pct* paciente, int* contPaciente, int identificador) {
 				{
 					if (paciente[i].endereco.cep == 0)
 					{
-						printf("\n		!!OPCAO INVALIDA\n	Apenas numeros para o codigo\n");
+						printf("\n		!!OPCAO INVALIDA!!\n	Apenas numeros para o codigo\n");
 						system("pause");
 						system("cls");
 						printf("\n____________________________________________\n");
@@ -459,7 +485,7 @@ Pct cadastrarPaciente(Pct* paciente, int* contPaciente, int identificador) {
 				{
 					if (paciente[i].endereco.cep == 0 && strlen(aux) > 0)
 					{
-						printf("\n		!!OPCAO INVALIDA\n	Apenas numeros para o codigo\n");
+						printf("\n		!!OPCAO INVALIDA!!\n	Apenas numeros para o codigo\n");
 						printf("\n____________________________________________\n");
 						printf("|         Cadastro de Pacientes	           |");
 						printf("\n|__________________________________________|\n");
@@ -510,6 +536,7 @@ void listarPaciente(Pct* paciente, int contPaciente) {
 
 void imprimirPaciente(Pct paciente) {
 	printf("\n	Codigo: %d\n", paciente.codigo);
+	printf("	Unidade: %s\n", paciente.unidadeQueCadastrou.nome);
 	printf("	Nome: %s\n", paciente.nome);
 	printf("	Sexo: %s\n", paciente.sexo);
 	printf("	RG: %.0f\n", paciente.rg);
@@ -609,7 +636,7 @@ void AtualizarPaciente(Pct* paciente, int contPaciente, int identificador) {
 			{
 				if (paciente[codigoPaciente - 1].rg == 0)
 				{
-					printf("\n		!!OPCAO INVALIDA\n	Apenas numeros para o codigo\n");
+					printf("\n		!!OPCAO INVALIDA!!\n	Apenas numeros para o codigo\n");
 					system("pause");
 					system("cls");
 					printf("\n____________________________________________\n");
@@ -622,7 +649,7 @@ void AtualizarPaciente(Pct* paciente, int contPaciente, int identificador) {
 			{
 				if (paciente[codigoPaciente - 1].rg == 0 && strlen(aux) > 0)
 				{
-					printf("\n		!!OPCAO INVALIDA\n	Apenas numeros para o codigo\n");
+					printf("\n		!!OPCAO INVALIDA!!\n	Apenas numeros para o codigo\n");
 					printf("\n____________________________________________\n");
 					printf("|         Cadastro de Pacientes	           |");
 					printf("\n|__________________________________________|\n");
@@ -643,7 +670,7 @@ void AtualizarPaciente(Pct* paciente, int contPaciente, int identificador) {
 			{
 				if (paciente[codigoPaciente - 1].telefone == 0)
 				{
-					printf("\n		!!OPCAO INVALIDA\n	Apenas numeros para o codigo\n");
+					printf("\n		!!OPCAO INVALIDA!!\n	Apenas numeros para o codigo\n");
 					system("pause");
 					system("cls");
 					printf("\n____________________________________________\n");
@@ -656,7 +683,7 @@ void AtualizarPaciente(Pct* paciente, int contPaciente, int identificador) {
 			{
 				if (paciente[codigoPaciente - 1].telefone == 0 && strlen(aux) > 0)
 				{
-					printf("\n		!!OPCAO INVALIDA\n	Apenas numeros para o codigo\n");
+					printf("\n		!!OPCAO INVALIDA!!\n	Apenas numeros para o codigo\n");
 					printf("\n____________________________________________\n");
 					printf("|         Cadastro de Pacientes	           |");
 					printf("\n|__________________________________________|\n");
@@ -685,7 +712,7 @@ void AtualizarPaciente(Pct* paciente, int contPaciente, int identificador) {
 			{
 				if (paciente[codigoPaciente - 1].endereco.cep == 0)
 				{
-					printf("\n		!!OPCAO INVALIDA\n	Apenas numeros para o codigo\n");
+					printf("\n		!!OPCAO INVALIDA!!\n	Apenas numeros para o codigo\n");
 					system("pause");
 					system("cls");
 					printf("\n____________________________________________\n");
@@ -698,7 +725,7 @@ void AtualizarPaciente(Pct* paciente, int contPaciente, int identificador) {
 			{
 				if (paciente[codigoPaciente - 1].endereco.cep == 0 && strlen(aux) > 0)
 				{
-					printf("\n		!!OPCAO INVALIDA\n	Apenas numeros para o codigo\n");
+					printf("\n		!!OPCAO INVALIDA!!\n	Apenas numeros para o codigo\n");
 					printf("\n____________________________________________\n");
 					printf("|         Cadastro de Pacientes	           |");
 					printf("\n|__________________________________________|\n");
@@ -724,7 +751,7 @@ void AtualizarPaciente(Pct* paciente, int contPaciente, int identificador) {
 }
 
 // Codigo da função que gerencia os exames
-void gerenciaDeExame(Exm* exame, int* contExame, FILE* arquivo) {
+void gerenciaDeExame(Exm* exame, Uni* unidade, int* contExame, FILE* arquivo) {
 	int opcao;
 	int i = 0;
 	int identificador = 0;
@@ -750,10 +777,8 @@ void gerenciaDeExame(Exm* exame, int* contExame, FILE* arquivo) {
 			menu();
 			break;
 		case 1:
-			cadastrarExame(exame, *contExame, identificador);
+			cadastrarExame(exame, unidade, *contExame, identificador);
 			*contExame += 1;
-			if (*contExame == 10)
-				exame = realloc(exame, (*contExame + 1) * sizeof(Exm));
 			break;
 		case 2:
 			listarExame(exame, *contExame);
@@ -767,7 +792,7 @@ void gerenciaDeExame(Exm* exame, int* contExame, FILE* arquivo) {
 			fclose(arquivo);
 			break;
 		default:
-			printf("		!!OPCAO INVALIDA\n	Digite novamente outra opcao\n");
+			printf("		!!OPCAO INVALIDA!!\n	Digite novamente outra opcao\n");
 			system("pause");
 			system("cls");
 		}
@@ -776,8 +801,9 @@ void gerenciaDeExame(Exm* exame, int* contExame, FILE* arquivo) {
 }
 
 //Função que cadastra exame
-Exm cadastrarExame(Exm* exame, int* contExame, int identificador) {
+Exm cadastrarExame(Exm* exame, Uni* unidade, int* contExame, int identificador) {
 	char aux[50];
+	int teste;
 	printf("\n____________________________________________\n");
 	printf("|         Cadastro de Exames	           |");
 	printf("\n|__________________________________________|\n");
@@ -788,6 +814,28 @@ Exm cadastrarExame(Exm* exame, int* contExame, int identificador) {
 		{
 			printf("\n	Proximo Codigo de Exame eh : %d\n", i + 1);
 			exame[i].codigo = i + 1;
+			do
+			{
+				printf("	Digite o codigo da unidade: ");
+				scanf(" %10s", aux);
+				teste = strtol(aux, NULL, 10);
+				if (unidade[teste - 1].codigo == teste)
+				{
+					exame[i].unidadeDoExame = unidade[teste - 1];
+					break;
+				}
+				else
+				{
+					printf("\n	!!OPCAO INVALIDA!!\n	Unidade nao encontrada\n");
+					system("pause");
+					system("cls");
+					printf("\n____________________________________________\n");
+					printf("|         Cadastro de Exames	           |");
+					printf("\n|__________________________________________|\n");
+					continue;
+				}
+				break;
+			} while (1);
 			printf("	Digite o nome do exame: ");
 			scanf(" %[^\n]s", &aux);
 			strcpy(exame[i].nome, aux);
@@ -803,10 +851,12 @@ Exm cadastrarExame(Exm* exame, int* contExame, int identificador) {
 				{
 					if (exame[i].valor == 0)
 					{
-						printf("\n		!!OPCAO INVALIDA\n	Apenas numeros para o valor\n");
+						printf("\n		!!OPCAO INVALIDA!!\n	Apenas numeros para o valor\n");
 						system("pause");
 						system("cls");
-						printf("\n	======= Cadastro de Exames =======\n");
+						printf("\n____________________________________________\n");
+						printf("|         Cadastro de Exames	           |");
+						printf("\n|__________________________________________|\n");
 						continue;
 					}
 				}
@@ -814,9 +864,12 @@ Exm cadastrarExame(Exm* exame, int* contExame, int identificador) {
 				{
 					if (exame[i].valor == 0 && strlen(aux) > 0)
 					{
-						printf("\n		!!OPCAO INVALIDA\n	Apenas numeros para o valor\n");
+						printf("\n		!!OPCAO INVALIDA!!\n	Apenas numeros para o valor\n");
 						system("pause");
 						system("cls");
+						printf("\n____________________________________________\n");
+						printf("|         Cadastro de Exames	           |");
+						printf("\n|__________________________________________|\n");
 						continue;
 					}
 				}
@@ -856,6 +909,7 @@ void listarExame(Exm* exame, int contExame) {
 
 void imprimirExame(Exm exame) {
 	printf("\n	Codigo: %d\n", exame.codigo);
+	printf("	Unidade: %s\n", exame.unidadeDoExame.nome);
 	printf("	Funcionario: %s\n", exame.nomeMedico);
 	printf("	Exame: %s\n", exame.nome);
 	printf("	Valor:R$ %.2f\n", exame.valor);
@@ -945,7 +999,7 @@ void AtualizarExame(Exm* exame, int contExame, int identificador) {
 			{
 				if (exame[codigo - 1].valor == 0)
 				{
-					printf("\n		!!OPCAO INVALIDA\n	Apenas numeros para o valor\n");
+					printf("\n		!!OPCAO INVALIDA!!\n	Apenas numeros para o valor\n");
 					system("pause");
 					system("cls");
 					printf("\n	======= Cadastro de Exames =======\n");
@@ -956,7 +1010,7 @@ void AtualizarExame(Exm* exame, int contExame, int identificador) {
 			{
 				if (exame[codigo - 1].valor == 0 && strlen(aux) > 0)
 				{
-					printf("\n		!!OPCAO INVALIDA\n	Apenas numeros para o valor\n");
+					printf("\n		!!OPCAO INVALIDA!!\n	Apenas numeros para o valor\n");
 					system("pause");
 					system("cls");
 					continue;
@@ -1008,7 +1062,7 @@ void  gerenciaDeAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* un
 				AtualizarAgendamento(paciente, *contAgendamento);
 				break;*/
 		default:
-			printf("	!!OPCAO INVALIDA\nDigite novamente outra opcao\n");
+			printf("	!!OPCAO INVALIDA!!\nDigite novamente outra opcao\n");
 			system("pause");
 			system("cls");
 		}
@@ -1267,7 +1321,7 @@ void gerenciaDeFuncionario(Fnc* funcionario, int* contFuncionario, FILE* arquivo
 			fclose(arquivo);
 			break;
 		default:
-			printf("	!!OPCAO INVALIDA\n	Digite novamente outra opcao\n");
+			printf("	!!OPCAO INVALIDA!!\n	Digite novamente outra opcao\n");
 			system("pause");
 			system("cls");
 		}
