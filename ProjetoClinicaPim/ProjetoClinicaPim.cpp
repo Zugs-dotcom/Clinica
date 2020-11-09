@@ -60,7 +60,11 @@ typedef struct {
 	char unidade[2];
 }User;
 
-
+typedef struct {
+	int codigo;
+	char nome[50];
+	char cargo[50];
+}Fnc;
 
 //Declaração da função que de Menu
 void menu();
@@ -81,6 +85,14 @@ void buscarExame(Exm*, int);
 void AtualizarExame(Exm*, int, int);
 void imprimirExame(Exm);
 
+//Declaração da função que gerencia os funcionarios
+void gerenciaDeFuncionario(Fnc*, int*, FILE*);
+Fnc cadastrarFuncionario(Fnc*, int*, int);
+void listarFuncionario(Fnc*, int);
+void buscarFuncionario(Fnc*, int);
+void AtualizarFuncionario(Fnc*, int, int);
+void imprimirFuncionario(Fnc);
+
 //Declaração da função que gerencia os Agendamento
 void gerenciaDeAgendamento(Agd*, Pct*, Exm*, Uni*, int*, int, int, int);
 void cadastrarAgendamento(Agd*, Pct*, Exm*, Uni*, int*, int, int, int);
@@ -95,21 +107,21 @@ void imprimirAgendamento(Agd);
 //Função Principal
 int main() {
 
-
-
 	FILE* arquivo; //Declarando um arquivo
 	Pct* paciente; //Declarando um ponteiro para estrutura paciente
 	Exm* exame; //Declarando um ponteiro para estrutura exame
+	Fnc* funcionario; //Declarando um ponteiro para estrutura de funciorios
 	Agd* agendamento; //Declarando um ponteiro para estrutura agendamento
 	Uni* unidade; //Declarando um ponteiro para estrutura de uniadades hospitalares
 	User* usuario; //Declarando um ponteiro para estrutura agendamento
 
-	int contPaciente = 3, contExame = 3, contAgendamento = 1, contUnidade = 2; //Inicilizando os contadores
+	int contPaciente = 3, contExame = 3, contAgendamento = 1, contFuncionario = 3, contUnidade = 2; //Inicilizando os contadores
 	arquivo = calloc(100, sizeof(FILE));
 	paciente = calloc(100, sizeof(Pct));
 	exame = calloc(100, sizeof(Exm));;
 	agendamento = calloc(100, sizeof(Agd));
 	usuario = calloc(50, sizeof(User));
+	funcionario = calloc(50, sizeof(Fnc));
 	unidade = calloc(50, sizeof(Uni));
 
 	// inicializa Pacientes e exmes
@@ -129,6 +141,10 @@ int main() {
 		strcpy(exame[i].nomeMedico, "");
 		strcpy(exame[i].nome, "");
 		exame[i].valor = 0.0;
+
+		funcionario[i].codigo = 0;
+		strcpy(funcionario[i].nome, "");
+		strcpy(funcionario[i].cargo, "");
 
 		unidade[i].codigo = 0;
 		strcpy(unidade[i].nome, "");
@@ -188,6 +204,16 @@ int main() {
 	strcpy(exame[1].nome, "Pediatra");
 	exame[1].valor = 300.0;
 
+	//Inclui dados do Exame 1
+	funcionario[0].codigo = 1;
+	strcpy(funcionario[0].nome, "Angela");
+	strcpy(funcionario[0].cargo, "Recepcionista");
+
+	//Inclui dados do Exame 2
+	funcionario[1].codigo = 2;
+	strcpy(funcionario[1].nome, "Fernando");
+	strcpy(funcionario[1].cargo, "Faxineiro");
+
 	//Inclui dados do Clinica 1
 	unidade[0].codigo = 1;
 	strcpy(unidade[0].nome, "Hospital LeForte");
@@ -243,6 +269,9 @@ int main() {
 		case 3:
 			gerenciaDeAgendamento(agendamento, paciente, exame, unidade, &contAgendamento, contPaciente, contExame, contUnidade);
 			break;
+		case 4:
+			gerenciaDeFuncionario(funcionario, &contFuncionario, arquivo);
+			break;
 		default:
 			printf("	!!COMANDO INVALIDO!!\n	Entre com o comando novamente\n");
 			system("pause");
@@ -262,6 +291,7 @@ void menu() {
 	printf("	1 - Gerencia de Pacientes\n");
 	printf("	2 - Gerencia de Exame\n");
 	printf("	3 - Gerencia de Agendamentos\n");
+	printf("	4 - Gerencia de Funcionarios\n");
 	printf("	0 - Sair\n");
 	printf("Digite um comando para prosseguir: ");
 	scanf(" %d", &op);
@@ -497,6 +527,7 @@ void imprimirPaciente(Pct paciente) {
 
 }
 
+//Função que busca um paciente pelo rg ou nome
 void buscarPaciente(Pct* paciente, int contPaciente) {
 	printf("\n____________________________________________\n");
 	printf("|         busca de Pacientes	           |");
@@ -527,10 +558,16 @@ void buscarPaciente(Pct* paciente, int contPaciente) {
 	system("cls");
 }
 
+//Função que atualiza os dados do paciente
 void AtualizarPaciente(Pct* paciente, int contPaciente, int identificador) {
-	int codigo, i,codigoPaciente, marcador = 0;
+	int codigo, i, codigoPaciente, marcador = 0;
 	char aux[50];
 	char rgPaciente[10];
+
+
+	printf("\n____________________________________________\n");
+	printf("|         Atualização de Pacientes	           |");
+	printf("\n|__________________________________________|\n");
 
 	do
 	{
@@ -760,7 +797,7 @@ Exm cadastrarExame(Exm* exame, int* contExame, int identificador) {
 			printf("	Digite o nome do exame: ");
 			scanf(" %[^\n]s", &aux);
 			strcpy(exame[i].nome, aux);
-			printf("	Digite o nome do Medico: ");
+			printf("	Digite o nome do Funcionario: ");
 			scanf(" %[^\n]s", &aux);
 			strcpy(exame[i].nomeMedico, aux);
 			do
@@ -825,11 +862,12 @@ void listarExame(Exm* exame, int contExame) {
 
 void imprimirExame(Exm exame) {
 	printf("\n	Codigo: %d\n", exame.codigo);
-	printf("	Medico: %s\n", exame.nomeMedico);
+	printf("	Funcionario: %s\n", exame.nomeMedico);
 	printf("	Exame: %s\n", exame.nome);
 	printf("	Valor:R$ %.2f\n", exame.valor);
 }
 
+//Função que busca um exame pelo codigo ou nome
 void buscarExame(Exm* exame, int contExame) {
 	printf("\n____________________________________________\n");
 	printf("|         busca de Exames	           |");
@@ -859,13 +897,15 @@ void buscarExame(Exm* exame, int contExame) {
 	system("pause");
 	system("cls");
 }
+
+//Função que atualiza os dados do exame
 void AtualizarExame(Exm* exame, int contExame, int identificador) {
 	int codigo, i, marcador = 0;
 	char aux[50];
 	char codigoExame[10];
 
 	printf("\n____________________________________________\n");
-	printf("|         Atualizar de Exame	           |");
+	printf("|         Atualização de Exame	           |");
 	printf("\n|__________________________________________|\n");
 
 	do
@@ -899,7 +939,7 @@ void AtualizarExame(Exm* exame, int contExame, int identificador) {
 		printf("	Digite o nome do exame: ");
 		scanf(" %[^\n]s", &aux);
 		strcpy(exame[codigo - 1].nome, aux);
-		printf("	Digite o nome do Medico: ");
+		printf("	Digite o nome do Funcionario: ");
 		scanf(" %[^\n]s", &aux);
 		strcpy(exame[codigo - 1].nomeMedico, aux);
 		do
@@ -930,12 +970,13 @@ void AtualizarExame(Exm* exame, int contExame, int identificador) {
 			}
 			break;
 		} while (1);
-		printf("\	nEXAME ATUALIZADO COM SUCESSO\n");
+		printf("\n	EXAME ATUALIZADO COM SUCESSO\n");
 	}
 	system("pause");
 	system("cls");
 }
 
+// Codigo da função que gerencia os agendamentos
 void  gerenciaDeAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unidade, int* contAgendamento, int contPaciente, int contExame, int contUnidade) {
 	int opcao;
 	int i = 0;
@@ -944,7 +985,7 @@ void  gerenciaDeAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* un
 	{
 
 		printf("\n____________________________________________\n");
-		printf("|         Gerencia de Agendamentos	         |");
+		printf("|         Gerencia de Agendamentos         |");
 		printf("\n|__________________________________________|\n\n");
 		printf("	1 - Cadastro de Agendamento\n");
 		printf("	2 - Listar todos os agendamentos de um paciente\n");
@@ -981,6 +1022,7 @@ void  gerenciaDeAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* un
 	} while (1);
 }
 
+//Função que cadastra os agendamentos
 void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unidade, int* contAgendamento, int contPaciente, int contExame, int contUnidade) {
 	char nomePaciente[50];
 	int codigoPaciente, unidadeParaCadastro = 0, marcador = 0;
@@ -990,9 +1032,9 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 	char opcao = "";
 
 	printf("\n____________________________________________\n");
-	printf("|         Cadastro de Agendamento	         |");
+	printf("|         Cadastro de Agendamento	   |");
 	printf("\n|__________________________________________|\n\n");
-	printf("Digite o codigo ou o nome do paciente que esta fazendo o agendamento: ");
+	printf("	Digite o codigo ou o nome do paciente que esta fazendo o agendamento: ");
 	scanf(" %[^\n]s", nomePaciente);
 
 	codigoPaciente = strtol(nomePaciente, NULL, 10); //Faz a conversão de alfabetico para inteiro
@@ -1017,7 +1059,7 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 	do
 	{
 		marcador = 0;
-		printf("Digite o codigo da unidade para agendamento: ");
+		printf("	Digite o codigo da unidade para agendamento: ");
 		scanf(" %d", &unidadeParaCadastro);
 		for (i = 0; i < contUnidade; i++)
 		{
@@ -1038,7 +1080,7 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 		break;
 	} while (1);
 
-	printf("Digite a quantidade de exames que deseja agendar: ");
+	printf("	Digite a quantidade de exames que deseja agendar: ");
 	scanf(" %d", &agendamento[*contAgendamento].qtd);
 
 	//agendamento[*contAgendamento].examePedido = malloc(agendamento[*contAgendamento].qtd * sizeof(Agd));
@@ -1048,7 +1090,7 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 		marcador = 0;
 		for (i = auxIndice; i < agendamento[*contAgendamento].qtd; i++)
 		{
-			printf("Digite o codigo do exame para agendar: ");
+			printf("	Digite o codigo do exame para agendar: ");
 			scanf(" %d", &codigoExameParaCadastro);
 			for (j = 0; j < contExame; j++)
 			{
@@ -1063,7 +1105,7 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 			if (!marcador)
 			{
 				printf("\n		!!ERRO\n	EXAME NAO ENCONTRADO\n");
-				printf("O agendamento será descartado; ou deseja novamente outro codigo de exame [S/N]:  ");
+				printf("	O agendamento será descartado; ou deseja novamente outro codigo de exame [S/N]:  ");
 				scanf(" %c", &opcao);
 				auxIndice = i;
 				system("cls");
@@ -1074,18 +1116,18 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 
 	if (opcao == 'N' || opcao == 'n')
 	{
-		printf("AGENDAMENTO NAO CADASTRADO\n");
+		printf("	AGENDAMENTO NAO CADASTRADO\n");
 		system("pause");
 	}
 	else
 	{
 		marcador = 0;
-		printf("Informe o periodo  DD/MM/YY: ");
+		printf("	Informe o periodo  DD/MM/YY: ");
 		scanf(" %d", &dia);
 		for (j = 0; j < contExame; j++)
 		{
 
-			if (codigoExameParaCadastro == exame[j].codigo)
+			if (codigoExameParaCadastro == exame[j].codigo && agendamento[j].diaMarcado != dia)
 			{
 				agendamento[*contAgendamento].diaMarcado = dia;
 				marcador = 1;
@@ -1123,12 +1165,13 @@ void obterData(Agd* agendamento) {
 	agendamento->dia = data.tm_mday;
 }
 
+//Função que lista os agendamentos de um paciente especifico
 void listarAgendamentoDeUmPaciente(Agd* agendamento, int contAgendamento) {
 	char nomePaciente[50];
 	int codigoPaciente;
 	int i, marcador = 0;
 
-	printf("Digite o codigo ou nome do paciente para visualizar seus agendamentos: ");
+	printf("	Digite o codigo ou nome do paciente para visualizar seus agendamentos: ");
 	scanf(" %[^\n]s", nomePaciente);
 	system("cls");
 
@@ -1144,7 +1187,7 @@ void listarAgendamentoDeUmPaciente(Agd* agendamento, int contAgendamento) {
 	}
 	if (!marcador)
 	{
-		printf("		\n!!ERRO\n	NEM UM AGENDAMENTO CADASTRADO PARA ESSE PACIENTE\n");
+		printf("\n		!!ERRO\n	NENHUM AGENDAMENTO CADASTRADO PARA ESSE PACIENTE\n");
 		system("pause");
 	}
 	system("cls");
@@ -1157,15 +1200,15 @@ void imprimirAgendamento(Agd agendamento) {
 	printf("\nNome do paciente: %s\nPEDIDOS", agendamento.pacienteQuePediu.nome);
 	for (i = 0; i < agendamento.qtd; i++)
 	{
-		printf("\nExame: %s\n", agendamento.examePedido.nome);
-		printf("Data: %d/%d/%d", agendamento.dia, agendamento.mes, agendamento.ano);
-		printf("Dia Marcado: %d", agendamento.diaMarcado);
-		printf("\nHospital: %s", agendamento.UnidadeParaAgendar.nome);
+		printf("\n	Exame: %s\n", agendamento.examePedido.nome);
+		printf("	Data: %d/%d/%d", agendamento.dia, agendamento.mes, agendamento.ano);
+		printf("	Dia Marcado: %d", agendamento.diaMarcado);
+		printf("\n	Hospital: %s", agendamento.UnidadeParaAgendar.nome);
 	}
 	printf("\n===============================\n");
 	system("pause");
 }
-
+//Função que lista os agendamentos de um certo dia
 void ListarAgendamentoDeUmDia(Agd* agendamento, int contAgendamento) {
 	int i, dia, mes, ano, marcador = 0;
 	char d[3];
@@ -1173,11 +1216,11 @@ void ListarAgendamentoDeUmDia(Agd* agendamento, int contAgendamento) {
 	char a[5];
 
 	printf("Para visualizar todos os pedidos de um determinado dia entre com a data OBS:(apenas numeros) \n");
-	printf("Dia: ");
+	printf("	Dia: ");
 	scanf(" %s", d);
-	printf("Mes: ");
+	printf("	Mes: ");
 	scanf(" %s", m);
-	printf("Ano: ");
+	printf("	Ano: ");
 	scanf(" %s", a);
 
 	system("cls");
@@ -1202,4 +1245,197 @@ void ListarAgendamentoDeUmDia(Agd* agendamento, int contAgendamento) {
 	}
 	system("cls");
 	menu();
+}
+
+// Codigo da função que gerencia os funcionarios
+void gerenciaDeFuncionario(Fnc* funcionario, int* contFuncionario, FILE* arquivo) {
+	int opcao;
+	int identificador = 0;
+	do
+	{
+
+		printf("\n____________________________________________\n");
+		printf("|         Gerencia de Funcionarios	           |");
+		printf("\n|__________________________________________|\n\n");
+		printf("	1 - Cadastro de Funcionarios\n");
+		printf("	2 - Listar Funcionarios Cadastrado\n");
+		printf("	3 - Buscar Funcionarios Cadastrado\n");
+		printf("	4 - Atualizar Funcionarios Cadastrado\n");
+		printf("	0 - Voltar ao menu principal\n");
+		printf("Digite um comando para prosseguir: ");
+		scanf("%d", &opcao);
+		system("cls");
+
+		switch (opcao)
+		{
+		case 0:menu();
+			break;
+		case 1:
+			cadastrarFuncionario(funcionario, *contFuncionario, identificador);
+			*contFuncionario += 1;
+			break;
+			break;
+		case 2:
+			listarFuncionario(funcionario, *contFuncionario);
+			break;
+		case 3:
+			buscarFuncionario(funcionario, *contFuncionario);
+			break;
+		case 4:
+			AtualizarFuncionario(funcionario, *contFuncionario, identificador);
+			break;
+		case 5:
+			arquivo = fopen("funcionarios.txt", "rb");
+			printf("__________Abrindo o banco de dados____________\n");
+
+			while (fgets(funcionario, 20, arquivo) != NULL)
+				printf("%s", funcionario);
+
+			fclose(arquivo);
+			break;
+		default:
+			printf("	!!OPCAO INVALIDA\n	Digite novamente outra opcao\n");
+			system("pause");
+			system("cls");
+		}
+		break;
+	} while (1);
+}
+
+//Função que cadastra funcionario
+Fnc cadastrarFuncionario(Fnc* funcionario, int* contFuncionario, int identificador) {
+	char aux[50];
+	printf("\n____________________________________________\n");
+	printf("|         Cadastro de Funcionarios        |");
+	printf("\n|__________________________________________|\n");
+
+	for (int i = 0; i < contFuncionario; i++)
+	{
+		if (funcionario[i].codigo == 0)
+		{
+			printf("\n	Proximo Codigo de funcionario eh : %d\n", i + 1);
+			funcionario[i].codigo = i + 1;
+			printf("	Digite o nome do funcionario: ");
+			scanf(" %[^\n]s", &aux);
+			strcpy(funcionario[i].nome, aux);
+			printf("	Digite o cargo: ");
+			scanf(" %[^\n]s", &aux);
+			strcpy(funcionario[i].cargo, aux);
+			printf("	Cadastro Realizado com sucesso\n");
+			system("pause");
+			system("cls");
+		}
+	}
+	return;
+}
+
+//Função que lista um funcionario selecionado;
+void listarFuncionario(Fnc* funcionario, int contFuncionario) {
+	printf("\n____________________________________________\n");
+	printf("|         lista de Funcionarios	           |");
+	printf("\n|__________________________________________|\n");
+	int i;
+	if (contFuncionario == 0)
+	{
+		printf("		!!ERRO\n	NUM UM FUNCIONARIO CADASTRADO\n");
+		system("pause");
+		system("cls");
+		return;
+	}
+	printf("	LISTA DE FUNCIONARIOS CADASTRADOS\n\n");
+	for (i = 0; i < contFuncionario; i++) {
+		if (funcionario[i].codigo != 0)
+		{
+			imprimirFuncionario(funcionario[i]);
+		}
+	}
+	system("pause");
+	system("cls");
+}
+
+void imprimirFuncionario(Fnc funcionario) {
+	printf("\n	Codigo: %d\n", funcionario.codigo);
+	printf("	Nome: %s\n", funcionario.nome);
+	printf("	Cargo: %s\n", funcionario.cargo);
+}
+
+void buscarFuncionario(Fnc* funcionario, int contFuncionario) {
+	printf("\n____________________________________________\n");
+	printf("|         busca de Funcionarios	           |");
+	printf("\n|__________________________________________|\n");
+	int i, marcador = 0;
+	int codigoFuncionario;
+	char nomeFuncionario[50];
+
+	printf("	Digite o nome ou o codigo do funcionario que deseja buscar: ");
+	scanf(" %[^\n]s", nomeFuncionario);
+	printf("\n");
+	codigoFuncionario = strtol(nomeFuncionario, NULL, 10);
+
+	for (i = 0; i < contFuncionario; i++)
+	{
+		if (funcionario[i].codigo == codigoFuncionario || strcmp(funcionario[i].nome, nomeFuncionario) == 0)
+		{
+			imprimirFuncionario(funcionario[i]);
+			marcador = 1;
+			break;
+		}
+	}
+	if (!marcador)
+	{
+		printf("		!!ERRO!!\n	FUNCIONARIO NAO CADASTRADO\n");
+	}
+	system("pause");
+	system("cls");
+}
+
+Fnc auxFuncionario;
+void AtualizarFuncionario(Fnc* funcionario, int contFuncionario, int identificador) {
+	int codigo, i, marcador = 0;
+	char aux[50];
+	char codigoFuncionario[10];
+
+	printf("\n____________________________________________\n");
+	printf("|         Atualização de Funcionario	           |");
+	printf("\n|__________________________________________|\n");
+
+	do
+	{
+		printf("Codigo do funcionario que deseja atualizar: ");
+		scanf(" %s", codigoFuncionario);
+
+		codigo = strtol(codigoFuncionario, NULL, 10);
+		if (codigo == 0)
+		{
+			printf("\n			!!ERRO!!\n	Apenas numeros para o codigo\n");
+			system("pause");
+			system("cls");
+			continue;
+		}break;
+
+	} while (1);
+	for (i = 0; i < contFuncionario; i++)
+	{
+		if (funcionario[i].codigo == codigo)
+		{
+			marcador = 1;
+			break;
+		}
+	}
+	if (!marcador)
+		printf("\n		!!ERRO!!\n	FUNCIONARIO NAO CADASTRADO\n");
+	else
+	{
+		printf("	\nENTRE COM OS DADOS ATUALIZADOS\n");
+		printf("	Digite o nome do Funcionario: ");
+		scanf(" %[^\n]s", &aux);
+		strcpy(funcionario[codigo - 1].nome, aux);
+		printf("	Digite o nome do cargo: ");
+		scanf(" %[^\n]s", &aux);
+		strcpy(funcionario[codigo - 1].cargo, aux);
+
+		printf("\n	Funcionario ATUALIZADO COM SUCESSO\n");
+	}
+	system("pause");
+	system("cls");
 }
