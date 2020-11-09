@@ -1185,7 +1185,7 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 		obterData(&agendamento[*contAgendamento]);
 		*contAgendamento += 1;
 		if (*contAgendamento == 10)
-			agendamento = realloc(agendamento, (*contAgendamento + 1) * sizeof(Agd));
+			agendamento = realloc(agendamento, (*contAgendamento + 20) * sizeof(Agd));
 
 		printf("\n		AGENDAMENTO CADASTRADO SUCESSO\n");
 		system("pause");
