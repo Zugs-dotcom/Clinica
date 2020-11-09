@@ -25,7 +25,6 @@ typedef struct {
 	End endereco;
 
 }Pct;
-Pct aux;
 
 //Estrutura da tabela Exames
 typedef struct {
@@ -101,8 +100,6 @@ void listarAgendamentoDeUmPaciente(Agd*, int);
 void ListarAgendamentoDeUmDia(Agd*, int);
 void AtualizarAgendamento(Agd*, int);
 void imprimirAgendamento(Agd);
-
-
 
 //Função Principal
 int main() {
@@ -283,7 +280,6 @@ int main() {
 	return 0;
 }//fim da função principal
 
-
 void menu() {
 	printf("\n____________________________________________\n");
 	printf("|         Clinica NoMercy	           |");
@@ -297,8 +293,6 @@ void menu() {
 	scanf(" %d", &op);
 	system("cls");
 }
-
-
 
 // Codigo da função que gerencia os pacientes
 void gerenciaDePaciente(Pct* paciente, int* contPaciente, FILE* arquivo) {
@@ -1121,27 +1115,6 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 	}
 	else
 	{
-		marcador = 0;
-		printf("	Informe o periodo  DD/MM/YY: ");
-		scanf(" %d", &dia);
-		for (j = 0; j < contExame; j++)
-		{
-
-			if (codigoExameParaCadastro == exame[j].codigo && agendamento[j].diaMarcado != dia)
-			{
-				agendamento[*contAgendamento].diaMarcado = dia;
-				marcador = 1;
-				break;
-			}
-			else
-			{
-				printf("\n		!!ERRO\n	Dia indispinivel\n");
-				system("pause");
-				system("cls");
-				continue;
-			}
-		}
-
 		obterData(&agendamento[*contAgendamento]);
 		*contAgendamento += 1;
 		if (*contAgendamento == 10)
@@ -1389,7 +1362,6 @@ void buscarFuncionario(Fnc* funcionario, int contFuncionario) {
 	system("cls");
 }
 
-Fnc auxFuncionario;
 void AtualizarFuncionario(Fnc* funcionario, int contFuncionario, int identificador) {
 	int codigo, i, marcador = 0;
 	char aux[50];
