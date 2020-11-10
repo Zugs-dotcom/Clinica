@@ -48,6 +48,7 @@ typedef struct {
 	int diaMarcado;
 	int mesMarcado;
 	int anoMarcado;
+	int horaMarcado;
 	int qtd;
 	Pct pacienteQuePediu;
 	Exm examePedido;
@@ -103,7 +104,7 @@ void imprimirFuncionario(Fnc);
 
 //Declaração da função que gerencia os Agendamento
 void gerenciaDeAgendamento(Agd*, Pct*, Exm*, Uni*, int*, int, int, int);
-void cadastrarAgendamento(Agd*, Pct*, Exm*, Uni*, int*, int, int, int);
+void cadastrarAgendamento(Agd*, Pct*, Exm*, Uni*, int*, int, int, int, int);
 void obterData(Agd*);
 void listarAgendamentoDeUmPaciente(Agd*, int);
 void ListarAgendamentoDeUmDia(Agd*, int);
@@ -113,7 +114,7 @@ void imprimirAgendamento(Agd);
 void gerenciaDeRelatorio(Pct*, Uni*, Fnc*, Exm*, int, int);
 void RelatorioDePacientesPorUnidade(Pct*, Uni*, int, int);
 
-void inicializar(Pct*, Exm*, Fnc*, Uni*, User*);
+void inicializar(Pct*, Exm*, Fnc*, Uni*, User*, Agd*);
 
 //Função Principal
 int main() {
@@ -126,7 +127,7 @@ int main() {
 	Uni* unidade; //Declarando um ponteiro para estrutura de uniadades hospitalares
 	User* usuario; //Declarando um ponteiro para estrutura agendamento
 
-	int contPaciente = 6, contExame = 3, contAgendamento = 1, contFuncionario = 3, contUnidade = 2; //Inicilizando os contadores
+	int contPaciente = 8, contExame = 3, contAgendamento = 2, contFuncionario = 3, contUnidade = 2; //Inicilizando os contadores
 	arquivo = calloc(100, sizeof(FILE));
 	paciente = calloc(100, sizeof(Pct));
 	exame = calloc(100, sizeof(Exm));;
@@ -135,7 +136,7 @@ int main() {
 	funcionario = calloc(50, sizeof(Fnc));
 	unidade = calloc(50, sizeof(Uni));
 
-	inicializar(paciente, exame, funcionario, unidade, usuario);
+	inicializar(paciente, exame, funcionario, unidade, usuario, agendamento);
 
 	/*
 	char login[20];
@@ -203,7 +204,7 @@ int main() {
 }//fim da função principal
 
 
-void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User* usuario) {
+void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User* usuario, Agd* agendamento) {
 	// inicializa Pacientes e exmes
 	for (int i = 0; i < 50; i++) {
 		paciente[i].codigo = 0;
@@ -229,6 +230,17 @@ void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User
 
 		unidade[i].codigo = 0;
 		strcpy(unidade[i].nome, "");
+
+		agendamento[i].pacienteQuePediu.codigo = 0;
+		agendamento[i].UnidadeParaAgendar.codigo = 0;
+		agendamento[i].examePedido.codigo = 0;
+		agendamento[i].dia = 0;
+		agendamento[i].mes = 0;
+		agendamento[i].ano = 0;
+		agendamento[i].diaMarcado = 00;
+		agendamento[i].mesMarcado = 00;
+		agendamento[i].anoMarcado = 0000;
+		agendamento[i].horaMarcado = 00;
 	}
 
 	//Inclui dados dos usuarios
@@ -250,10 +262,12 @@ void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User
 
 	//Inclui dados do Clinica 1
 	unidade[0].codigo = 1;
-	strcpy(unidade[0].nome, "Hospital LeForte");
+	strcpy(unidade[0].nome, "Clinica LeForte");
 	//Inclui dados do Clinica 2
 	unidade[1].codigo = 2;
-	strcpy(unidade[1].nome, "Hospital Albert");
+	strcpy(unidade[1].nome, "Clinica Albert");
+	unidade[2].codigo = 3;
+	strcpy(unidade[2].nome, "Clinica LaPlaci");
 
 	//Inclui dados do Exame 1
 	exame[0].codigo = 1;
@@ -371,6 +385,30 @@ void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User
 	paciente[6].endereco.cep = 05516020;
 	strcpy(paciente[6].endereco.bairro, "Caxingui");
 	strcpy(paciente[6].endereco.cidade, "SP");
+
+	agendamento[0].pacienteQuePediu = paciente[0];
+	agendamento[0].UnidadeParaAgendar = unidade[0];
+	agendamento[0].qtd = 1;
+	agendamento[0].examePedido = exame[0];
+	agendamento[0].dia = 9;
+	agendamento[0].mes = 11;
+	agendamento[0].ano = 2020;
+	agendamento[0].diaMarcado = 10;
+	agendamento[0].mesMarcado = 11;
+	agendamento[0].anoMarcado = 2020;
+	agendamento[0].horaMarcado = 12;
+
+	agendamento[1].pacienteQuePediu = paciente[1];
+	agendamento[1].UnidadeParaAgendar = unidade[0];
+	agendamento[1].qtd = 1;
+	agendamento[1].examePedido = exame[0];
+	agendamento[1].dia = 9;
+	agendamento[1].mes = 11;
+	agendamento[1].ano = 2020;
+	agendamento[1].diaMarcado = 10;
+	agendamento[1].mesMarcado = 11;
+	agendamento[1].anoMarcado = 2020;
+	agendamento[1].horaMarcado = 13;
 }
 
 
@@ -1121,6 +1159,7 @@ void AtualizarExame(Exm* exame, int contExame, int identificador) {
 void  gerenciaDeAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unidade, int* contAgendamento, int contPaciente, int contExame, int contUnidade) {
 	int opcao;
 	int i = 0;
+	int identificador = 0;
 
 	do
 	{
@@ -1143,7 +1182,7 @@ void  gerenciaDeAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* un
 			system("cls");
 			menu();
 			break;
-		case 1:cadastrarAgendamento(agendamento, paciente, exame, unidade, contAgendamento, contPaciente, contExame, contUnidade);
+		case 1:cadastrarAgendamento(agendamento, paciente, exame, unidade, contAgendamento, contPaciente, contExame, contUnidade, identificador);
 			break;
 		case 2:
 			listarAgendamentoDeUmPaciente(agendamento, *contAgendamento);
@@ -1164,13 +1203,15 @@ void  gerenciaDeAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* un
 }
 
 //Função que cadastra os agendamentos
-void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unidade, int* contAgendamento, int contPaciente, int contExame, int contUnidade) {
+void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unidade, int* contAgendamento, int contPaciente, int contExame, int contUnidade, int identificador) {
 	char nomePaciente[50];
 	int codigoPaciente, unidadeParaCadastro = 0, marcador = 0;
 	int codigoExameParaCadastro;
 	int qtdExame;
-	int i, j, dia, mes, ano, auxIndice = 0;
+	int i, j, dia, mes, ano, hora, auxIndice = 0, minutos;
 	char opcao = "";
+	char aux[10];
+	int cont = 0;
 
 	printf("\n____________________________________________\n");
 	printf("|         Cadastro de Agendamento	   |");
@@ -1262,15 +1303,160 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 	}
 	else
 	{
-		obterData(&agendamento[*contAgendamento]);
-		*contAgendamento += 1;
-		if (*contAgendamento == 10)
-			agendamento = realloc(agendamento, (*contAgendamento + 20) * sizeof(Agd));
 
-		printf("\n		AGENDAMENTO CADASTRADO SUCESSO\n");
-		system("pause");
+		do
+		{
+			printf("	Dia de agendamento :");
+			scanf(" %10s", aux);
+
+			agendamento[*contAgendamento].diaMarcado = strtol(aux, NULL, 10); //Faz a conversão de alfabetico para inteiro
+			if (identificador == 0)
+			{
+				if (agendamento[*contAgendamento].diaMarcado < 1 || agendamento[*contAgendamento].diaMarcado >31)
+				{
+					printf("\n		DIA INVALIDO\n");
+					system("pause");
+					system("cls");
+					printf("\n____________________________________________\n");
+					printf("|         Cadastro de Agendamento	   |");
+					printf("\n|__________________________________________|\n\n");
+					continue;
+				}
+			}
+			else
+			{
+				if (agendamento[*contAgendamento].diaMarcado == 0 && strlen(aux) > 0)
+				{
+					printf("\n		DIA INVALIDO\n");
+					printf("\n____________________________________________\n");
+					printf("|         Cadastro de Agendamento	   |");
+					printf("\n|__________________________________________|\n\n");
+					system("pause");
+					system("cls");
+					continue;
+				}
+			}
+			break;
+		} while (1);
+
+		do
+		{
+			printf("	mes de agendamento :");
+			scanf(" %10s", aux);
+
+			agendamento[*contAgendamento].mesMarcado = strtol(aux, NULL, 10); //Faz a conversão de alfabetico para inteiro
+			if (identificador == 0)
+			{
+				if (agendamento[*contAgendamento].mesMarcado < 1 || agendamento[*contAgendamento].mesMarcado >12)
+				{
+					printf("\n		MES INVALIDO\n");
+					system("pause");
+					system("cls");
+					printf("\n____________________________________________\n");
+					printf("|         Cadastro de Agendamento	   |");
+					printf("\n|__________________________________________|\n\n");
+					continue;
+				}
+			}
+			else
+			{
+				if (agendamento[*contAgendamento].mesMarcado == 0 && strlen(aux) > 0)
+				{
+					printf("\n		MES INVALIDO\n");
+					printf("\n____________________________________________\n");
+					printf("|         Cadastro de Agendamento	   |");
+					printf("\n|__________________________________________|\n\n");
+					system("pause");
+					system("cls");
+					continue;
+				}
+			}
+			break;
+		} while (1);
+
+		do
+		{
+			printf("	ano de agendamento :");
+			scanf(" %10s", aux);
+
+			agendamento[*contAgendamento].anoMarcado = strtol(aux, NULL, 10); //Faz a conversão de alfabetico para inteiro
+			if (identificador == 0)
+			{
+				if (agendamento[*contAgendamento].anoMarcado < 2020)
+				{
+					printf("\n		ANO INVALIDO\n");
+					system("pause");
+					system("cls");
+					printf("\n____________________________________________\n");
+					printf("|         Cadastro de Agendamento	   |");
+					printf("\n|__________________________________________|\n\n");
+					continue;
+				}
+			}
+			else
+			{
+				if (agendamento[*contAgendamento].anoMarcado == 0 && strlen(aux) > 0)
+				{
+					printf("\n		ANO INVALIDO\n");
+					printf("\n____________________________________________\n");
+					printf("|         Cadastro de Agendamento	   |");
+					printf("\n|__________________________________________|\n\n");
+					system("pause");
+					system("cls");
+					continue;
+				}
+			}
+			break;
+		} while (1);
+
+		do
+		{
+			printf("	hora de agendamento :");
+			scanf(" %10s", aux);
+
+			agendamento[*contAgendamento].horaMarcado = strtol(aux, NULL, 10); //Faz a conversão de alfabetico para inteiro
+			if (identificador == 0)
+			{
+				if (agendamento[*contAgendamento].horaMarcado < 8 || agendamento[*contAgendamento].horaMarcado >= 18)
+				{
+					printf("\n		Hora INVALIDO\n");
+					system("pause");
+					system("cls");
+					printf("\n____________________________________________\n");
+					printf("|         Cadastro de Agendamento	   |");
+					printf("\n|__________________________________________|\n\n");
+					continue;
+				}
+
+				if (agendamento[*contAgendamento].examePedido.codigo == agendamento[0].examePedido.codigo &&
+					agendamento[*contAgendamento].diaMarcado == agendamento[0].diaMarcado &&
+					agendamento[*contAgendamento].mesMarcado == agendamento[0].mesMarcado &&
+					agendamento[*contAgendamento].anoMarcado == agendamento[0].anoMarcado &&
+					agendamento[*contAgendamento].horaMarcado == agendamento[0].horaMarcado
+					)
+				{
+					printf("\n		Hora INVALIDO\n");
+					system("pause");
+					system("cls");
+					printf("\n____________________________________________\n");
+					printf("|         Cadastro de Agendamento	   |");
+					printf("\n|__________________________________________|\n\n");
+					continue;
+				}
+
+			}
+
+			break;
+		} while (1);
+
 	}
+	obterData(&agendamento[*contAgendamento]);
+	*contAgendamento += 1;
+	if (*contAgendamento == 10)
+		agendamento = realloc(agendamento, (*contAgendamento + 1) * sizeof(Agd));
 
+	printf("\n		AGENDAMENTO CADASTRADO SUCESSO\n");
+	system("pause");
 	system("cls");
 }
 
@@ -1318,9 +1504,10 @@ void imprimirAgendamento(Agd agendamento) {
 	printf("\n	Nome do paciente: %s\n	AGENDAMENTOS: ", agendamento.pacienteQuePediu.nome);
 	for (i = 0; i < agendamento.qtd; i++)
 	{
-		printf("\n	Exame: %s\n", agendamento.examePedido.nome);
-		printf("\	Data: %d/%d/%d", agendamento.dia, agendamento.mes, agendamento.ano);
+		printf("\n	Exame: %s", agendamento.examePedido.nome);
+		printf("\n	Data de registro de agendamento: %d/%d/%d", agendamento.dia, agendamento.mes, agendamento.ano);
 		printf("\n	Hospital: %s", agendamento.UnidadeParaAgendar.nome);
+		printf("\n	Data de agendamento: %d/%d/%d %d:00", agendamento.diaMarcado, agendamento.mesMarcado, agendamento.anoMarcado, agendamento.horaMarcado);
 	}
 	printf("\n===============================\n");
 	system("pause");
@@ -1328,10 +1515,10 @@ void imprimirAgendamento(Agd agendamento) {
 //Função que lista os agendamentos de um certo dia
 void ListarAgendamentoDeUmDia(Agd* agendamento, int contAgendamento) {
 	int i, dia, mes, ano, marcador = 0;
-	char d[3];
-	char m[3];
-	char a[5];
-
+	char d[3] = "10";
+	char m[3] = "11";
+	char a[5] = "2020";
+	/*
 	printf("Para visualizar todos os pedidos de um determinado dia entre com a data OBS:(apenas numeros) \n");
 	printf("	Dia: ");
 	scanf(" %s", d);
@@ -1341,14 +1528,14 @@ void ListarAgendamentoDeUmDia(Agd* agendamento, int contAgendamento) {
 	scanf(" %s", a);
 
 	system("cls");
-
+	*/
 	dia = strtol(d, NULL, 10); //Faz a conversão de alfabetico para inteiro
 	mes = strtol(m, NULL, 10); //Faz a conversão de alfabetico para inteiro
 	ano = strtol(a, NULL, 10); //Faz a conversão de alfabetico para inteiro
 
 	for (i = 0; i < contAgendamento; i++)
 	{
-		if (agendamento[i].ano == ano && agendamento[i].mes == mes && agendamento[i].dia == dia)
+		if (agendamento[i].anoMarcado == ano && agendamento[i].mesMarcado == mes && agendamento[i].diaMarcado == dia)
 		{
 			imprimirAgendamento(agendamento[i]);
 			marcador = 1;
