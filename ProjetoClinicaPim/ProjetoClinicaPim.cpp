@@ -4,7 +4,6 @@
 #include <io.h>
 #include <time.h>
 #include <windows.h>
-
 int op;
 
 //Estrutura da tabela endereço
@@ -107,6 +106,8 @@ void gerenciaDeAgendamento(Agd*, Pct*, Exm*, Uni*, int*, int, int, int);
 void cadastrarAgendamento(Agd*, Pct*, Exm*, Uni*, int*, int, int, int, int);
 void obterData(Agd*);
 void listarAgendamentoDeUmPaciente(Agd*, int);
+void ordernarAgendamentoPorData(Agd*, int);
+void ordenarPorNomeCliente(Agd*, int);
 void ListarAgendamentoDeUmDia(Agd*, int);
 void AtualizarAgendamento(Agd*, int);
 void imprimirAgendamento(Agd);
@@ -127,7 +128,7 @@ int main() {
 	Uni* unidade; //Declarando um ponteiro para estrutura de uniadades hospitalares
 	User* usuario; //Declarando um ponteiro para estrutura agendamento
 
-	int contPaciente = 8, contExame = 3, contAgendamento = 2, contFuncionario = 3, contUnidade = 2; //Inicilizando os contadores
+	int contPaciente = 8, contExame = 3, contAgendamento = 4, contFuncionario = 3, contUnidade = 2; //Inicilizando os contadores
 	arquivo = calloc(100, sizeof(FILE));
 	paciente = calloc(100, sizeof(Pct));
 	exame = calloc(100, sizeof(Exm));;
@@ -283,6 +284,13 @@ void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User
 	strcpy(exame[1].nome, "Pediatra");
 	exame[1].valor = 300.0;
 
+	//Inclui dados do Exame 3
+	exame[2].codigo = 3;
+	exame[2].unidadeDoExame = unidade[0];
+	strcpy(exame[2].nomeMedico, "Astolfo");
+	strcpy(exame[2].nome, "Sangue");
+	exame[2].valor = 300.0;
+
 	//Inclui dados do Funcionario 1
 	funcionario[0].codigo = 1;
 	funcionario[0].unidadeQueTrabalha = unidade[0];
@@ -336,7 +344,7 @@ void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User
 
 	//Inclui dados do Paciente 4
 	paciente[3].codigo = 4;
-	paciente[3].unidadeQueCadastrou = unidade[0];
+	paciente[3].unidadeQueCadastrou = unidade[1];
 	strcpy(paciente[3].nome, "Jandira");
 	strcpy(paciente[3].sexo, "m");
 	paciente[3].rg = 12313;
@@ -409,6 +417,20 @@ void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User
 	agendamento[1].mesMarcado = 11;
 	agendamento[1].anoMarcado = 2020;
 	agendamento[1].horaMarcado = 13;
+
+
+	agendamento[2].pacienteQuePediu = paciente[2];
+	agendamento[2].UnidadeParaAgendar = unidade[0];
+	agendamento[2].qtd = 1;
+	agendamento[2].examePedido = exame[1];
+	agendamento[2].dia = 9;
+	agendamento[2].mes = 11;
+	agendamento[2].ano = 2020;
+	agendamento[2].diaMarcado = 10;
+	agendamento[2].mesMarcado = 11;
+	agendamento[2].anoMarcado = 2020;
+	agendamento[2].horaMarcado = 13;
+
 }
 
 
@@ -1212,6 +1234,7 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 	char opcao = "";
 	char aux[10];
 	int cont = 0;
+	int teste;
 
 	printf("\n____________________________________________\n");
 	printf("|         Cadastro de Agendamento	   |");
@@ -1262,15 +1285,14 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 		break;
 	} while (1);
 
-	printf("	Digite a quantidade de exames que deseja agendar: ");
-	scanf(" %d", &agendamento[*contAgendamento].qtd);
+	agendamento[*contAgendamento].qtd = 1;
 
 	//agendamento[*contAgendamento].examePedido = malloc(agendamento[*contAgendamento].qtd * sizeof(Agd));
 
 	do
 	{
 		marcador = 0;
-		for (i = auxIndice; i < agendamento[*contAgendamento].qtd; i++)
+		for (i = auxIndice; i < 1; i++)
 		{
 			printf("	Digite o codigo do exame para agendar: ");
 			scanf(" %d", &codigoExameParaCadastro);
@@ -1411,30 +1433,31 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 
 		do
 		{
-			printf("	hora de agendamento :");
+			printf("	Digite a hora do agendamento das 8 a 17 obs:(Apenas A hora HH): ");
 			scanf(" %10s", aux);
 
-			agendamento[*contAgendamento].horaMarcado = strtol(aux, NULL, 10); //Faz a conversão de alfabetico para inteiro
-			if (identificador == 0)
+			teste = strtol(aux, NULL, 10); //Faz a conversão de alfabetico para inteiro
+			if (teste < 8 || teste >= 18)
 			{
-				if (agendamento[*contAgendamento].horaMarcado < 8 || agendamento[*contAgendamento].horaMarcado >= 18)
-				{
-					printf("\n		Hora INVALIDO\n");
-					system("pause");
-					system("cls");
-					printf("\n____________________________________________\n");
-					printf("|         Cadastro de Agendamento	   |");
-					printf("\n|__________________________________________|\n\n");
-					continue;
-				}
-
-				if (agendamento[*contAgendamento].examePedido.codigo == agendamento[0].examePedido.codigo &&
-					agendamento[*contAgendamento].diaMarcado == agendamento[0].diaMarcado &&
-					agendamento[*contAgendamento].mesMarcado == agendamento[0].mesMarcado &&
-					agendamento[*contAgendamento].anoMarcado == agendamento[0].anoMarcado &&
-					agendamento[*contAgendamento].horaMarcado == agendamento[0].horaMarcado
+				printf("\n		Hora INVALIDO\n");
+				system("pause");
+				system("cls");
+				printf("\n____________________________________________\n");
+				printf("|         Cadastro de Agendamento	   |");
+				printf("\n|__________________________________________|\n\n");
+				continue;
+			}
+			marcador = 0;
+			for (int i = 0; i <= *contAgendamento; i++)
+			{
+				if (agendamento[*contAgendamento].examePedido.codigo == agendamento[i].examePedido.codigo &&
+					agendamento[*contAgendamento].diaMarcado == agendamento[i].diaMarcado &&
+					agendamento[*contAgendamento].mesMarcado == agendamento[i].mesMarcado &&
+					agendamento[*contAgendamento].anoMarcado == agendamento[i].anoMarcado &&
+					teste == agendamento[i].horaMarcado
 					)
 				{
+					marcador++;
 					printf("\n		Hora INVALIDO\n");
 					system("pause");
 					system("cls");
@@ -1442,22 +1465,28 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 					printf("|         Cadastro de Agendamento	   |");
 					printf("\n|__________________________________________|\n\n");
 					continue;
-				}
 
+				}
+			}
+			if (marcador == 0)
+			{
+				agendamento[*contAgendamento].horaMarcado = teste;
+
+				obterData(&agendamento[*contAgendamento]);
+				*contAgendamento += 1;
+				if (*contAgendamento == 10)
+					agendamento = realloc(agendamento, (*contAgendamento + 1) * sizeof(Agd));
+
+				printf("\n		AGENDAMENTO CADASTRADO SUCESSO\n");
+				system("pause");
+				system("cls");
+				break;
 			}
 
-			break;
 		} while (1);
 
 	}
-	obterData(&agendamento[*contAgendamento]);
-	*contAgendamento += 1;
-	if (*contAgendamento == 10)
-		agendamento = realloc(agendamento, (*contAgendamento + 1) * sizeof(Agd));
 
-	printf("\n		AGENDAMENTO CADASTRADO SUCESSO\n");
-	system("pause");
-	system("cls");
 }
 
 void obterData(Agd* agendamento) {
@@ -1476,25 +1505,27 @@ void listarAgendamentoDeUmPaciente(Agd* agendamento, int contAgendamento) {
 	int codigoPaciente;
 	int i, marcador = 0;
 
-	printf("	Digite o codigo ou nome do paciente para visualizar seus agendamentos: ");
+	printf("	Digite o CODIGO ou RG do paciente para visualizar seus agendamentos: ");
 	scanf(" %[^\n]s", nomePaciente);
 	system("cls");
 
 	codigoPaciente = strtol(nomePaciente, NULL, 10); //Faz a conversão de alfabetico para alfabetico
-	for (i = 0; i < contAgendamento; i++)
-	{
-		if (agendamento[i].pacienteQuePediu.codigo == codigoPaciente || strcmp(agendamento[i].pacienteQuePediu.nome, nomePaciente) == 0)
+
+
+	for (i = 0; i <= contAgendamento; i++)
+	{//Ciclo que encontra, ordena e imprime o agendamento solicitado
+		if (agendamento[i].pacienteQuePediu.codigo == codigoPaciente || agendamento[i].pacienteQuePediu.rg == codigoPaciente)
 		{
+			//ordernarAgendamentoPorData(agendamento, contAgendamento);//Chamando a função que ordena os pedidos por data
 			imprimirAgendamento(agendamento[i]);
 			marcador = 1;
-			break;
 		}
 	}
 	if (!marcador)
 	{
 		printf("\n		!!ERRO\n	NENHUM AGENDAMENTO CADASTRADO PARA ESSE PACIENTE\n");
-		system("pause");
 	}
+	system("pause");
 	system("cls");
 }
 
@@ -1508,10 +1539,87 @@ void imprimirAgendamento(Agd agendamento) {
 		printf("\n	Data de registro de agendamento: %d/%d/%d", agendamento.dia, agendamento.mes, agendamento.ano);
 		printf("\n	Hospital: %s", agendamento.UnidadeParaAgendar.nome);
 		printf("\n	Data de agendamento: %d/%d/%d %d:00", agendamento.diaMarcado, agendamento.mesMarcado, agendamento.anoMarcado, agendamento.horaMarcado);
+		printf("\n	===============================\n");
+		Sleep(500);
 	}
-	printf("\n===============================\n");
-	system("pause");
 }
+
+void ordernarAgendamentoPorData(Agd* agendamento, int contAgendamento) {
+	int i, j, marcador;
+	Agd aux;
+	for (i = 1; i < contAgendamento; i++)//Laço que ordena por ano
+	{
+		aux = agendamento[i];
+		j = i - 1;
+		do
+		{
+			marcador = 0;
+			if (agendamento[j].anoMarcado > aux.anoMarcado)
+			{
+				agendamento[j + 1] = agendamento[j];
+				j--;
+				marcador = 1;
+			}if (j < 0)
+				marcador = 0;
+		} while (marcador);
+		agendamento[j + 1] = aux;
+	}
+
+	for (i = 1; i < contAgendamento; i++)//Laço que ordena por mes
+	{
+		aux = agendamento[i];
+		j = i - 1;
+		do
+		{
+			marcador = 0;
+			if (agendamento[j].mesMarcado > aux.mesMarcado && agendamento[j].anoMarcado == aux.anoMarcado)
+			{
+				agendamento[j + 1] = agendamento[j];
+				j--;
+				marcador = 1;
+			}if (j < 0)
+				marcador = 0;
+		} while (marcador);
+		agendamento[j + 1] = aux;
+	}
+	for (i = 1; i < contAgendamento; i++)//Laço que ordena por ano
+	{
+		aux = agendamento[i];
+		j = i - 1;
+		do
+		{
+			marcador = 0;
+			if (agendamento[j].diaMarcado > aux.diaMarcado && agendamento[j].anoMarcado == aux.anoMarcado && agendamento[j].mesMarcado == aux.mesMarcado)
+			{
+				agendamento[j + 1] = agendamento[j];
+				j--;
+				marcador = 1;
+			}if (j < 0)
+				marcador = 0;
+		} while (marcador);
+		agendamento[j + 1] = aux;
+	}
+	for (i = 1; i < contAgendamento; i++)//Laço que ordena por ano
+	{
+		aux = agendamento[i];
+		j = i - 1;
+		do
+		{
+			marcador = 0;
+			if (agendamento[j].horaMarcado > aux.horaMarcado && agendamento[j].diaMarcado == aux.diaMarcado && agendamento[j].anoMarcado == aux.anoMarcado && agendamento[j].mesMarcado == aux.mesMarcado)
+			{
+				agendamento[j + 1] = agendamento[j];
+				j--;
+				marcador = 1;
+			}if (j < 0)
+				marcador = 0;
+		} while (marcador);
+		agendamento[j + 1] = aux;
+	}
+
+
+}
+
 //Função que lista os agendamentos de um certo dia
 void ListarAgendamentoDeUmDia(Agd* agendamento, int contAgendamento) {
 	int i, dia, mes, ano, marcador = 0;
@@ -1533,6 +1641,8 @@ void ListarAgendamentoDeUmDia(Agd* agendamento, int contAgendamento) {
 	mes = strtol(m, NULL, 10); //Faz a conversão de alfabetico para inteiro
 	ano = strtol(a, NULL, 10); //Faz a conversão de alfabetico para inteiro
 
+	ordenarPorNomeCliente(agendamento, contAgendamento);//Função que ordena os agendamentos por nome dos pacientes
+
 	for (i = 0; i < contAgendamento; i++)
 	{
 		if (agendamento[i].anoMarcado == ano && agendamento[i].mesMarcado == mes && agendamento[i].diaMarcado == dia)
@@ -1544,10 +1654,34 @@ void ListarAgendamentoDeUmDia(Agd* agendamento, int contAgendamento) {
 	if (!marcador)
 	{
 		printf("\n		!!NEM UM AGENDAMENTO CADASTRO NESSE DIA!!\n");
-		system("pause");
-		system("cls");
 	}
+	system("pause");
 	system("cls");
+}
+
+void ordenarPorNomeCliente(Agd* agendamento, int contAgendamento) {
+	int i, j, marcador;
+	Agd aux;
+
+	for (i = 0; i < contAgendamento; i++)
+	{
+		aux = agendamento[i];
+		j = i - 1;
+		do
+		{
+			marcador = 0;
+			if (strcmp(agendamento[j].pacienteQuePediu.nome, aux.pacienteQuePediu.nome) > 0)
+			{
+				agendamento[j + 1] = agendamento[j];
+				j--;
+				marcador = 1;
+			}
+			if (j < 0)
+				marcador = 0;
+		} while (marcador);
+		agendamento[j + 1] = aux;
+	}
+
 }
 
 // Codigo da função que gerencia os funcionarios
