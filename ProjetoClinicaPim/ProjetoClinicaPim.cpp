@@ -112,8 +112,10 @@ void ListarAgendamentoDeUmDia(Agd*, int);
 void AtualizarAgendamento(Agd*, int);
 void imprimirAgendamento(Agd);
 
-void gerenciaDeRelatorio(Pct*, Uni*, Fnc*, Exm*, int, int);
+void gerenciaDeRelatorio(Pct*, Uni*, Fnc*, Exm*, Agd*, int, int, int);
 void RelatorioDePacientesPorUnidade(Pct*, Uni*, int, int);
+void RelatorioDeFaturamentoTotalPorUnidade(Pct*, Uni*, Exm*, Agd*, int, int, int);
+
 
 void inicializar(Pct*, Exm*, Fnc*, Uni*, User*, Agd*);
 
@@ -128,7 +130,7 @@ int main() {
 	Uni* unidade; //Declarando um ponteiro para estrutura de uniadades hospitalares
 	User* usuario; //Declarando um ponteiro para estrutura agendamento
 
-	int contPaciente = 8, contExame = 3, contAgendamento = 4, contFuncionario = 3, contUnidade = 2; //Inicilizando os contadores
+	int contPaciente = 10, contExame = 10, contAgendamento = 10, contFuncionario = 3, contUnidade = 2; //Inicilizando os contadores
 	arquivo = calloc(100, sizeof(FILE));
 	paciente = calloc(100, sizeof(Pct));
 	exame = calloc(100, sizeof(Exm));;
@@ -191,7 +193,7 @@ int main() {
 			gerenciaDeFuncionario(funcionario, unidade, &contFuncionario, arquivo);
 			break;
 		case 5:
-			gerenciaDeRelatorio(paciente, unidade, funcionario, exame, contPaciente, contUnidade);
+			gerenciaDeRelatorio(paciente, unidade, funcionario, exame, agendamento, contPaciente, contUnidade, contAgendamento);
 			break;
 		default:
 			printf("	!!COMANDO INVALIDO!!\n	Entre com o comando novamente\n");
@@ -291,6 +293,48 @@ void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User
 	strcpy(exame[2].nome, "Sangue");
 	exame[2].valor = 300.0;
 
+	//Inclui dados do Exame 4
+	exame[3].codigo = 4;
+	exame[3].unidadeDoExame = unidade[1];
+	strcpy(exame[3].nomeMedico, "Joao");
+	strcpy(exame[3].nome, "Urologista");
+	exame[3].valor = 500.0;
+
+	//Inclui dados do Exame 5
+	exame[4].codigo = 5;
+	exame[4].unidadeDoExame = unidade[1];
+	strcpy(exame[4].nomeMedico, "Bruna");
+	strcpy(exame[4].nome, "Pediatra");
+	exame[4].valor = 300.0;
+
+	//Inclui dados do Exame 6
+	exame[5].codigo = 6;
+	exame[5].unidadeDoExame = unidade[1];
+	strcpy(exame[5].nomeMedico, "Paula");
+	strcpy(exame[5].nome, "Sangue");
+	exame[5].valor = 300.0;
+
+	//Inclui dados do Exame 7
+	exame[6].codigo = 7;
+	exame[6].unidadeDoExame = unidade[2];
+	strcpy(exame[6].nomeMedico, "Pedro");
+	strcpy(exame[6].nome, "Urologista");
+	exame[6].valor = 500.0;
+
+	//Inclui dados do Exame 8
+	exame[7].codigo = 8;
+	exame[7].unidadeDoExame = unidade[2];
+	strcpy(exame[7].nomeMedico, "Vitoria");
+	strcpy(exame[7].nome, "Pediatra");
+	exame[7].valor = 300.0;
+
+	//Inclui dados do Exame 9
+	exame[8].codigo = 9;
+	exame[8].unidadeDoExame = unidade[2];
+	strcpy(exame[8].nomeMedico, "Daniel");
+	strcpy(exame[8].nome, "Sangue");
+	exame[8].valor = 300.0;
+
 	//Inclui dados do Funcionario 1
 	funcionario[0].codigo = 1;
 	funcionario[0].unidadeQueTrabalha = unidade[0];
@@ -318,7 +362,7 @@ void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User
 
 	//Inclui dados do Paciente 2
 	paciente[1].codigo = 2;
-	paciente[1].unidadeQueCadastrou = unidade[1];
+	paciente[1].unidadeQueCadastrou = unidade[0];
 	strcpy(paciente[1].nome, "Junior");
 	strcpy(paciente[1].sexo, "m");
 	paciente[1].rg = 12313;
@@ -331,7 +375,7 @@ void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User
 
 	//Inclui dados do Paciente 3
 	paciente[2].codigo = 3;
-	paciente[2].unidadeQueCadastrou = unidade[1];
+	paciente[2].unidadeQueCadastrou = unidade[0];
 	strcpy(paciente[2].nome, "Leticia");
 	strcpy(paciente[2].sexo, "m");
 	paciente[2].rg = 12313;
@@ -345,7 +389,7 @@ void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User
 	//Inclui dados do Paciente 4
 	paciente[3].codigo = 4;
 	paciente[3].unidadeQueCadastrou = unidade[1];
-	strcpy(paciente[3].nome, "Jandira");
+	strcpy(paciente[3].nome, "Leticia");
 	strcpy(paciente[3].sexo, "m");
 	paciente[3].rg = 12313;
 	paciente[3].telefone = 1137268225;
@@ -357,7 +401,7 @@ void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User
 
 	//Inclui dados do Paciente 5
 	paciente[4].codigo = 5;
-	paciente[4].unidadeQueCadastrou = unidade[0];
+	paciente[4].unidadeQueCadastrou = unidade[1];
 	strcpy(paciente[4].nome, "Clodoviu");
 	strcpy(paciente[4].sexo, "m");
 	paciente[4].rg = 12313;
@@ -383,8 +427,8 @@ void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User
 
 	//Inclui dados do Paciente 7
 	paciente[6].codigo = 7;
-	paciente[6].unidadeQueCadastrou = unidade[1];
-	strcpy(paciente[6].nome, "Arnico");
+	paciente[6].unidadeQueCadastrou = unidade[2];
+	strcpy(paciente[6].nome, "Romeu");
 	strcpy(paciente[6].sexo, "m");
 	paciente[6].rg = 12313;
 	paciente[6].telefone = 1137268225;
@@ -394,6 +438,33 @@ void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User
 	strcpy(paciente[6].endereco.bairro, "Caxingui");
 	strcpy(paciente[6].endereco.cidade, "SP");
 
+	//Inclui dados do Paciente 8
+	paciente[7].codigo = 8;
+	paciente[7].unidadeQueCadastrou = unidade[2];
+	strcpy(paciente[7].nome, "Jubileu");
+	strcpy(paciente[7].sexo, "m");
+	paciente[7].rg = 12313;
+	paciente[7].telefone = 1137268225;
+	strcpy(paciente[7].endereco.logradouro, "Avenida trona");
+	strcpy(paciente[7].endereco.complemento, "Ola amigios");
+	paciente[7].endereco.cep = 05516020;
+	strcpy(paciente[7].endereco.bairro, "Caxingui");
+	strcpy(paciente[7].endereco.cidade, "SP");
+
+	//Inclui dados do Paciente 9
+	paciente[8].codigo = 9;
+	paciente[8].unidadeQueCadastrou = unidade[2];
+	strcpy(paciente[8].nome, "Tadeu");
+	strcpy(paciente[8].sexo, "m");
+	paciente[8].rg = 12313;
+	paciente[8].telefone = 1137268225;
+	strcpy(paciente[8].endereco.logradouro, "Avenida trona");
+	strcpy(paciente[8].endereco.complemento, "Ola amigios");
+	paciente[8].endereco.cep = 05516020;
+	strcpy(paciente[8].endereco.bairro, "Caxingui");
+	strcpy(paciente[8].endereco.cidade, "SP");
+
+	//Inclui dados do agendamento 1
 	agendamento[0].pacienteQuePediu = paciente[0];
 	agendamento[0].UnidadeParaAgendar = unidade[0];
 	agendamento[0].qtd = 1;
@@ -406,10 +477,11 @@ void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User
 	agendamento[0].anoMarcado = 2020;
 	agendamento[0].horaMarcado = 12;
 
+	//Inclui dados do agendamento 2
 	agendamento[1].pacienteQuePediu = paciente[1];
 	agendamento[1].UnidadeParaAgendar = unidade[0];
 	agendamento[1].qtd = 1;
-	agendamento[1].examePedido = exame[0];
+	agendamento[1].examePedido = exame[1];
 	agendamento[1].dia = 9;
 	agendamento[1].mes = 11;
 	agendamento[1].ano = 2020;
@@ -418,11 +490,11 @@ void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User
 	agendamento[1].anoMarcado = 2020;
 	agendamento[1].horaMarcado = 13;
 
-
+	//Inclui dados do agendamento 3
 	agendamento[2].pacienteQuePediu = paciente[2];
 	agendamento[2].UnidadeParaAgendar = unidade[0];
 	agendamento[2].qtd = 1;
-	agendamento[2].examePedido = exame[1];
+	agendamento[2].examePedido = exame[2];
 	agendamento[2].dia = 9;
 	agendamento[2].mes = 11;
 	agendamento[2].ano = 2020;
@@ -431,6 +503,83 @@ void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User
 	agendamento[2].anoMarcado = 2020;
 	agendamento[2].horaMarcado = 13;
 
+	//Inclui dados do agendamento 4
+	agendamento[3].pacienteQuePediu = paciente[3];
+	agendamento[3].UnidadeParaAgendar = unidade[1];
+	agendamento[3].qtd = 1;
+	agendamento[3].examePedido = exame[3];
+	agendamento[3].dia = 9;
+	agendamento[3].mes = 11;
+	agendamento[3].ano = 2020;
+	agendamento[3].diaMarcado = 10;
+	agendamento[3].mesMarcado = 11;
+	agendamento[3].anoMarcado = 2020;
+	agendamento[3].horaMarcado = 12;
+
+	//Inclui dados do agendamento 5
+	agendamento[4].pacienteQuePediu = paciente[4];
+	agendamento[4].UnidadeParaAgendar = unidade[1];
+	agendamento[4].qtd = 1;
+	agendamento[4].examePedido = exame[4];
+	agendamento[4].dia = 9;
+	agendamento[4].mes = 11;
+	agendamento[4].ano = 2020;
+	agendamento[4].diaMarcado = 10;
+	agendamento[4].mesMarcado = 11;
+	agendamento[4].anoMarcado = 2020;
+	agendamento[4].horaMarcado = 13;
+
+	//Inclui dados do agendamento 6
+	agendamento[5].pacienteQuePediu = paciente[5];
+	agendamento[5].UnidadeParaAgendar = unidade[1];
+	agendamento[5].qtd = 1;
+	agendamento[5].examePedido = exame[5];
+	agendamento[5].dia = 9;
+	agendamento[5].mes = 11;
+	agendamento[5].ano = 2020;
+	agendamento[5].diaMarcado = 10;
+	agendamento[5].mesMarcado = 11;
+	agendamento[5].anoMarcado = 2020;
+	agendamento[5].horaMarcado = 13;
+
+	//Inclui dados do agendamento 7
+	agendamento[6].pacienteQuePediu = paciente[6];
+	agendamento[6].UnidadeParaAgendar = unidade[2];
+	agendamento[6].qtd = 1;
+	agendamento[6].examePedido = exame[6];
+	agendamento[6].dia = 9;
+	agendamento[6].mes = 11;
+	agendamento[6].ano = 2020;
+	agendamento[6].diaMarcado = 10;
+	agendamento[6].mesMarcado = 11;
+	agendamento[6].anoMarcado = 2020;
+	agendamento[6].horaMarcado = 12;
+
+	//Inclui dados do agendamento 8
+	agendamento[7].pacienteQuePediu = paciente[7];
+	agendamento[7].UnidadeParaAgendar = unidade[2];
+	agendamento[7].qtd = 1;
+	agendamento[7].examePedido = exame[7];
+	agendamento[7].dia = 9;
+	agendamento[7].mes = 11;
+	agendamento[7].ano = 2020;
+	agendamento[7].diaMarcado = 10;
+	agendamento[7].mesMarcado = 11;
+	agendamento[7].anoMarcado = 2020;
+	agendamento[7].horaMarcado = 13;
+
+	//Inclui dados do agendamento 9
+	agendamento[8].pacienteQuePediu = paciente[8];
+	agendamento[8].UnidadeParaAgendar = unidade[2];
+	agendamento[8].qtd = 1;
+	agendamento[8].examePedido = exame[8];
+	agendamento[8].dia = 9;
+	agendamento[8].mes = 11;
+	agendamento[8].ano = 2020;
+	agendamento[8].diaMarcado = 10;
+	agendamento[8].mesMarcado = 11;
+	agendamento[8].anoMarcado = 2020;
+	agendamento[8].horaMarcado = 13;
 }
 
 
@@ -688,16 +837,20 @@ void listarPaciente(Pct* paciente, int contPaciente) {
 }
 
 void imprimirPaciente(Pct paciente) {
-	printf("\n	Codigo: %d\n", paciente.codigo);
-	printf("	Unidade: %s\n", paciente.unidadeQueCadastrou.nome);
-	printf("	Nome: %s\n", paciente.nome);
-	printf("	Sexo: %s\n", paciente.sexo);
-	printf("	RG: %.0f\n", paciente.rg);
-	printf("	Telefone: %.0f\n", paciente.telefone);
-	printf("	Endereco: %s / Complemento %s\n", paciente.endereco.logradouro, paciente.endereco.complemento);
-	printf("	CEP:  %.0f\n", paciente.endereco.cep);
-	printf("	Bairro: %s\n", paciente.endereco.bairro);
-	printf("	Cidade: %s\n", paciente.endereco.cidade);
+	if (paciente.codigo > 0)
+	{
+		printf("\n	Codigo: %d\n", paciente.codigo);
+		printf("	Unidade: %s\n", paciente.unidadeQueCadastrou.nome);
+		printf("	Nome: %s\n", paciente.nome);
+		printf("	Sexo: %s\n", paciente.sexo);
+		printf("	RG: %.0f\n", paciente.rg);
+		printf("	Telefone: %.0f\n", paciente.telefone);
+		printf("	Endereco: %s / Complemento %s\n", paciente.endereco.logradouro, paciente.endereco.complemento);
+		printf("	CEP:  %.0f\n", paciente.endereco.cep);
+		printf("	Bairro: %s\n", paciente.endereco.bairro);
+		printf("	Cidade: %s\n", paciente.endereco.cidade);
+		printf("\n	===============================\n");
+	}
 
 }
 
@@ -721,7 +874,6 @@ void buscarPaciente(Pct* paciente, int contPaciente) {
 		{
 			imprimirPaciente(paciente[i]);
 			marcador = 1;
-			break;
 		}
 	}
 	if (!marcador)
@@ -1061,11 +1213,16 @@ void listarExame(Exm* exame, int contExame) {
 }
 
 void imprimirExame(Exm exame) {
-	printf("\n	Codigo: %d\n", exame.codigo);
-	printf("	Unidade: %s\n", exame.unidadeDoExame.nome);
-	printf("	Funcionario: %s\n", exame.nomeMedico);
-	printf("	Exame: %s\n", exame.nome);
-	printf("	Valor:R$ %.2f\n", exame.valor);
+	if (exame.codigo > 0)
+	{
+		printf("\n	Codigo: %d\n", exame.codigo);
+		printf("	Unidade: %s\n", exame.unidadeDoExame.nome);
+		printf("	Funcionario: %s\n", exame.nomeMedico);
+		printf("	Exame: %s\n", exame.nome);
+		printf("	Valor:R$ %.2f\n", exame.valor);
+		printf("\n	===============================\n");
+	}
+
 }
 
 //Função que busca um exame pelo codigo ou nome
@@ -1088,7 +1245,6 @@ void buscarExame(Exm* exame, int contExame) {
 		{
 			imprimirExame(exame[i]);
 			marcador = 1;
-			break;
 		}
 	}
 	if (!marcador)
@@ -1229,26 +1385,23 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 	char nomePaciente[50];
 	int codigoPaciente, unidadeParaCadastro = 0, marcador = 0;
 	int codigoExameParaCadastro;
-	int qtdExame;
-	int i, j, dia, mes, ano, hora, auxIndice = 0, minutos;
+	int i, j, x, y, z, hora, auxIndice = 0;
 	char opcao = "";
-	char aux[10];
-	int cont = 0;
-	int teste;
+	char aux[50];
 
 	printf("\n____________________________________________\n");
 	printf("|         Cadastro de Agendamento	   |");
 	printf("\n|__________________________________________|\n\n");
-	printf("	Digite o codigo ou o nome do paciente que esta fazendo o agendamento: ");
+	printf("	Digite o codigo ou o RG que esta fazendo o agendamento: ");
 	scanf(" %[^\n]s", nomePaciente);
 
 	codigoPaciente = strtol(nomePaciente, NULL, 10); //Faz a conversão de alfabetico para inteiro
 
-	for (i = 0; i < contPaciente; i++)
+	for (x = 0; x < contPaciente; x++)
 	{
-		if (codigoPaciente == paciente[i].codigo || strcmp(paciente[i].nome, nomePaciente) == 0)
+		if (codigoPaciente == paciente[x].codigo || paciente[x].rg == codigoPaciente)
 		{
-			agendamento[*contAgendamento].pacienteQuePediu = paciente[i];
+			printf("	O paciente eh: %s\n", paciente[x].nome);
 			marcador = 1;
 			break;
 		}
@@ -1264,15 +1417,42 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 	do
 	{
 		marcador = 0;
-		printf("	Digite o codigo da unidade para agendamento: ");
-		scanf(" %d", &unidadeParaCadastro);
-		for (i = 0; i < contUnidade; i++)
+		printf("\n	Digite o codigo da unidade para agendamento: ");
+		scanf(" %10s", &aux);
+		unidadeParaCadastro = strtol(aux, NULL, 10); //Faz a conversão de alfabetico para inteiro
+		for (y = 0; y < contUnidade; y++)
 		{
-			if (unidadeParaCadastro == unidade[i].codigo)
+			if (unidadeParaCadastro == unidade[y].codigo)
 			{
-				agendamento[*contAgendamento].UnidadeParaAgendar = unidade[i];
+				printf("	A Unidade eh: %s\n", unidade[y].nome);
 				marcador = 1;
 				break;
+			}
+		}
+		if (identificador == 0)
+		{
+			if (unidadeParaCadastro == 0)
+			{
+				printf("\n		!!OPCAO INVALIDA!!\n UNIDADE NAO ENCONTRADA\n");
+				system("pause");
+				system("cls");
+				printf("\n____________________________________________\n");
+				printf("|         Cadastro de Pacientes	           |");
+				printf("\n|__________________________________________|\n");
+				continue;
+			}
+		}
+		else
+		{
+			if (unidadeParaCadastro == 0 && strlen(aux) > 0)
+			{
+				printf("\n		!!OPCAO INVALIDA!!\n	Apenas o codigo da unidade\n");
+				printf("\n____________________________________________\n");
+				printf("|         Cadastro de Pacientes	           |");
+				printf("\n|__________________________________________|\n");
+				system("pause");
+				system("cls");
+				continue;
 			}
 		}
 		if (!marcador)
@@ -1286,21 +1466,20 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 	} while (1);
 
 	agendamento[*contAgendamento].qtd = 1;
-
 	//agendamento[*contAgendamento].examePedido = malloc(agendamento[*contAgendamento].qtd * sizeof(Agd));
 
 	do
 	{
 		marcador = 0;
-		for (i = auxIndice; i < 1; i++)
+		for (z = auxIndice; z < 1; z++)
 		{
-			printf("	Digite o codigo do exame para agendar: ");
-			scanf(" %d", &codigoExameParaCadastro);
+			printf("\n	Digite o codigo do exame para agendar: ");
+			scanf(" %[^\n]s", &aux);
+			codigoExameParaCadastro = strtol(aux, NULL, 10); //Faz a conversão de alfabetico para inteiro
 			for (j = 0; j < contExame; j++)
 			{
-				if (exame[j].codigo == codigoExameParaCadastro)
+				if (exame[j].codigo == codigoExameParaCadastro && exame[j].unidadeDoExame.codigo == unidadeParaCadastro || exame[j].unidadeDoExame.codigo == unidadeParaCadastro && strcmp(exame[j].nome, aux) == 0)
 				{
-					agendamento[*contAgendamento].examePedido = exame[j];
 					marcador = 1;
 					opcao = "";
 					break;
@@ -1308,10 +1487,10 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 			}
 			if (!marcador)
 			{
-				printf("\n		!!ERRO\n	EXAME NAO ENCONTRADO\n");
-				printf("	O agendamento será descartado; ou deseja novamente outro codigo de exame [S/N]:  ");
+				printf("\n		!!ERRO!!\n		EXAME NAO ENCONTRADO\n");
+				printf("\n	O agendamento sera descartado...\n	Ou deseja novamente outro codigo de exame [S/N]: ");
 				scanf(" %c", &opcao);
-				auxIndice = i;
+				auxIndice = z;
 				system("cls");
 				break;
 			}
@@ -1320,11 +1499,15 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 
 	if (opcao == 'N' || opcao == 'n')
 	{
-		printf("	AGENDAMENTO NAO CADASTRADO\n");
+		printf("	\n\n\n		AGENDAMENTO NAO CADASTRADO\n\n");
 		system("pause");
+		system("cls");
 	}
 	else
 	{
+		agendamento[*contAgendamento].UnidadeParaAgendar = unidade[y];
+		agendamento[*contAgendamento].pacienteQuePediu = paciente[x];
+		agendamento[*contAgendamento].examePedido = exame[j];
 
 		do
 		{
@@ -1436,8 +1619,8 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 			printf("	Digite a hora do agendamento das 8 a 17 obs:(Apenas A hora HH): ");
 			scanf(" %10s", aux);
 
-			teste = strtol(aux, NULL, 10); //Faz a conversão de alfabetico para inteiro
-			if (teste < 8 || teste >= 18)
+			hora = strtol(aux, NULL, 10); //Faz a conversão de alfabetico para inteiro
+			if (hora < 8 || hora >= 18)
 			{
 				printf("\n		Hora INVALIDO\n");
 				system("pause");
@@ -1454,7 +1637,7 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 					agendamento[*contAgendamento].diaMarcado == agendamento[i].diaMarcado &&
 					agendamento[*contAgendamento].mesMarcado == agendamento[i].mesMarcado &&
 					agendamento[*contAgendamento].anoMarcado == agendamento[i].anoMarcado &&
-					teste == agendamento[i].horaMarcado
+					hora == agendamento[i].horaMarcado
 					)
 				{
 					marcador++;
@@ -1470,7 +1653,7 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 			}
 			if (marcador == 0)
 			{
-				agendamento[*contAgendamento].horaMarcado = teste;
+				agendamento[*contAgendamento].horaMarcado = hora;
 
 				obterData(&agendamento[*contAgendamento]);
 				*contAgendamento += 1;
@@ -1542,6 +1725,8 @@ void imprimirAgendamento(Agd agendamento) {
 		printf("\n	===============================\n");
 		Sleep(500);
 	}
+
+
 }
 
 void ordernarAgendamentoPorData(Agd* agendamento, int contAgendamento) {
@@ -1804,10 +1989,15 @@ void listarFuncionario(Fnc* funcionario, int contFuncionario) {
 }
 
 void imprimirFuncionario(Fnc funcionario) {
-	printf("\n	Codigo: %d\n", funcionario.codigo);
-	printf("	Unidade: %s\n", funcionario.unidadeQueTrabalha.nome);
-	printf("	Nome: %s\n", funcionario.nome);
-	printf("	Cargo: %s\n", funcionario.cargo);
+	if (funcionario.codigo > 0)
+	{
+		printf("\n	Codigo: %d\n", funcionario.codigo);
+		printf("	Unidade: %s\n", funcionario.unidadeQueTrabalha.nome);
+		printf("	Nome: %s\n", funcionario.nome);
+		printf("	Cargo: %s\n", funcionario.cargo);
+		printf("\n	===============================\n");
+	}
+
 }
 
 void buscarFuncionario(Fnc* funcionario, int contFuncionario) {
@@ -1891,7 +2081,7 @@ void AtualizarFuncionario(Fnc* funcionario, int contFuncionario, int identificad
 }
 
 // Codigo da função que gerencia os funcionarios
-void gerenciaDeRelatorio(Pct* paciente, Uni* unidade, Fnc* funcionario, Exm* exame, int contPaciente, int contUnidade) {
+void gerenciaDeRelatorio(Pct* paciente, Uni* unidade, Fnc* funcionario, Exm* exame, Agd* agendamento, int contPaciente, int contUnidade, int contAgendamento) {
 	int opcao;
 	int identificador = 0;
 	do
@@ -1901,6 +2091,7 @@ void gerenciaDeRelatorio(Pct* paciente, Uni* unidade, Fnc* funcionario, Exm* exa
 		printf("|         Gerencia de Relatorios	   |");
 		printf("\n|__________________________________________|\n\n");
 		printf("	1 - Relatorio de pacientes por unidade: \n");
+		printf("	2 - Relatorio de faturamento por unidade: \n");
 		printf("	0 - Voltar ao menu principal\n");
 		printf("	Digite um comando para prosseguir: ");
 		scanf("%d", &opcao);
@@ -1913,6 +2104,9 @@ void gerenciaDeRelatorio(Pct* paciente, Uni* unidade, Fnc* funcionario, Exm* exa
 		case 1:
 			RelatorioDePacientesPorUnidade(paciente, unidade, contPaciente, contUnidade);
 			break;
+		case 2:
+			RelatorioDeFaturamentoTotalPorUnidade(paciente, unidade, exame, agendamento, contPaciente, contUnidade, contAgendamento);
+			break;
 		default:
 			printf("	!!OPCAO INVALIDA!!\n	Digite novamente outra opcao\n");
 			system("pause");
@@ -1923,9 +2117,8 @@ void gerenciaDeRelatorio(Pct* paciente, Uni* unidade, Fnc* funcionario, Exm* exa
 }
 
 void RelatorioDePacientesPorUnidade(Pct* paciente, Uni* unidade, int contPaciente, int contUnidade) {
-	char aux[50];
-	int i, j;
-	int contUnidade1 = 0, contUnidade2 = 0;
+	int i;
+	int contUnidade1 = 0, contUnidade2 = 0, contUnidade3 = 0;
 	printf("\n____________________________________________\n");
 	printf("|         Relatorio das unidades	   |");
 	printf("\n|__________________________________________|\n\n");
@@ -1935,9 +2128,51 @@ void RelatorioDePacientesPorUnidade(Pct* paciente, Uni* unidade, int contPacient
 			contUnidade1 += 1;
 		if (paciente[i].unidadeQueCadastrou.codigo == 2)
 			contUnidade2 += 1;
+		if (paciente[i].unidadeQueCadastrou.codigo == 3)
+			contUnidade3 += 1;
 	}
-	printf("\n	A unidade:%s \n	Possui:%d pacientes\n", unidade[0].nome, contUnidade1);
+	printf("	A unidade:%s \n	Possui:%d pacientes\n", unidade[0].nome, contUnidade1);
+	printf("	===============================");
 	printf("\n	A unidade:%s \n	Possui:%d pacientes\n", unidade[1].nome, contUnidade2);
+	printf("	===============================");
+	printf("\n	A unidade:%s \n	Possui:%d pacientes\n", unidade[2].nome, contUnidade3);
+	printf("	===============================\n");
+	system("Pause");
+	system("cls");
+	return;
+}
+void RelatorioDeFaturamentoTotalPorUnidade(Pct* paciente, Uni* unidade, Exm* exame, Agd* agendamento, int contPaciente, int contUnidade, int contAgendamento) {
+	int i;
+	float totalUnidade1 = 0, totalUnidade2 = 0, totalUnidade3 = 0, total = 0;
+
+	printf("\n____________________________________________\n");
+	printf("|         Relatorio de Faturamento	   |");
+	printf("\n|__________________________________________|\n\n");
+	for (i = 0; i < contAgendamento; i++)
+	{
+		if (agendamento[i].UnidadeParaAgendar.codigo == 1)
+		{
+			totalUnidade1 += agendamento[i].examePedido.valor;
+		}
+		else if (agendamento[i].UnidadeParaAgendar.codigo == 2) {
+			totalUnidade2 += agendamento[i].examePedido.valor;
+		}
+		else
+		{
+			totalUnidade3 += agendamento[i].examePedido.valor;
+		}
+	}
+	total = totalUnidade1 + totalUnidade2 + totalUnidade3;
+
+	printf("	A unidade:%s \n	Faturou: R$%.2f\n", unidade[0].nome, totalUnidade1);
+	printf("	===============================");
+	printf("\n	A unidade:%s \n	Faturou: R$%.2f\n", unidade[1].nome, totalUnidade2);
+	printf("	===============================");
+	printf("\n	A unidade:%s \n	Faturou: R$%.2f\n", unidade[2].nome, totalUnidade3);
+	printf("	===============================\n");
+	printf("	Faturamento Total das unidades: R$%.2f\n", total);
+	printf("	===============================\n");
+
 	system("Pause");
 	system("cls");
 	return;
