@@ -1473,7 +1473,7 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 		marcador = 0;
 		for (z = auxIndice; z < 1; z++)
 		{
-			printf("\n	Digite o codigo do exame para agendar: ");
+			printf("\n	Digite o codigo ou nome do exame para agendar: ");
 			scanf(" %[^\n]s", &aux);
 			codigoExameParaCadastro = strtol(aux, NULL, 10); //Faz a conversão de alfabetico para inteiro
 			for (j = 0; j < contExame; j++)
