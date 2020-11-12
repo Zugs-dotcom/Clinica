@@ -81,6 +81,7 @@ void menu();
 void gerenciaDePaciente(Pct*, Uni*, int*, FILE*);
 Pct cadastrarPaciente(Pct*, Uni*, int*, int);
 void listarPaciente(Pct*, int);
+void ordenarPacientePorNome(Pct*, int);
 void buscarPaciente(Pct*, int);
 void AtualizarPaciente(Pct*, int, int);
 void imprimirPaciente(Pct);
@@ -89,6 +90,7 @@ void imprimirPaciente(Pct);
 void gerenciaDeExame(Exm*, Uni*, int*, FILE*);
 Exm cadastrarExame(Exm*, Uni*, int*, int);
 void listarExame(Exm*, int);
+void ordernarExamePorUnidade(Exm*, int);
 void buscarExame(Exm*, int);
 void AtualizarExame(Exm*, int, int);
 void imprimirExame(Exm);
@@ -107,7 +109,7 @@ void cadastrarAgendamento(Agd*, Pct*, Exm*, Uni*, int*, int, int, int, int);
 void obterData(Agd*);
 void listarAgendamentoDeUmPaciente(Agd*, int);
 void ordernarAgendamentoPorData(Agd*, int);
-void ordenarPorNomeCliente(Agd*, int);
+void ordenarPorNomePaciente(Agd*, int);
 void ListarAgendamentoDeUmDia(Agd*, int);
 void AtualizarAgendamento(Agd*, int);
 void imprimirAgendamento(Agd);
@@ -206,7 +208,7 @@ int main() {
 	return 0;
 }//fim da função principal
 
-
+//função para inicializar dados
 void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User* usuario, Agd* agendamento) {
 	// inicializa Pacientes e exmes
 	for (int i = 0; i < 50; i++) {
@@ -829,13 +831,37 @@ void listarPaciente(Pct* paciente, int contPaciente) {
 	for (i = 0; i < contPaciente; i++) {
 		if (paciente[i].codigo != 0)
 		{
+			ordenarPacientePorNome(paciente, contPaciente);
 			imprimirPaciente(paciente[i]);
 		}
 	}
 	system("pause");
 	system("cls");
 }
+void ordenarPacientePorNome(Pct* paciente, int contPaciente) {
+	int i, j, marcador;
+	Pct aux;
 
+	for (i = 0; i < contPaciente; i++)
+	{
+		aux = paciente[i];
+		j = i - 1;
+		do
+		{
+			marcador = 0;
+			if (strcmp(paciente[j].nome, aux.nome) > 0)
+			{
+				paciente[j + 1] = paciente[j];
+				j--;
+				marcador = 1;
+			}
+			if (j < 0)
+				marcador = 0;
+		} while (marcador);
+		paciente[j + 1] = aux;
+	}
+
+}
 void imprimirPaciente(Pct paciente) {
 	if (paciente.codigo > 0)
 	{
@@ -1205,6 +1231,7 @@ void listarExame(Exm* exame, int contExame) {
 	for (i = 0; i < contExame; i++) {
 		if (exame[i].codigo != 0)
 		{
+			ordernarExamePorUnidade(exame, contExame);
 			imprimirExame(exame[i]);
 		}
 	}
@@ -1212,6 +1239,28 @@ void listarExame(Exm* exame, int contExame) {
 	system("cls");
 }
 
+void ordernarExamePorUnidade(Exm* exame, int contExame) {
+	int i, j, marcador;
+	Exm aux;
+	for (i = 1; i < contExame; i++)//Laço que ordena por ano
+	{
+		aux = exame[i];
+		j = i - 1;
+		do
+		{
+			marcador = 0;
+			if (exame[j].unidadeDoExame.codigo > aux.unidadeDoExame.codigo)
+			{
+				exame[j + 1] = exame[j];
+				j--;
+				marcador = 1;
+			}if (j < 0)
+				marcador = 0;
+		} while (marcador);
+		exame[j + 1] = aux;
+	}
+}
+//Função que imprime os dados de exame
 void imprimirExame(Exm exame) {
 	if (exame.codigo > 0)
 	{
@@ -1672,6 +1721,7 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 
 }
 
+//Função que obtem a data de hoje
 void obterData(Agd* agendamento) {
 	time_t t = time(NULL);
 
@@ -1712,6 +1762,7 @@ void listarAgendamentoDeUmPaciente(Agd* agendamento, int contAgendamento) {
 	system("cls");
 }
 
+//Função que faz impressão dos dados
 void imprimirAgendamento(Agd agendamento) {
 	int i;
 
@@ -1729,6 +1780,7 @@ void imprimirAgendamento(Agd agendamento) {
 
 }
 
+//Função que ordena os agendamentos por data
 void ordernarAgendamentoPorData(Agd* agendamento, int contAgendamento) {
 	int i, j, marcador;
 	Agd aux;
@@ -1826,7 +1878,7 @@ void ListarAgendamentoDeUmDia(Agd* agendamento, int contAgendamento) {
 	mes = strtol(m, NULL, 10); //Faz a conversão de alfabetico para inteiro
 	ano = strtol(a, NULL, 10); //Faz a conversão de alfabetico para inteiro
 
-	ordenarPorNomeCliente(agendamento, contAgendamento);//Função que ordena os agendamentos por nome dos pacientes
+	ordenarPorNomePaciente(agendamento, contAgendamento);//Função que ordena os agendamentos por nome dos pacientes
 
 	for (i = 0; i < contAgendamento; i++)
 	{
@@ -1844,7 +1896,8 @@ void ListarAgendamentoDeUmDia(Agd* agendamento, int contAgendamento) {
 	system("cls");
 }
 
-void ordenarPorNomeCliente(Agd* agendamento, int contAgendamento) {
+//Função que ordena os agendamentos por Nome
+void ordenarPorNomePaciente(Agd* agendamento, int contAgendamento) {
 	int i, j, marcador;
 	Agd aux;
 
@@ -1988,6 +2041,7 @@ void listarFuncionario(Fnc* funcionario, int contFuncionario) {
 	system("cls");
 }
 
+//Função que faz impressão dos dados
 void imprimirFuncionario(Fnc funcionario) {
 	if (funcionario.codigo > 0)
 	{
@@ -2000,6 +2054,7 @@ void imprimirFuncionario(Fnc funcionario) {
 
 }
 
+//Função que busca funcioanrio por nome ou codigo
 void buscarFuncionario(Fnc* funcionario, int contFuncionario) {
 	printf("\n____________________________________________\n");
 	printf("|         busca de Funcionarios	           |");
@@ -2030,6 +2085,7 @@ void buscarFuncionario(Fnc* funcionario, int contFuncionario) {
 	system("cls");
 }
 
+//Função que atualiza os dados do funcionario
 void AtualizarFuncionario(Fnc* funcionario, int contFuncionario, int identificador) {
 	int codigo, i, marcador = 0;
 	char aux[50];
@@ -2141,6 +2197,7 @@ void RelatorioDePacientesPorUnidade(Pct* paciente, Uni* unidade, int contPacient
 	system("cls");
 	return;
 }
+
 void RelatorioDeFaturamentoTotalPorUnidade(Pct* paciente, Uni* unidade, Exm* exame, Agd* agendamento, int contPaciente, int contUnidade, int contAgendamento) {
 	int i;
 	float totalUnidade1 = 0, totalUnidade2 = 0, totalUnidade3 = 0, total = 0;
