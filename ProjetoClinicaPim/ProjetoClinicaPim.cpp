@@ -40,7 +40,6 @@ typedef struct {
 }Exm;
 
 typedef struct {
-	int codigo;
 	int dia;
 	int mes;
 	int ano;
@@ -113,6 +112,8 @@ void ordenarPorNomePaciente(Agd*, int);
 void ListarAgendamentoDeUmDia(Agd*, int);
 void AtualizarAgendamento(Agd*, int);
 void imprimirAgendamento(Agd);
+void CancelarAgendamento(Agd*, Pct*, Exm*, Uni*, int*, int, int, int, int);
+
 
 void gerenciaDeRelatorio(Pct*, Uni*, Fnc*, Exm*, Agd*, int, int, int);
 void RelatorioDePacientesPorUnidade(Pct*, Uni*, int, int);
@@ -584,7 +585,6 @@ void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User
 	agendamento[8].horaMarcado = 13;
 }
 
-
 void menu() {
 	printf("\n____________________________________________\n");
 	printf("|         Clinica NoMercy	           |");
@@ -814,6 +814,7 @@ Pct cadastrarPaciente(Pct* paciente, Uni* unidade, int* contPaciente, int identi
 	}
 	return;
 }
+
 //Função que lista um paciente selecionado;
 void listarPaciente(Pct* paciente, int contPaciente) {
 	printf("\n____________________________________________\n");
@@ -838,6 +839,7 @@ void listarPaciente(Pct* paciente, int contPaciente) {
 	system("pause");
 	system("cls");
 }
+
 void ordenarPacientePorNome(Pct* paciente, int contPaciente) {
 	int i, j, marcador;
 	Pct aux;
@@ -862,6 +864,8 @@ void ordenarPacientePorNome(Pct* paciente, int contPaciente) {
 	}
 
 }
+
+//Função que imprime os pacientes
 void imprimirPaciente(Pct paciente) {
 	if (paciente.codigo > 0)
 	{
@@ -1260,6 +1264,7 @@ void ordernarExamePorUnidade(Exm* exame, int contExame) {
 		exame[j + 1] = aux;
 	}
 }
+
 //Função que imprime os dados de exame
 void imprimirExame(Exm exame) {
 	if (exame.codigo > 0)
@@ -1397,7 +1402,7 @@ void  gerenciaDeAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* un
 		printf("	1 - Cadastro de Agendamento\n");
 		printf("	2 - Listar todos os agendamentos de um paciente\n");
 		printf("	3 - Listar todos os pedidos de um dia especifico\n");
-		printf("	4 - Atualizar Pacientes Cadastrado\n");
+		printf("	4 - Cancelar Agendamento Cadastrado\n");
 		printf("	0 - Voltar ao menu principal\n");
 		printf("Digite um comando para prosseguir: ");
 		scanf("%d", &opcao);
@@ -1417,9 +1422,9 @@ void  gerenciaDeAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* un
 		case 3:
 			ListarAgendamentoDeUmDia(agendamento, *contAgendamento);
 			break;
-			/*case 4:
-				AtualizarAgendamento(paciente, *contAgendamento);
-				break;*/
+		case 4:
+			CancelarAgendamento(agendamento, paciente, exame, unidade, contAgendamento, contPaciente, contExame, contUnidade, identificador);
+			break;
 		default:
 			printf("	!!OPCAO INVALIDA!!\nDigite novamente outra opcao\n");
 			system("pause");
@@ -1441,13 +1446,18 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 	printf("\n____________________________________________\n");
 	printf("|         Cadastro de Agendamento	   |");
 	printf("\n|__________________________________________|\n\n");
-	printf("	Digite o codigo ou o RG que esta fazendo o agendamento: ");
+	printf("	Digite o codigo ou o RG que esta fazendo o agendamento: (Digite 0 Pra sair) ");
 	scanf(" %[^\n]s", nomePaciente);
 
 	codigoPaciente = strtol(nomePaciente, NULL, 10); //Faz a conversão de alfabetico para inteiro
 
 	for (x = 0; x < contPaciente; x++)
 	{
+		if (codigoPaciente == 0)
+		{
+			system("cls");
+			return;
+		}
 		if (codigoPaciente == paciente[x].codigo || paciente[x].rg == codigoPaciente)
 		{
 			printf("	O paciente eh: %s\n", paciente[x].nome);
@@ -1921,6 +1931,229 @@ void ordenarPorNomePaciente(Agd* agendamento, int contAgendamento) {
 	}
 
 }
+
+void CancelarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unidade, int* contAgendamento, int contPaciente, int contExame, int contUnidade, int identificador) {
+	char nomePaciente[50];
+	int codigoPaciente, unidadeParaCadastro = 0, marcador = 0;
+	int codigoExameParaCadastro;
+	int  x, y, j, dia, mes, ano;
+	char aux[50];
+
+	printf("\n____________________________________________\n");
+	printf("|         Cancelamento de Agendamento	   |");
+	printf("\n|__________________________________________|\n\n");
+	printf("	Digite o codigo ou o RG que esta fazendo o cancelamento: (Digite 0 para sair) ");
+	scanf(" %[^\n]s", nomePaciente);
+
+	codigoPaciente = strtol(nomePaciente, NULL, 10); //Faz a conversão de alfabetico para inteiro
+	for (x = 0; x < contPaciente; x++)
+	{
+		if (codigoPaciente == 0)
+		{
+			system("cls");
+			return;
+		}
+		if (codigoPaciente == paciente[x].codigo || paciente[x].rg == codigoPaciente)
+		{
+			printf("	O paciente eh: %s\n", paciente[x].nome);
+			marcador = 1;
+			break;
+		}
+	}
+	if (!marcador && strlen(nomePaciente) != 0)
+	{
+		printf("\n		!!ERRO\n	PACIENTE NAO ENCONTRADO\n");
+		system("pause");
+		system("cls");
+		return;
+	}
+	do
+	{
+		marcador = 0;
+		printf("\n	Digite o codigo da unidade em que foi agendado:(Digite 0 para sair) ");
+		scanf(" %10s", &aux);
+		unidadeParaCadastro = strtol(aux, NULL, 10); //Faz a conversão de alfabetico para inteiro
+
+		if (unidadeParaCadastro == 0)
+		{
+			system("cls");
+			return;
+		}
+		if (unidadeParaCadastro == agendamento[x].UnidadeParaAgendar.codigo)
+		{
+			printf("	A Unidade eh: %s\n", unidade[x].nome);
+			marcador = 1;
+			break;
+		}
+
+		if (identificador == 0)
+		{
+			if (unidadeParaCadastro == 0)
+			{
+				printf("\n		!!OPCAO INVALIDA!!\n UNIDADE NAO ENCONTRADA\n");
+				system("pause");
+				system("cls");
+				printf("\n____________________________________________\n");
+				printf("|         Cadastro de Pacientes	           |");
+				printf("\n|__________________________________________|\n");
+				continue;
+			}
+		}
+		else
+		{
+			if (unidadeParaCadastro == 0 && strlen(aux) > 0)
+			{
+				printf("\n		!!OPCAO INVALIDA!!\n	Apenas o codigo da unidade\n");
+				printf("\n____________________________________________\n");
+				printf("|         Cadastro de Pacientes	           |");
+				printf("\n|__________________________________________|\n");
+				system("pause");
+				system("cls");
+				continue;
+			}
+		}
+		if (!marcador)
+		{
+			printf("\n		!!ERRO\n	UNIDADE NAO ENCONTRADA\n");
+			system("pause");
+			system("cls");
+			continue;
+		}
+		break;
+	} while (1);
+	do
+	{
+		marcador = 0;
+
+		printf("\n	Digite o codigo ou nome do exame para agendar: (Digite 0 para Sair) ");
+		scanf(" %[^\n]s", &aux);
+		codigoExameParaCadastro = strtol(aux, NULL, 10); //Faz a conversão de alfabetico para inteiro
+
+		if (codigoExameParaCadastro == agendamento[x].examePedido.codigo && unidadeParaCadastro == agendamento[x].UnidadeParaAgendar.codigo ||
+			unidadeParaCadastro == agendamento[x].UnidadeParaAgendar.codigo && strcmp(agendamento[x].examePedido.nome, aux) == 0)
+		{
+			printf("	O exame que sera cancelado eh: %s\n", agendamento[x].examePedido.nome);
+			marcador = 1;
+			break;
+		}
+		if (codigoExameParaCadastro == 0)
+		{
+			system("cls");
+			return;
+		}
+		if (!marcador)
+		{
+			printf("\n		!!ERRO!!\n		EXAME NAO ENCONTRADO\n");
+			system("pause");
+			system("cls");
+			continue;
+		}
+
+		break;
+	} while (1);
+
+	do
+	{
+		marcador = 0;
+		printf("\n	Dia do agendamento:(Digite 0 para sair) ");
+		scanf(" %10s", aux);
+		dia = strtol(aux, NULL, 10); //Faz a conversão de alfabetico para inteiro
+		if (dia == 0)
+		{
+			system("cls");
+			return;
+		}
+		if (dia == agendamento[x].diaMarcado)
+		{
+			printf("	Dia eh:%d", agendamento[x].diaMarcado);
+			marcador = 1;
+		}
+		if (!marcador)
+		{
+			printf("\n		DIA INVALIDO\n");
+			system("pause");
+			system("cls");
+			printf("\n____________________________________________\n");
+			printf("|         Cadastro de Agendamento	   |");
+			printf("\n|__________________________________________|\n\n");
+			continue;
+		}
+		break;
+	} while (1);
+
+	do
+	{
+		marcador = 0;
+		printf("\n	mes do agendamento:(Digite 0 para sair) ");
+		scanf(" %10s", aux);
+		mes = strtol(aux, NULL, 10); //Faz a conversão de alfabetico para inteiro
+		if (mes == 0)
+		{
+			system("cls");
+			return;
+		}
+		if (mes == agendamento[x].mesMarcado)
+		{
+			printf("	Mes eh:%d", agendamento[x].mesMarcado);
+			marcador = 1;
+		}
+		if (!marcador)
+		{
+			printf("\n		MES INVALIDO\n");
+			system("pause");
+			system("cls");
+			printf("\n____________________________________________\n");
+			printf("|         Cadastro de Agendamento	   |");
+			printf("\n|__________________________________________|\n\n");
+			continue;
+		}
+		break;
+	} while (1);
+
+	do
+	{
+		marcador = 0;
+		printf("\n	Dia do agendamento:(Digite 0 para sair) ");
+		scanf(" %10s", aux);
+		ano = strtol(aux, NULL, 10); //Faz a conversão de alfabetico para inteiro
+		if (ano == 0)
+		{
+			system("cls");
+			return;
+		}
+		if (ano == agendamento[x].anoMarcado)
+		{
+			printf("	ano eh:%d", agendamento[x].anoMarcado);
+			marcador = 1;
+		}
+		if (!marcador)
+		{
+			printf("\n		ANO INVALIDO\n");
+			system("pause");
+			system("cls");
+			printf("\n____________________________________________\n");
+			printf("|         Cadastro de Agendamento	   |");
+			printf("\n|__________________________________________|\n\n");
+			continue;
+		}
+		break;
+	} while (1);
+	agendamento[x].pacienteQuePediu.codigo = 0;
+	agendamento[x].UnidadeParaAgendar.codigo = 0;
+	agendamento[x].examePedido.codigo = 0;
+	agendamento[x].dia = 0;
+	agendamento[x].mes = 0;
+	agendamento[x].ano = 0;
+	agendamento[x].diaMarcado = 00;
+	agendamento[x].mesMarcado = 00;
+	agendamento[x].anoMarcado = 0000;
+	agendamento[x].horaMarcado = 00;
+	*contAgendamento -= 1;
+	printf("\n		CANCELADO COM SUCESSO\n");
+	system("pause");
+	system("cls");
+}
+
 
 // Codigo da função que gerencia os funcionarios
 void gerenciaDeFuncionario(Fnc* funcionario, Uni* unidade, int* contFuncionario, FILE* arquivo) {
