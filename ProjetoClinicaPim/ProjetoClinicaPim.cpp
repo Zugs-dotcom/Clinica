@@ -118,6 +118,8 @@ void CancelarAgendamento(Agd*, Pct*, Exm*, Uni*, int*, int, int, int, int);
 void gerenciaDeRelatorio(Pct*, Uni*, Fnc*, Exm*, Agd*, int, int, int);
 void RelatorioDePacientesPorUnidade(Pct*, Uni*, int, int);
 void RelatorioDeFaturamentoTotalPorUnidade(Pct*, Uni*, Exm*, Agd*, int, int, int);
+void RelatorioDeFaturamentoDiaroMensalPorUnidade(Pct*, Uni*, Exm*, Agd*, int, int, int);
+
 
 
 void inicializar(Pct*, Exm*, Fnc*, Uni*, User*, Agd*);
@@ -476,7 +478,7 @@ void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User
 	agendamento[0].mes = 11;
 	agendamento[0].ano = 2020;
 	agendamento[0].diaMarcado = 10;
-	agendamento[0].mesMarcado = 11;
+	agendamento[0].mesMarcado = 10;
 	agendamento[0].anoMarcado = 2020;
 	agendamento[0].horaMarcado = 12;
 
@@ -489,7 +491,7 @@ void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User
 	agendamento[1].mes = 11;
 	agendamento[1].ano = 2020;
 	agendamento[1].diaMarcado = 10;
-	agendamento[1].mesMarcado = 11;
+	agendamento[1].mesMarcado = 10;
 	agendamento[1].anoMarcado = 2020;
 	agendamento[1].horaMarcado = 13;
 
@@ -502,85 +504,85 @@ void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User
 	agendamento[2].mes = 11;
 	agendamento[2].ano = 2020;
 	agendamento[2].diaMarcado = 10;
-	agendamento[2].mesMarcado = 11;
+	agendamento[2].mesMarcado = 10;
 	agendamento[2].anoMarcado = 2020;
 	agendamento[2].horaMarcado = 13;
 
 	//Inclui dados do agendamento 4
 	agendamento[3].pacienteQuePediu = paciente[3];
-	agendamento[3].UnidadeParaAgendar = unidade[1];
+	agendamento[3].UnidadeParaAgendar = unidade[0];
 	agendamento[3].qtd = 1;
-	agendamento[3].examePedido = exame[3];
+	agendamento[3].examePedido = exame[0];
 	agendamento[3].dia = 9;
 	agendamento[3].mes = 11;
 	agendamento[3].ano = 2020;
 	agendamento[3].diaMarcado = 10;
-	agendamento[3].mesMarcado = 11;
+	agendamento[3].mesMarcado = 10;
 	agendamento[3].anoMarcado = 2020;
 	agendamento[3].horaMarcado = 12;
 
 	//Inclui dados do agendamento 5
 	agendamento[4].pacienteQuePediu = paciente[4];
-	agendamento[4].UnidadeParaAgendar = unidade[1];
+	agendamento[4].UnidadeParaAgendar = unidade[0];
 	agendamento[4].qtd = 1;
 	agendamento[4].examePedido = exame[4];
 	agendamento[4].dia = 9;
 	agendamento[4].mes = 11;
 	agendamento[4].ano = 2020;
-	agendamento[4].diaMarcado = 10;
-	agendamento[4].mesMarcado = 11;
+	agendamento[4].diaMarcado = 11;
+	agendamento[4].mesMarcado = 10;
 	agendamento[4].anoMarcado = 2020;
 	agendamento[4].horaMarcado = 13;
 
 	//Inclui dados do agendamento 6
 	agendamento[5].pacienteQuePediu = paciente[5];
-	agendamento[5].UnidadeParaAgendar = unidade[1];
+	agendamento[5].UnidadeParaAgendar = unidade[0];
 	agendamento[5].qtd = 1;
 	agendamento[5].examePedido = exame[5];
 	agendamento[5].dia = 9;
 	agendamento[5].mes = 11;
 	agendamento[5].ano = 2020;
-	agendamento[5].diaMarcado = 10;
-	agendamento[5].mesMarcado = 11;
+	agendamento[5].diaMarcado = 11;
+	agendamento[5].mesMarcado = 10;
 	agendamento[5].anoMarcado = 2020;
 	agendamento[5].horaMarcado = 13;
 
 	//Inclui dados do agendamento 7
 	agendamento[6].pacienteQuePediu = paciente[6];
-	agendamento[6].UnidadeParaAgendar = unidade[2];
+	agendamento[6].UnidadeParaAgendar = unidade[0];
 	agendamento[6].qtd = 1;
 	agendamento[6].examePedido = exame[6];
 	agendamento[6].dia = 9;
 	agendamento[6].mes = 11;
 	agendamento[6].ano = 2020;
-	agendamento[6].diaMarcado = 10;
-	agendamento[6].mesMarcado = 11;
+	agendamento[6].diaMarcado = 12;
+	agendamento[6].mesMarcado = 12;
 	agendamento[6].anoMarcado = 2020;
 	agendamento[6].horaMarcado = 12;
 
 	//Inclui dados do agendamento 8
 	agendamento[7].pacienteQuePediu = paciente[7];
-	agendamento[7].UnidadeParaAgendar = unidade[2];
+	agendamento[7].UnidadeParaAgendar = unidade[0];
 	agendamento[7].qtd = 1;
 	agendamento[7].examePedido = exame[7];
 	agendamento[7].dia = 9;
 	agendamento[7].mes = 11;
 	agendamento[7].ano = 2020;
-	agendamento[7].diaMarcado = 10;
-	agendamento[7].mesMarcado = 11;
+	agendamento[7].diaMarcado = 12;
+	agendamento[7].mesMarcado = 12;
 	agendamento[7].anoMarcado = 2020;
 	agendamento[7].horaMarcado = 13;
 
 	//Inclui dados do agendamento 9
 	agendamento[8].pacienteQuePediu = paciente[8];
-	agendamento[8].UnidadeParaAgendar = unidade[2];
+	agendamento[8].UnidadeParaAgendar = unidade[0];
 	agendamento[8].qtd = 1;
 	agendamento[8].examePedido = exame[8];
 	agendamento[8].dia = 9;
 	agendamento[8].mes = 11;
 	agendamento[8].ano = 2020;
-	agendamento[8].diaMarcado = 10;
-	agendamento[8].mesMarcado = 11;
+	agendamento[8].diaMarcado = 12;
+	agendamento[8].mesMarcado = 12;
 	agendamento[8].anoMarcado = 2020;
 	agendamento[8].horaMarcado = 13;
 }
@@ -1870,10 +1872,10 @@ void ordernarAgendamentoPorData(Agd* agendamento, int contAgendamento) {
 //Função que lista os agendamentos de um certo dia
 void ListarAgendamentoDeUmDia(Agd* agendamento, int contAgendamento) {
 	int i, dia, mes, ano, marcador = 0;
-	char d[3] = "10";
-	char m[3] = "11";
-	char a[5] = "2020";
-	/*
+	char d[3];
+	char m[3];
+	char a[5];
+
 	printf("Para visualizar todos os pedidos de um determinado dia entre com a data OBS:(apenas numeros) \n");
 	printf("	Dia: ");
 	scanf(" %s", d);
@@ -1883,7 +1885,7 @@ void ListarAgendamentoDeUmDia(Agd* agendamento, int contAgendamento) {
 	scanf(" %s", a);
 
 	system("cls");
-	*/
+
 	dia = strtol(d, NULL, 10); //Faz a conversão de alfabetico para inteiro
 	mes = strtol(m, NULL, 10); //Faz a conversão de alfabetico para inteiro
 	ano = strtol(a, NULL, 10); //Faz a conversão de alfabetico para inteiro
@@ -2154,7 +2156,6 @@ void CancelarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unida
 	system("cls");
 }
 
-
 // Codigo da função que gerencia os funcionarios
 void gerenciaDeFuncionario(Fnc* funcionario, Uni* unidade, int* contFuncionario, FILE* arquivo) {
 	int opcao;
@@ -2381,6 +2382,7 @@ void gerenciaDeRelatorio(Pct* paciente, Uni* unidade, Fnc* funcionario, Exm* exa
 		printf("\n|__________________________________________|\n\n");
 		printf("	1 - Relatorio de pacientes por unidade: \n");
 		printf("	2 - Relatorio de faturamento por unidade: \n");
+		printf("	3 - Relatorio de faturamento Diario/Mensal por unidade: \n");
 		printf("	0 - Voltar ao menu principal\n");
 		printf("	Digite um comando para prosseguir: ");
 		scanf("%d", &opcao);
@@ -2395,6 +2397,9 @@ void gerenciaDeRelatorio(Pct* paciente, Uni* unidade, Fnc* funcionario, Exm* exa
 			break;
 		case 2:
 			RelatorioDeFaturamentoTotalPorUnidade(paciente, unidade, exame, agendamento, contPaciente, contUnidade, contAgendamento);
+			break;
+		case 3:
+			RelatorioDeFaturamentoDiaroMensalPorUnidade(paciente, unidade, exame, agendamento, contPaciente, contUnidade, contAgendamento);
 			break;
 		default:
 			printf("	!!OPCAO INVALIDA!!\n	Digite novamente outra opcao\n");
@@ -2466,4 +2471,145 @@ void RelatorioDeFaturamentoTotalPorUnidade(Pct* paciente, Uni* unidade, Exm* exa
 	system("Pause");
 	system("cls");
 	return;
+}
+
+void RelatorioDeFaturamentoDiaroMensalPorUnidade(Pct* paciente, Uni* unidade, Exm* exame, Agd* agendamento, int contPaciente, int contUnidade, int contAgendamento) {
+	int i, dia, mes, ano, resp, uni = 0;
+	float totalUnidade = 0, totalUnidadeDia = 0, total = 0;
+
+	printf("\n____________________________________________\n");
+	printf("|  Relatorio de Faturamento Diario/Mensal por unidade|");
+	printf("\n|__________________________________________|\n\n");
+
+	do
+	{
+		printf("	Digite a unidade para consulta de faturamento:(Digite 0  para sair) ");
+		scanf(" %d", &uni);
+		if (uni <= 0)
+		{
+			return;
+			system("cls");
+		}
+		else
+		{
+			if (unidade[uni - 1].codigo == uni)
+			{
+				printf("	Unidade eh: %s\n", unidade[uni - 1].nome);
+				break;
+			}
+			else
+			{
+				printf("\n		!!UNIDADE INVALIDA!!\n");
+				system("pause");
+				system("cls");
+				continue;
+			}
+		}
+		break;
+	} while (1);
+
+
+	do
+	{
+		printf("	Digite o ano para consulta de faturamento:(Digite 0  para sair) ");
+		scanf(" %d", &ano);
+		if (ano <= 0)
+		{
+			return;
+			system("cls");
+		}
+		else
+		{
+			if (ano >= 2020)
+			{
+				printf("	Ano eh:%d\n", ano);
+				break;
+			}
+			else
+			{
+				printf("\n		!!ANO INVALIDA!!\n");
+				system("pause");
+				system("cls");
+				continue;
+			}
+		}
+		break;
+	} while (1);
+
+	do
+	{
+		printf("	Digite o mes para consulta de faturamento:(Digite 0  para sair) ");
+		scanf(" %d", &mes);
+		if (mes <= 0)
+		{
+			return;
+			system("cls");
+		}
+		else
+		{
+			if (mes > 0 && mes <= 12)
+			{
+				printf("	Ano eh:%d\n", ano);
+				break;
+			}
+			else
+			{
+				printf("\n		!!MES INVALIDA!!\n");
+				system("pause");
+				system("cls");
+				continue;
+			}
+		}
+		break;
+	} while (1);
+	for (i = 0; i < contAgendamento; i++)
+	{
+		if (agendamento[i].UnidadeParaAgendar.codigo == uni && agendamento[i].mesMarcado == mes && agendamento[i].anoMarcado == ano)
+		{
+			totalUnidade += agendamento[i].examePedido.valor;
+		}
+	}
+	printf("	A unidade:%s \n	Faturou: R$%.2f\n", unidade[uni - 1].nome, totalUnidade);
+	printf("	===============================\n");
+
+	do
+	{
+		printf("	Deseja ver o relatorio de faturamento de alguem dia especifico?(Digite o dia ou 0 para sair) ");
+		scanf(" %d", &dia);
+		if (dia == 0)
+		{
+			system("cls");
+			return;
+		}
+		else
+		{
+			if (dia > 1 && dia < 32)
+			{
+				printf("	dia eh:%d\n", dia);
+				break;
+			}
+			else
+			{
+				printf("\n		!!DIA INVALIDA!!\n");
+				system("pause");
+				system("cls");
+				continue;
+			}
+		}
+		break;
+	} while (1);
+
+	for (i = 0; i < contAgendamento; i++)
+	{
+		if (agendamento[i].UnidadeParaAgendar.codigo == uni && agendamento[i].mesMarcado == mes && agendamento[i].anoMarcado == ano && agendamento[i].diaMarcado == dia)
+		{
+			totalUnidadeDia += agendamento[i].examePedido.valor;
+		}
+	}
+	printf("	A unidade:%s \n	Faturou: R$%.2f\n", unidade[uni - 1].nome, totalUnidadeDia);
+	printf("	===============================\n");
+
+	system("pause");
+	system("cls");
+
 }
