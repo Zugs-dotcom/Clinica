@@ -484,7 +484,7 @@ void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User
 
 	//Inclui dados do agendamento 2
 	agendamento[1].pacienteQuePediu = paciente[1];
-	agendamento[1].UnidadeParaAgendar = unidade[0];
+	agendamento[1].UnidadeParaAgendar = unidade[1];
 	agendamento[1].qtd = 1;
 	agendamento[1].examePedido = exame[1];
 	agendamento[1].dia = 9;
@@ -497,7 +497,7 @@ void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User
 
 	//Inclui dados do agendamento 3
 	agendamento[2].pacienteQuePediu = paciente[2];
-	agendamento[2].UnidadeParaAgendar = unidade[0];
+	agendamento[2].UnidadeParaAgendar = unidade[2];
 	agendamento[2].qtd = 1;
 	agendamento[2].examePedido = exame[2];
 	agendamento[2].dia = 9;
@@ -510,7 +510,7 @@ void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User
 
 	//Inclui dados do agendamento 4
 	agendamento[3].pacienteQuePediu = paciente[3];
-	agendamento[3].UnidadeParaAgendar = unidade[0];
+	agendamento[3].UnidadeParaAgendar = unidade[2];
 	agendamento[3].qtd = 1;
 	agendamento[3].examePedido = exame[0];
 	agendamento[3].dia = 9;
@@ -523,7 +523,7 @@ void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User
 
 	//Inclui dados do agendamento 5
 	agendamento[4].pacienteQuePediu = paciente[4];
-	agendamento[4].UnidadeParaAgendar = unidade[0];
+	agendamento[4].UnidadeParaAgendar = unidade[1];
 	agendamento[4].qtd = 1;
 	agendamento[4].examePedido = exame[4];
 	agendamento[4].dia = 9;
@@ -549,7 +549,7 @@ void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User
 
 	//Inclui dados do agendamento 7
 	agendamento[6].pacienteQuePediu = paciente[6];
-	agendamento[6].UnidadeParaAgendar = unidade[0];
+	agendamento[6].UnidadeParaAgendar = unidade[2];
 	agendamento[6].qtd = 1;
 	agendamento[6].examePedido = exame[6];
 	agendamento[6].dia = 9;
@@ -562,7 +562,7 @@ void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User
 
 	//Inclui dados do agendamento 8
 	agendamento[7].pacienteQuePediu = paciente[7];
-	agendamento[7].UnidadeParaAgendar = unidade[0];
+	agendamento[7].UnidadeParaAgendar = unidade[2];
 	agendamento[7].qtd = 1;
 	agendamento[7].examePedido = exame[7];
 	agendamento[7].dia = 9;
@@ -575,7 +575,7 @@ void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User
 
 	//Inclui dados do agendamento 9
 	agendamento[8].pacienteQuePediu = paciente[8];
-	agendamento[8].UnidadeParaAgendar = unidade[0];
+	agendamento[8].UnidadeParaAgendar = unidade[1];
 	agendamento[8].qtd = 1;
 	agendamento[8].examePedido = exame[8];
 	agendamento[8].dia = 9;
@@ -588,9 +588,9 @@ void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User
 }
 
 void menu() {
-	printf("\n____________________________________________\n");
-	printf("|         Clinica NoMercy	           |");
-	printf("\n|__________________________________________|\n\n");
+	printf("\n_________________________________________________________________________\n");
+	printf("|			Clinica NoMercy					 |");
+	printf("\n|________________________________________________________________________|\n\n");
 	printf("	1 - Gerencia de Pacientes\n");
 	printf("	2 - Gerencia de Exame\n");
 	printf("	3 - Gerencia de Agendamentos\n");
@@ -609,9 +609,9 @@ void gerenciaDePaciente(Pct* paciente, Uni* unidade, int* contPaciente, FILE* ar
 	do
 	{
 
-		printf("\n____________________________________________\n");
-		printf("|         Gerencia de Pacientes	           |");
-		printf("\n|__________________________________________|\n\n");
+		printf("\n_________________________________________________________________________\n");
+		printf("|			Gerencia de Pacientes				 |");
+		printf("\n|________________________________________________________________________|\n\n");
 		printf("	1 - Cadastro de Pacientes\n");
 		printf("	2 - Listar Pacientes Cadastrado\n");
 		printf("	3 - Buscar Pacientes Cadastrado\n");
@@ -652,9 +652,9 @@ void gerenciaDePaciente(Pct* paciente, Uni* unidade, int* contPaciente, FILE* ar
 Pct cadastrarPaciente(Pct* paciente, Uni* unidade, int* contPaciente, int identificador) {
 	char aux[50];
 	int teste;
-	printf("\n____________________________________________\n");
-	printf("|         Cadastro de Pacientes	           |");
-	printf("\n|__________________________________________|\n");
+	printf("\n_________________________________________________________________________\n");
+	printf("|			Cadastrar Pacientes				 |");
+	printf("\n|________________________________________________________________________|\n\n");
 
 	for (int i = 0; i < contPaciente; i++)
 	{
@@ -677,9 +677,9 @@ Pct cadastrarPaciente(Pct* paciente, Uni* unidade, int* contPaciente, int identi
 					printf("\n	!!OPCAO INVALIDA!!\n	Unidade nao encontrada\n");
 					system("pause");
 					system("cls");
-					printf("\n____________________________________________\n");
-					printf("|         Cadastro de Paciente	           |");
-					printf("\n|__________________________________________|\n");
+					printf("\n_________________________________________________________________________\n");
+					printf("|			Cadastrar Pacientes				 |");
+					printf("\n|________________________________________________________________________|\n\n");
 					continue;
 				}
 				break;
@@ -705,9 +705,9 @@ Pct cadastrarPaciente(Pct* paciente, Uni* unidade, int* contPaciente, int identi
 						printf("\n		!!OPCAO INVALIDA!!\n	Apenas numeros para o codigo\n");
 						system("pause");
 						system("cls");
-						printf("\n____________________________________________\n");
-						printf("|         Cadastro de Pacientes	           |");
-						printf("\n|__________________________________________|\n");
+						printf("\n_________________________________________________________________________\n");
+						printf("|			Cadastrar Pacientes				 |");
+						printf("\n|________________________________________________________________________|\n\n");
 						continue;
 					}
 				}
@@ -716,9 +716,9 @@ Pct cadastrarPaciente(Pct* paciente, Uni* unidade, int* contPaciente, int identi
 					if (paciente[i].rg == 0 && strlen(aux) > 0)
 					{
 						printf("\n		!!OPCAO INVALIDA!!\n	Apenas numeros para o codigo\n");
-						printf("\n____________________________________________\n");
-						printf("|         Cadastro de Pacientes	           |");
-						printf("\n|__________________________________________|\n");
+						printf("\n_________________________________________________________________________\n");
+						printf("|			Cadastrar Pacientes				 |");
+						printf("\n|________________________________________________________________________|\n\n");
 						system("pause");
 						system("cls");
 						continue;
@@ -739,9 +739,9 @@ Pct cadastrarPaciente(Pct* paciente, Uni* unidade, int* contPaciente, int identi
 						printf("\n		!!OPCAO INVALIDA!!\n	Apenas numeros para o codigo\n");
 						system("pause");
 						system("cls");
-						printf("\n____________________________________________\n");
-						printf("|         Cadastro de Pacientes	           |");
-						printf("\n|__________________________________________|\n");
+						printf("\n_________________________________________________________________________\n");
+						printf("|			Cadastrar Pacientes				 |");
+						printf("\n|________________________________________________________________________|\n\n");
 						continue;
 					}
 				}
@@ -750,9 +750,9 @@ Pct cadastrarPaciente(Pct* paciente, Uni* unidade, int* contPaciente, int identi
 					if (paciente[i].telefone == 0 && strlen(aux) > 0)
 					{
 						printf("\n		!!OPCAO INVALIDA!!\n	Apenas numeros para o codigo\n");
-						printf("\n____________________________________________\n");
-						printf("|         Cadastro de Pacientes	           |");
-						printf("\n|__________________________________________|\n");
+						printf("\n_________________________________________________________________________\n");
+						printf("|			Cadastrar Pacientes				 |");
+						printf("\n|________________________________________________________________________|\n\n");
 						system("pause");
 						system("cls");
 						continue;
@@ -781,9 +781,9 @@ Pct cadastrarPaciente(Pct* paciente, Uni* unidade, int* contPaciente, int identi
 						printf("\n		!!OPCAO INVALIDA!!\n	Apenas numeros para o codigo\n");
 						system("pause");
 						system("cls");
-						printf("\n____________________________________________\n");
-						printf("|         Cadastro de Pacientes	           |");
-						printf("\n|__________________________________________|\n");
+						printf("\n_________________________________________________________________________\n");
+						printf("|			Cadastrar Pacientes				 |");
+						printf("\n|________________________________________________________________________|\n\n");
 						continue;
 					}
 				}
@@ -792,9 +792,9 @@ Pct cadastrarPaciente(Pct* paciente, Uni* unidade, int* contPaciente, int identi
 					if (paciente[i].endereco.cep == 0 && strlen(aux) > 0)
 					{
 						printf("\n		!!OPCAO INVALIDA!!\n	Apenas numeros para o codigo\n");
-						printf("\n____________________________________________\n");
-						printf("|         Cadastro de Pacientes	           |");
-						printf("\n|__________________________________________|\n");
+						printf("\n_________________________________________________________________________\n");
+						printf("|			Cadastrar Pacientes				 |");
+						printf("\n|________________________________________________________________________|\n\n");
 						system("pause");
 						system("cls");
 						continue;
@@ -819,9 +819,9 @@ Pct cadastrarPaciente(Pct* paciente, Uni* unidade, int* contPaciente, int identi
 
 //Função que lista um paciente selecionado;
 void listarPaciente(Pct* paciente, int contPaciente) {
-	printf("\n____________________________________________\n");
-	printf("|         lista de Pacientes	           |");
-	printf("\n|__________________________________________|\n");
+	printf("\n_________________________________________________________________________\n");
+	printf("|			Lista de Pacientes				 |");
+	printf("\n|________________________________________________________________________|\n\n");
 	int i;
 	if (contPaciente == 0)
 	{
@@ -888,18 +888,23 @@ void imprimirPaciente(Pct paciente) {
 
 //Função que busca um paciente pelo rg ou nome
 void buscarPaciente(Pct* paciente, int contPaciente) {
-	printf("\n____________________________________________\n");
-	printf("|         busca de Pacientes	           |");
-	printf("\n|__________________________________________|\n");
+	printf("\n_________________________________________________________________________\n");
+	printf("|			Busca de Paciente				 |");
+	printf("\n|________________________________________________________________________|\n\n");
 	int i, marcador = 0;
 	int rgPaciente;
 	char nomePaciente[50];
 
-	printf("	Digite o nome ou o rg do paciente que deseja buscar: ");
+	printf("	Digite o nome ou o rg do paciente que deseja buscar (Digite 0 para sair): ");
 	scanf(" %[^\n]s", nomePaciente);
 	printf("\n");
 	rgPaciente = strtol(nomePaciente, NULL, 10);
 
+	if (rgPaciente == 0)
+	{
+		system("cls");
+		return;
+	}
 	for (i = 0; i < contPaciente; i++)
 	{
 		if (paciente[i].rg == rgPaciente || strcmp(paciente[i].nome, nomePaciente) == 0)
@@ -923,9 +928,9 @@ void AtualizarPaciente(Pct* paciente, int contPaciente, int identificador) {
 	char rgPaciente[10];
 
 
-	printf("\n____________________________________________\n");
-	printf("|         Atualização de Pacientes	           |");
-	printf("\n|__________________________________________|\n");
+	printf("\n_________________________________________________________________________\n");
+	printf("|			Atualizacao de  Pacientes			 |");
+	printf("\n|________________________________________________________________________|\n\n");
 
 	do
 	{
@@ -976,9 +981,9 @@ void AtualizarPaciente(Pct* paciente, int contPaciente, int identificador) {
 					printf("\n		!!OPCAO INVALIDA!!\n	Apenas numeros para o codigo\n");
 					system("pause");
 					system("cls");
-					printf("\n____________________________________________\n");
-					printf("|         Cadastro de Pacientes	           |");
-					printf("\n|__________________________________________|\n");
+					printf("\n_________________________________________________________________________\n");
+					printf("|			Atualizacao de  Pacientes			 |");
+					printf("\n|________________________________________________________________________|\n\n");
 					continue;
 				}
 			}
@@ -987,11 +992,11 @@ void AtualizarPaciente(Pct* paciente, int contPaciente, int identificador) {
 				if (paciente[codigoPaciente - 1].rg == 0 && strlen(aux) > 0)
 				{
 					printf("\n		!!OPCAO INVALIDA!!\n	Apenas numeros para o codigo\n");
-					printf("\n____________________________________________\n");
-					printf("|         Cadastro de Pacientes	           |");
-					printf("\n|__________________________________________|\n");
 					system("pause");
 					system("cls");
+					printf("\n_________________________________________________________________________\n");
+					printf("|			Atualizacao de  Pacientes			 |");
+					printf("\n|________________________________________________________________________|\n\n");
 					continue;
 				}
 			}
@@ -1010,9 +1015,9 @@ void AtualizarPaciente(Pct* paciente, int contPaciente, int identificador) {
 					printf("\n		!!OPCAO INVALIDA!!\n	Apenas numeros para o codigo\n");
 					system("pause");
 					system("cls");
-					printf("\n____________________________________________\n");
-					printf("|         Cadastro de Pacientes	           |");
-					printf("\n|__________________________________________|\n");
+					printf("\n_________________________________________________________________________\n");
+					printf("|			Atualizacao de  Pacientes			 |");
+					printf("\n|________________________________________________________________________|\n\n");
 					continue;
 				}
 			}
@@ -1021,11 +1026,11 @@ void AtualizarPaciente(Pct* paciente, int contPaciente, int identificador) {
 				if (paciente[codigoPaciente - 1].telefone == 0 && strlen(aux) > 0)
 				{
 					printf("\n		!!OPCAO INVALIDA!!\n	Apenas numeros para o codigo\n");
-					printf("\n____________________________________________\n");
-					printf("|         Cadastro de Pacientes	           |");
-					printf("\n|__________________________________________|\n");
 					system("pause");
 					system("cls");
+					printf("\n_________________________________________________________________________\n");
+					printf("|			Atualizacao de  Pacientes			 |");
+					printf("\n|________________________________________________________________________|\n\n");
 					continue;
 				}
 			}
@@ -1052,9 +1057,9 @@ void AtualizarPaciente(Pct* paciente, int contPaciente, int identificador) {
 					printf("\n		!!OPCAO INVALIDA!!\n	Apenas numeros para o codigo\n");
 					system("pause");
 					system("cls");
-					printf("\n____________________________________________\n");
-					printf("|         Cadastro de Pacientes	           |");
-					printf("\n|__________________________________________|\n");
+					printf("\n_________________________________________________________________________\n");
+					printf("|			Atualizacao de  Pacientes			 |");
+					printf("\n|________________________________________________________________________|\n\n");
 					continue;
 				}
 			}
@@ -1063,11 +1068,11 @@ void AtualizarPaciente(Pct* paciente, int contPaciente, int identificador) {
 				if (paciente[codigoPaciente - 1].endereco.cep == 0 && strlen(aux) > 0)
 				{
 					printf("\n		!!OPCAO INVALIDA!!\n	Apenas numeros para o codigo\n");
-					printf("\n____________________________________________\n");
-					printf("|         Cadastro de Pacientes	           |");
-					printf("\n|__________________________________________|\n");
 					system("pause");
 					system("cls");
+					printf("\n_________________________________________________________________________\n");
+					printf("|			Atualizacao de  Pacientes			 |");
+					printf("\n|________________________________________________________________________|\n\n");
 					continue;
 				}
 			}
@@ -1095,9 +1100,9 @@ void gerenciaDeExame(Exm* exame, Uni* unidade, int* contExame, FILE* arquivo) {
 
 	do
 	{
-		printf("\n____________________________________________\n");
-		printf("|         Gerencia de Exames	           |");
-		printf("\n|__________________________________________|\n\n");
+		printf("\n_________________________________________________________________________\n");
+		printf("|			Gerencia de Exames				 |");
+		printf("\n|________________________________________________________________________|\n\n");
 		printf("	1 - Cadastro de Exames\n");
 		printf("	2 - Listar Exames Cadastrado\n");
 		printf("	3 - Buscar Exames Cadastrado\n");
@@ -1141,9 +1146,9 @@ void gerenciaDeExame(Exm* exame, Uni* unidade, int* contExame, FILE* arquivo) {
 Exm cadastrarExame(Exm* exame, Uni* unidade, int* contExame, int identificador) {
 	char aux[50];
 	int teste;
-	printf("\n____________________________________________\n");
-	printf("|         Cadastro de Exames	           |");
-	printf("\n|__________________________________________|\n");
+	printf("\n_________________________________________________________________________\n");
+	printf("|			Cadastrar de Exame				 |");
+	printf("\n|________________________________________________________________________|\n\n");
 
 	for (int i = 0; i < contExame; i++)
 	{
@@ -1166,9 +1171,9 @@ Exm cadastrarExame(Exm* exame, Uni* unidade, int* contExame, int identificador) 
 					printf("\n	!!OPCAO INVALIDA!!\n	Unidade nao encontrada\n");
 					system("pause");
 					system("cls");
-					printf("\n____________________________________________\n");
-					printf("|         Cadastro de Exames	           |");
-					printf("\n|__________________________________________|\n");
+					printf("\n_________________________________________________________________________\n");
+					printf("|			Cadastrar de Exame				 |");
+					printf("\n|________________________________________________________________________|\n\n");
 					continue;
 				}
 				break;
@@ -1191,9 +1196,9 @@ Exm cadastrarExame(Exm* exame, Uni* unidade, int* contExame, int identificador) 
 						printf("\n		!!OPCAO INVALIDA!!\n	Apenas numeros para o valor\n");
 						system("pause");
 						system("cls");
-						printf("\n____________________________________________\n");
-						printf("|         Cadastro de Exames	           |");
-						printf("\n|__________________________________________|\n");
+						printf("\n_________________________________________________________________________\n");
+						printf("|			Cadastrar de Exame				 |");
+						printf("\n|________________________________________________________________________|\n\n");
 						continue;
 					}
 				}
@@ -1204,9 +1209,9 @@ Exm cadastrarExame(Exm* exame, Uni* unidade, int* contExame, int identificador) 
 						printf("\n		!!OPCAO INVALIDA!!\n	Apenas numeros para o valor\n");
 						system("pause");
 						system("cls");
-						printf("\n____________________________________________\n");
-						printf("|         Cadastro de Exames	           |");
-						printf("\n|__________________________________________|\n");
+						printf("\n_________________________________________________________________________\n");
+						printf("|			Cadastrar de Exame				 |");
+						printf("\n|________________________________________________________________________|\n\n");
 						continue;
 					}
 				}
@@ -1222,9 +1227,9 @@ Exm cadastrarExame(Exm* exame, Uni* unidade, int* contExame, int identificador) 
 
 //Função que lista um exame selecionado;
 void listarExame(Exm* exame, int contExame) {
-	printf("\n____________________________________________\n");
-	printf("|         lista de Exames	           |");
-	printf("\n|__________________________________________|\n");
+	printf("\n_________________________________________________________________________\n");
+	printf("|			Lista de Exames					 |");
+	printf("\n|________________________________________________________________________|\n\n");
 	int i;
 	if (contExame == 0)
 	{
@@ -1283,18 +1288,22 @@ void imprimirExame(Exm exame) {
 
 //Função que busca um exame pelo codigo ou nome
 void buscarExame(Exm* exame, int contExame) {
-	printf("\n____________________________________________\n");
-	printf("|         busca de Exames	           |");
-	printf("\n|__________________________________________|\n");
+	printf("\n_________________________________________________________________________\n");
+	printf("|			Busca de Exame					 |");
+	printf("\n|________________________________________________________________________|\n\n");
 	int i, marcador = 0;
 	int codigoExame;
 	char nomeExame[50];
 
-	printf("Digite o nome ou o codigo do exame que deseja buscar: ");
+	printf("Digite o nome ou o codigo do exame que deseja buscar (Digite 0 para sair): ");
 	scanf(" %[^\n]s", nomeExame);
 	printf("\n");
 	codigoExame = strtol(nomeExame, NULL, 10);
-
+	if (codigoExame == 0)
+	{
+		system("cls");
+		return;
+	}
 	for (i = 0; i < contExame; i++)
 	{
 		if (exame[i].codigo == codigoExame || strcmp(exame[i].nome, nomeExame) == 0)
@@ -1317,9 +1326,9 @@ void AtualizarExame(Exm* exame, int contExame, int identificador) {
 	char aux[50];
 	char codigoExame[10];
 
-	printf("\n____________________________________________\n");
-	printf("|         Atualização de Exame	           |");
-	printf("\n|__________________________________________|\n");
+	printf("\n_________________________________________________________________________\n");
+	printf("|			Atualizacao de Exame				 |");
+	printf("\n|________________________________________________________________________|\n\n");
 
 	do
 	{
@@ -1352,7 +1361,7 @@ void AtualizarExame(Exm* exame, int contExame, int identificador) {
 		printf("	Digite o nome do exame: ");
 		scanf(" %[^\n]s", &aux);
 		strcpy(exame[codigo - 1].nome, aux);
-		printf("	Digite o nome do Funcionario: ");
+		printf("	Digite o nome do Medico: ");
 		scanf(" %[^\n]s", &aux);
 		strcpy(exame[codigo - 1].nomeMedico, aux);
 		do
@@ -1367,7 +1376,9 @@ void AtualizarExame(Exm* exame, int contExame, int identificador) {
 					printf("\n		!!OPCAO INVALIDA!!\n	Apenas numeros para o valor\n");
 					system("pause");
 					system("cls");
-					printf("\n	======= Cadastro de Exames =======\n");
+					printf("\n_________________________________________________________________________\n");
+					printf("|			Atualizacao de Exame				 |");
+					printf("\n|________________________________________________________________________|\n\n");
 					continue;
 				}
 			}
@@ -1398,9 +1409,9 @@ void  gerenciaDeAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* un
 	do
 	{
 
-		printf("\n____________________________________________\n");
-		printf("|         Gerencia de Agendamentos         |");
-		printf("\n|__________________________________________|\n\n");
+		printf("\n_________________________________________________________________________\n");
+		printf("|			Gerencia de Agendamentos			 |");
+		printf("\n|________________________________________________________________________|\n\n");
 		printf("	1 - Cadastro de Agendamento\n");
 		printf("	2 - Listar todos os agendamentos de um paciente\n");
 		printf("	3 - Listar todos os pedidos de um dia especifico\n");
@@ -1445,9 +1456,9 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 	char opcao = "";
 	char aux[50];
 
-	printf("\n____________________________________________\n");
-	printf("|         Cadastro de Agendamento	   |");
-	printf("\n|__________________________________________|\n\n");
+	printf("\n_________________________________________________________________________\n");
+	printf("|			Cadastrar Agendamento				 |");
+	printf("\n|________________________________________________________________________|\n\n");
 	printf("	Digite o codigo ou o RG que esta fazendo o agendamento: (Digite 0 Pra sair) ");
 	scanf(" %[^\n]s", nomePaciente);
 
@@ -1497,9 +1508,9 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 				printf("\n		!!OPCAO INVALIDA!!\n UNIDADE NAO ENCONTRADA\n");
 				system("pause");
 				system("cls");
-				printf("\n____________________________________________\n");
-				printf("|         Cadastro de Pacientes	           |");
-				printf("\n|__________________________________________|\n");
+				printf("\n_________________________________________________________________________\n");
+				printf("|			Cadastrar Agendamento				 |");
+				printf("\n|________________________________________________________________________|\n\n");
 				continue;
 			}
 		}
@@ -1508,11 +1519,11 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 			if (unidadeParaCadastro == 0 && strlen(aux) > 0)
 			{
 				printf("\n		!!OPCAO INVALIDA!!\n	Apenas o codigo da unidade\n");
-				printf("\n____________________________________________\n");
-				printf("|         Cadastro de Pacientes	           |");
-				printf("\n|__________________________________________|\n");
 				system("pause");
 				system("cls");
+				printf("\n_________________________________________________________________________\n");
+				printf("|			Cadastrar Agendamento				 |");
+				printf("\n|________________________________________________________________________|\n\n");
 				continue;
 			}
 		}
@@ -1521,6 +1532,9 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 			printf("\n		!!ERRO\n	UNIDADE NAO ENCONTRADA\n");
 			system("pause");
 			system("cls");
+			printf("\n_________________________________________________________________________\n");
+			printf("|			Cadastrar Agendamento				 |");
+			printf("\n|________________________________________________________________________|\n\n");
 			continue;
 		}
 		break;
@@ -1583,9 +1597,9 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 					printf("\n		DIA INVALIDO\n");
 					system("pause");
 					system("cls");
-					printf("\n____________________________________________\n");
-					printf("|         Cadastro de Agendamento	   |");
-					printf("\n|__________________________________________|\n\n");
+					printf("\n_________________________________________________________________________\n");
+					printf("|			Cadastrar Agendamento				 |");
+					printf("\n|________________________________________________________________________|\n\n");
 					continue;
 				}
 			}
@@ -1594,11 +1608,11 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 				if (agendamento[*contAgendamento].diaMarcado == 0 && strlen(aux) > 0)
 				{
 					printf("\n		DIA INVALIDO\n");
-					printf("\n____________________________________________\n");
-					printf("|         Cadastro de Agendamento	   |");
-					printf("\n|__________________________________________|\n\n");
 					system("pause");
 					system("cls");
+					printf("\n_________________________________________________________________________\n");
+					printf("|			Cadastrar Agendamento				 |");
+					printf("\n|________________________________________________________________________|\n\n");
 					continue;
 				}
 			}
@@ -1629,11 +1643,11 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 				if (agendamento[*contAgendamento].mesMarcado == 0 && strlen(aux) > 0)
 				{
 					printf("\n		MES INVALIDO\n");
-					printf("\n____________________________________________\n");
-					printf("|         Cadastro de Agendamento	   |");
-					printf("\n|__________________________________________|\n\n");
 					system("pause");
 					system("cls");
+					printf("\n_________________________________________________________________________\n");
+					printf("|			Cadastrar Agendamento				 |");
+					printf("\n|________________________________________________________________________|\n\n");
 					continue;
 				}
 			}
@@ -1654,8 +1668,9 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 					system("pause");
 					system("cls");
 					printf("\n____________________________________________\n");
-					printf("|         Cadastro de Agendamento	   |");
-					printf("\n|__________________________________________|\n\n");
+					printf("\n_________________________________________________________________________\n");
+					printf("|			Cadastrar Agendamento				 |");
+					printf("\n|________________________________________________________________________|\n\n");
 					continue;
 				}
 			}
@@ -1664,11 +1679,11 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 				if (agendamento[*contAgendamento].anoMarcado == 0 && strlen(aux) > 0)
 				{
 					printf("\n		ANO INVALIDO\n");
-					printf("\n____________________________________________\n");
-					printf("|         Cadastro de Agendamento	   |");
-					printf("\n|__________________________________________|\n\n");
 					system("pause");
 					system("cls");
+					printf("\n_________________________________________________________________________\n");
+					printf("|			Cadastrar Agendamento				 |");
+					printf("\n|________________________________________________________________________|\n\n");
 					continue;
 				}
 			}
@@ -1686,9 +1701,9 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 				printf("\n		Hora INVALIDO\n");
 				system("pause");
 				system("cls");
-				printf("\n____________________________________________\n");
-				printf("|         Cadastro de Agendamento	   |");
-				printf("\n|__________________________________________|\n\n");
+				printf("\n_________________________________________________________________________\n");
+				printf("|			Cadastrar Agendamento				 |");
+				printf("\n|________________________________________________________________________|\n\n");
 				continue;
 			}
 			marcador = 0;
@@ -1705,9 +1720,9 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 					printf("\n		Hora INVALIDO\n");
 					system("pause");
 					system("cls");
-					printf("\n____________________________________________\n");
-					printf("|         Cadastro de Agendamento	   |");
-					printf("\n|__________________________________________|\n\n");
+					printf("\n_________________________________________________________________________\n");
+					printf("|			Cadastrar Agendamento				 |");
+					printf("\n|________________________________________________________________________|\n\n");
 					continue;
 
 				}
@@ -1749,6 +1764,9 @@ void listarAgendamentoDeUmPaciente(Agd* agendamento, int contAgendamento) {
 	char nomePaciente[50];
 	int codigoPaciente;
 	int i, marcador = 0;
+	printf("\n_________________________________________________________________________\n");
+	printf("|		Lista de agendamentos do Paciente			 |");
+	printf("\n|________________________________________________________________________|\n\n");
 
 	printf("	Digite o CODIGO ou RG do paciente para visualizar seus agendamentos: ");
 	scanf(" %[^\n]s", nomePaciente);
@@ -1875,8 +1893,11 @@ void ListarAgendamentoDeUmDia(Agd* agendamento, int contAgendamento) {
 	char d[3];
 	char m[3];
 	char a[5];
+	printf("\n_________________________________________________________________________\n");
+	printf("|	Lista de agendamentos do Pacientes de um Dia Especifico		 |");
+	printf("\n|________________________________________________________________________|\n\n");
 
-	printf("Para visualizar todos os pedidos de um determinado dia entre com a data OBS:(apenas numeros) \n");
+	printf("	Para visualizar todos os pedidos de um determinado dia entre com a data OBS:(apenas numeros) \n");
 	printf("	Dia: ");
 	scanf(" %s", d);
 	printf("	Mes: ");
@@ -1941,9 +1962,9 @@ void CancelarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unida
 	int  x, y, j, dia, mes, ano;
 	char aux[50];
 
-	printf("\n____________________________________________\n");
-	printf("|         Cancelamento de Agendamento	   |");
-	printf("\n|__________________________________________|\n\n");
+	printf("\n_________________________________________________________________________\n");
+	printf("|		Cancelamento de um agendamento				 |");
+	printf("\n|________________________________________________________________________|\n\n");
 	printf("	Digite o codigo ou o RG que esta fazendo o cancelamento: (Digite 0 para sair) ");
 	scanf(" %[^\n]s", nomePaciente);
 
@@ -1995,9 +2016,9 @@ void CancelarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unida
 				printf("\n		!!OPCAO INVALIDA!!\n UNIDADE NAO ENCONTRADA\n");
 				system("pause");
 				system("cls");
-				printf("\n____________________________________________\n");
-				printf("|         Cadastro de Pacientes	           |");
-				printf("\n|__________________________________________|\n");
+				printf("\n_________________________________________________________________________\n");
+				printf("|		Cancelamento de um agendamento				 |");
+				printf("\n|________________________________________________________________________|\n\n");
 				continue;
 			}
 		}
@@ -2006,9 +2027,9 @@ void CancelarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unida
 			if (unidadeParaCadastro == 0 && strlen(aux) > 0)
 			{
 				printf("\n		!!OPCAO INVALIDA!!\n	Apenas o codigo da unidade\n");
-				printf("\n____________________________________________\n");
-				printf("|         Cadastro de Pacientes	           |");
-				printf("\n|__________________________________________|\n");
+				printf("\n_________________________________________________________________________\n");
+				printf("|		Cancelamento de um agendamento				 |");
+				printf("\n|________________________________________________________________________|\n\n");
 				system("pause");
 				system("cls");
 				continue;
@@ -2019,6 +2040,9 @@ void CancelarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unida
 			printf("\n		!!ERRO\n	UNIDADE NAO ENCONTRADA\n");
 			system("pause");
 			system("cls");
+			printf("\n_________________________________________________________________________\n");
+			printf("|		Cancelamento de um agendamento				 |");
+			printf("\n|________________________________________________________________________|\n\n");
 			continue;
 		}
 		break;
@@ -2048,6 +2072,9 @@ void CancelarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unida
 			printf("\n		!!ERRO!!\n		EXAME NAO ENCONTRADO\n");
 			system("pause");
 			system("cls");
+			printf("\n_________________________________________________________________________\n");
+			printf("|		Cancelamento de um agendamento				 |");
+			printf("\n|________________________________________________________________________|\n\n");
 			continue;
 		}
 
@@ -2075,9 +2102,9 @@ void CancelarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unida
 			printf("\n		DIA INVALIDO\n");
 			system("pause");
 			system("cls");
-			printf("\n____________________________________________\n");
-			printf("|         Cadastro de Agendamento	   |");
-			printf("\n|__________________________________________|\n\n");
+			printf("\n_________________________________________________________________________\n");
+			printf("|		Cancelamento de um agendamento				 |");
+			printf("\n|________________________________________________________________________|\n\n");
 			continue;
 		}
 		break;
@@ -2104,9 +2131,9 @@ void CancelarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unida
 			printf("\n		MES INVALIDO\n");
 			system("pause");
 			system("cls");
-			printf("\n____________________________________________\n");
-			printf("|         Cadastro de Agendamento	   |");
-			printf("\n|__________________________________________|\n\n");
+			printf("\n_________________________________________________________________________\n");
+			printf("|		Cancelamento de um agendamento				 |");
+			printf("\n|________________________________________________________________________|\n\n");
 			continue;
 		}
 		break;
@@ -2133,9 +2160,9 @@ void CancelarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unida
 			printf("\n		ANO INVALIDO\n");
 			system("pause");
 			system("cls");
-			printf("\n____________________________________________\n");
-			printf("|         Cadastro de Agendamento	   |");
-			printf("\n|__________________________________________|\n\n");
+			printf("\n_________________________________________________________________________\n");
+			printf("|		Cancelamento de um agendamento				 |");
+			printf("\n|________________________________________________________________________|\n\n");
 			continue;
 		}
 		break;
@@ -2163,9 +2190,9 @@ void gerenciaDeFuncionario(Fnc* funcionario, Uni* unidade, int* contFuncionario,
 	do
 	{
 
-		printf("\n____________________________________________\n");
-		printf("|         Gerencia de Funcionarios	           |");
-		printf("\n|__________________________________________|\n\n");
+		printf("\n_________________________________________________________________________\n");
+		printf("|			Gerencia de Funcionarios			 |");
+		printf("\n|________________________________________________________________________|\n\n");
 		printf("	1 - Cadastro de Funcionarios\n");
 		printf("	2 - Listar Funcionarios Cadastrado\n");
 		printf("	3 - Buscar Funcionarios Cadastrado\n");
@@ -2377,9 +2404,9 @@ void gerenciaDeRelatorio(Pct* paciente, Uni* unidade, Fnc* funcionario, Exm* exa
 	do
 	{
 
-		printf("\n____________________________________________\n");
-		printf("|         Gerencia de Relatorios	   |");
-		printf("\n|__________________________________________|\n\n");
+		printf("\n_________________________________________________________________________\n");
+		printf("|			Gerencia de Relatorios				 |");
+		printf("\n|________________________________________________________________________|\n\n");
 		printf("	1 - Relatorio de pacientes por unidade: \n");
 		printf("	2 - Relatorio de faturamento por unidade: \n");
 		printf("	3 - Relatorio de faturamento Diario/Mensal por unidade: \n");
@@ -2413,9 +2440,9 @@ void gerenciaDeRelatorio(Pct* paciente, Uni* unidade, Fnc* funcionario, Exm* exa
 void RelatorioDePacientesPorUnidade(Pct* paciente, Uni* unidade, int contPaciente, int contUnidade) {
 	int i;
 	int contUnidade1 = 0, contUnidade2 = 0, contUnidade3 = 0;
-	printf("\n____________________________________________\n");
-	printf("|         Relatorio das unidades	   |");
-	printf("\n|__________________________________________|\n\n");
+	printf("\n_________________________________________________________________________\n");
+	printf("|			Relatorio das unidades 				 |");
+	printf("\n|________________________________________________________________________|\n\n");
 	for (i = 0; i <= contPaciente; i++)
 	{
 		if (paciente[i].unidadeQueCadastrou.codigo == 1)
@@ -2440,9 +2467,9 @@ void RelatorioDeFaturamentoTotalPorUnidade(Pct* paciente, Uni* unidade, Exm* exa
 	int i;
 	float totalUnidade1 = 0, totalUnidade2 = 0, totalUnidade3 = 0, total = 0;
 
-	printf("\n____________________________________________\n");
-	printf("|         Relatorio de Faturamento	   |");
-	printf("\n|__________________________________________|\n\n");
+	printf("\n_________________________________________________________________________\n");
+	printf("|			Relatorio de Faturamento Total			 |");
+	printf("\n|________________________________________________________________________|\n\n");
 	for (i = 0; i < contAgendamento; i++)
 	{
 		if (agendamento[i].UnidadeParaAgendar.codigo == 1)
@@ -2474,40 +2501,12 @@ void RelatorioDeFaturamentoTotalPorUnidade(Pct* paciente, Uni* unidade, Exm* exa
 }
 
 void RelatorioDeFaturamentoDiaroMensalPorUnidade(Pct* paciente, Uni* unidade, Exm* exame, Agd* agendamento, int contPaciente, int contUnidade, int contAgendamento) {
-	int i, dia, mes, ano, resp, uni = 0;
-	float totalUnidade = 0, totalUnidadeDia = 0, total = 0;
+	int i, dia, mes, ano;
+	float totalUnidade1 = 0, totalUnidade2 = 0, totalUnidade3 = 0, totalUnidadeDia1 = 0, totalUnidadeDia2 = 0, totalUnidadeDia3 = 0, total = 0;
 
-	printf("\n____________________________________________\n");
-	printf("|  Relatorio de Faturamento Diario/Mensal por unidade|");
-	printf("\n|__________________________________________|\n\n");
-
-	do
-	{
-		printf("	Digite a unidade para consulta de faturamento:(Digite 0  para sair) ");
-		scanf(" %d", &uni);
-		if (uni <= 0)
-		{
-			return;
-			system("cls");
-		}
-		else
-		{
-			if (unidade[uni - 1].codigo == uni)
-			{
-				printf("	Unidade eh: %s\n", unidade[uni - 1].nome);
-				break;
-			}
-			else
-			{
-				printf("\n		!!UNIDADE INVALIDA!!\n");
-				system("pause");
-				system("cls");
-				continue;
-			}
-		}
-		break;
-	} while (1);
-
+	printf("\n_________________________________________________________________________\n");
+	printf("|	Relatorio de Faturamento Diario/Mensal por unidade		 |");
+	printf("\n|________________________________________________________________________|\n\n");
 
 	do
 	{
@@ -2515,21 +2514,21 @@ void RelatorioDeFaturamentoDiaroMensalPorUnidade(Pct* paciente, Uni* unidade, Ex
 		scanf(" %d", &ano);
 		if (ano <= 0)
 		{
-			return;
 			system("cls");
+			return;
 		}
 		else
 		{
 			if (ano >= 2020)
-			{
-				printf("	Ano eh:%d\n", ano);
 				break;
-			}
 			else
 			{
 				printf("\n		!!ANO INVALIDA!!\n");
 				system("pause");
 				system("cls");
+				printf("\n_________________________________________________________________________\n");
+				printf("|	Relatorio de Faturamento Diario/Mensal por unidade		 |");
+				printf("\n|________________________________________________________________________|\n\n");
 				continue;
 			}
 		}
@@ -2542,21 +2541,21 @@ void RelatorioDeFaturamentoDiaroMensalPorUnidade(Pct* paciente, Uni* unidade, Ex
 		scanf(" %d", &mes);
 		if (mes <= 0)
 		{
-			return;
 			system("cls");
+			return;
 		}
 		else
 		{
 			if (mes > 0 && mes <= 12)
-			{
-				printf("	Ano eh:%d\n", ano);
 				break;
-			}
 			else
 			{
 				printf("\n		!!MES INVALIDA!!\n");
 				system("pause");
 				system("cls");
+				printf("\n_________________________________________________________________________\n");
+				printf("|	Relatorio de Faturamento Diario/Mensal por unidade		 |");
+				printf("\n|________________________________________________________________________|\n\n");
 				continue;
 			}
 		}
@@ -2564,17 +2563,31 @@ void RelatorioDeFaturamentoDiaroMensalPorUnidade(Pct* paciente, Uni* unidade, Ex
 	} while (1);
 	for (i = 0; i < contAgendamento; i++)
 	{
-		if (agendamento[i].UnidadeParaAgendar.codigo == uni && agendamento[i].mesMarcado == mes && agendamento[i].anoMarcado == ano)
+		if (agendamento[i].UnidadeParaAgendar.codigo == 1 && agendamento[i].mesMarcado == mes && agendamento[i].anoMarcado == ano)
 		{
-			totalUnidade += agendamento[i].examePedido.valor;
+			totalUnidade1 += agendamento[i].examePedido.valor;
 		}
+		else if (agendamento[i].UnidadeParaAgendar.codigo == 2 && agendamento[i].mesMarcado == mes && agendamento[i].anoMarcado == ano)
+		{
+			totalUnidade2 += agendamento[i].examePedido.valor;
+		}
+		else if (agendamento[i].UnidadeParaAgendar.codigo == 3 && agendamento[i].mesMarcado == mes && agendamento[i].anoMarcado == ano)
+		{
+			totalUnidade3 += agendamento[i].examePedido.valor;
+		}
+
 	}
-	printf("	A unidade:%s \n	Faturou: R$%.2f\n", unidade[uni - 1].nome, totalUnidade);
+	printf("	===============================\n");
+	printf("	Mes: %d\n	A unidade:%s\n	Faturou: R$%.2f\n", mes, unidade[0].nome, totalUnidade1);
+	printf("	===============================,\n");
+	printf("	Mes: %d\n	A unidade:%s\n	Faturou: R$%.2f\n", mes, unidade[1].nome, totalUnidade2);
+	printf("	===============================,\n");
+	printf("	Mes: %d\n	A unidade:%s\n	Faturou: R$%.2f\n", mes, unidade[2].nome, totalUnidade3);
 	printf("	===============================\n");
 
 	do
 	{
-		printf("	Deseja ver o relatorio de faturamento de alguem dia especifico?(Digite o dia ou 0 para sair) ");
+		printf("	Deseja ver o relatorio de faturamento de alguem dia especifico (Digite o dia ou 0 para sair)? ");
 		scanf(" %d", &dia);
 		if (dia == 0)
 		{
@@ -2584,10 +2597,7 @@ void RelatorioDeFaturamentoDiaroMensalPorUnidade(Pct* paciente, Uni* unidade, Ex
 		else
 		{
 			if (dia > 1 && dia < 32)
-			{
-				printf("	dia eh:%d\n", dia);
 				break;
-			}
 			else
 			{
 				printf("\n		!!DIA INVALIDA!!\n");
@@ -2601,15 +2611,26 @@ void RelatorioDeFaturamentoDiaroMensalPorUnidade(Pct* paciente, Uni* unidade, Ex
 
 	for (i = 0; i < contAgendamento; i++)
 	{
-		if (agendamento[i].UnidadeParaAgendar.codigo == uni && agendamento[i].mesMarcado == mes && agendamento[i].anoMarcado == ano && agendamento[i].diaMarcado == dia)
+		if (agendamento[i].UnidadeParaAgendar.codigo == 1 && agendamento[i].mesMarcado == mes && agendamento[i].anoMarcado == ano && agendamento[i].diaMarcado == dia)
 		{
-			totalUnidadeDia += agendamento[i].examePedido.valor;
+			totalUnidadeDia1 += agendamento[i].examePedido.valor;
+		}
+		else if (agendamento[i].UnidadeParaAgendar.codigo == 2 && agendamento[i].mesMarcado == mes && agendamento[i].anoMarcado == ano && agendamento[i].diaMarcado == dia)
+		{
+			totalUnidadeDia2 += agendamento[i].examePedido.valor;
+		}
+		else if (agendamento[i].UnidadeParaAgendar.codigo == 3 && agendamento[i].mesMarcado == mes && agendamento[i].anoMarcado == ano && agendamento[i].diaMarcado == dia)
+		{
+			totalUnidadeDia3 += agendamento[i].examePedido.valor;
 		}
 	}
-	printf("	A unidade:%s \n	Faturou: R$%.2f\n", unidade[uni - 1].nome, totalUnidadeDia);
+	printf("	Dia:%d\n	A unidade:%s \n	Faturou: R$%.2f\n", dia, unidade[0].nome, totalUnidadeDia1);
+	printf("	===============================\n");
+	printf("	Dia:%d\n	A unidade:%s \n	Faturou: R$%.2f\n", dia, unidade[1].nome, totalUnidadeDia2);
+	printf("	===============================\n");
+	printf("	Dia:%d\n	A unidade:%s\n	Faturou: R$%.2f\n", dia, unidade[2].nome, totalUnidadeDia3);
 	printf("	===============================\n");
 
 	system("pause");
 	system("cls");
-
 }
