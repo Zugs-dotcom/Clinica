@@ -133,7 +133,7 @@ void listarCriticaDeUmPaciente(Elg*, int);
 void obterDataElogio(Elg*);
 void imprimirCritica(Elg);
 
-
+void login(User*, int*);
 
 void inicializar(Pct*, Exm*, Fnc*, Uni*, User*, Agd*, Elg*);
 
@@ -149,7 +149,7 @@ int main() {
 	User* usuario; //Declarando um ponteiro para estrutura agendamento
 	Elg* elogio; //Declarando um ponteiro para estrutura Elogios e reclamações
 
-	int contPaciente = 10, contExame = 10, contAgendamento = 10, contFuncionario = 3, contUnidade = 2, contElogio = 4; //Inicilizando os contadores
+	int contPaciente = 10, contExame = 10, contAgendamento = 10, contFuncionario = 3, contUnidade = 2, contElogio = 4, contUsuario = 4; //Inicilizando os contadores
 
 
 	arquivo = calloc(100, sizeof(FILE));
@@ -161,49 +161,26 @@ int main() {
 	unidade = calloc(50, sizeof(Uni));
 	elogio = calloc(50, sizeof(Elg));
 
-	free(paciente);
-	free(exame);
-	free(agendamento);
-	free(usuario);
-	free(funcionario);
-	free(unidade);
-	free(elogio);
+	int* p;
+	int a;
+
+
+	p = (int*)calloc(50, sizeof(User));
+	if (!p)
+	{
+		printf("** Erro: Memoria Insuficiente **");
+		exit;
+	}
+
+
+	free(p);
+
+
 
 	inicializar(paciente, exame, funcionario, unidade, usuario, agendamento, elogio);
 
-	/*
-	char login[20];
-	char psw[20];
-	char uni[2];
-	int acesso = 0;
-	//Estrutura de login
-	do
-	{
+	login(usuario, contUsuario);
 
-		printf("\n____________________________________________\n");
-		printf("|         Clinica NoMercy	           |");
-		printf("\n|__________________________________________|\n\n");
-		printf("         BEM VINDO       \n");
-		printf("         Usuario: ");
-		scanf(" %[^\n]s", &login);
-		printf("         Senha: ");
-		scanf(" %[^\n]s", &psw);
-		printf("         Unidade: ");
-		scanf(" %[^\n]s", &uni);
-
-		for (int i = 0; i < 5; i++)
-		{
-			if (strcmp(usuario[i].usuario, login) == 0 && strcmp(usuario[i].senha, psw) == 0 && strcmp(usuario[i].unidade, uni) == 0)
-			{
-				printf("Entrada de %s autorizada com sucesso!\n\n", usuario[i].usuario);
-				system("pause");
-				system("cls");
-				acesso = 1;
-			}
-		}
-	} while (acesso == 0);
-	*/
-	menu();
 	do {//Ciclo que controlara o funcionamento do programa
 		switch (op)
 		{
@@ -244,6 +221,9 @@ void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User
 	// inicializa Pacientes e exmes
 	for (int i = 0; i < 50; i++) {
 
+		strcpy(usuario[i].usuario, "");
+		strcpy(usuario[i].senha, "");
+		strcpy(usuario[i].unidade, "");
 
 		exame[i].codigo = 0;
 		strcpy(exame[i].nomeMedico, "");
@@ -647,6 +627,50 @@ void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User
 	strcpy(elogio[2].reclamacao, "Pessimo");
 }
 
+void login(User* usuario, int* contUsuario) {
+
+	char login[20];
+	char psw[20];
+	char uni[2];
+	int i, marcador;
+	//Estrutura de login
+	do
+	{
+		marcador = 0;
+		printf("\n_________________________________________________________________________\n");
+		printf("|				Clinica NoMercy				|");
+		printf("\n|________________________________________________________________________|\n\n");
+		printf("         BEM VINDO       \n");
+		printf("         Usuario: ");
+		scanf(" %[^\n]s", &login);
+		printf("         Senha: ");
+		scanf(" %[^\n]s", &psw);
+		printf("         Unidade: ");
+		scanf(" %[^\n]s", &uni);
+
+		for (i = 0; i < contUsuario; i++)
+		{
+			if (strcmp(usuario[i].usuario, login) == 0 && strcmp(usuario[i].senha, psw) == 0 && strcmp(usuario[i].unidade, uni) == 0)
+			{
+				printf("Entrada de %s autorizada com sucesso!\n\n", usuario[i].usuario);
+				system("pause");
+				system("cls");
+				marcador = 1;
+				menu();
+				break;
+			}
+		}
+		if (marcador == 0)
+		{
+			printf("	\nALGO ESTA INCORRETO, TENTE NOVAMENTE\n");
+			system("pause");
+			system("cls");
+			continue;
+		}
+		break;
+	} while (1);
+
+}
 void menu() {
 	printf("\n_________________________________________________________________________\n");
 	printf("|			Clinica NoMercy					 |");
