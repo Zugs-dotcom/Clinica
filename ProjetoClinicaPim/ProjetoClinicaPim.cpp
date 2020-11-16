@@ -150,6 +150,8 @@ int main() {
 	Elg* elogio; //Declarando um ponteiro para estrutura Elogios e reclamações
 
 	int contPaciente = 10, contExame = 10, contAgendamento = 10, contFuncionario = 3, contUnidade = 2, contElogio = 4; //Inicilizando os contadores
+
+
 	arquivo = calloc(100, sizeof(FILE));
 	paciente = calloc(100, sizeof(Pct));
 	exame = calloc(100, sizeof(Exm));;
@@ -158,6 +160,14 @@ int main() {
 	funcionario = calloc(50, sizeof(Fnc));
 	unidade = calloc(50, sizeof(Uni));
 	elogio = calloc(50, sizeof(Elg));
+
+	free(paciente);
+	free(exame);
+	free(agendamento);
+	free(usuario);
+	free(funcionario);
+	free(unidade);
+	free(elogio);
 
 	inicializar(paciente, exame, funcionario, unidade, usuario, agendamento, elogio);
 
@@ -1734,9 +1744,6 @@ void cadastrarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unid
 
 				obterData(&agendamento[*contAgendamento]);
 				*contAgendamento += 1;
-				if (*contAgendamento == 10)
-					agendamento = realloc(agendamento, (*contAgendamento + 1) * sizeof(Agd));
-
 				printf("\n		AGENDAMENTO CADASTRADO SUCESSO\n");
 				system("pause");
 				system("cls");
@@ -2504,7 +2511,7 @@ void RelatorioDeFaturamentoTotalPorUnidade(Pct* paciente, Uni* unidade, Exm* exa
 
 void RelatorioDeFaturamentoDiaroMensalPorUnidade(Pct* paciente, Uni* unidade, Exm* exame, Agd* agendamento, int contPaciente, int contUnidade, int contAgendamento) {
 	int i, dia, mes, ano;
-	float totalUnidade1 = 0, totalUnidade2 = 0, totalUnidade3 = 0, totalUnidadeDia1 = 0, totalUnidadeDia2 = 0, totalUnidadeDia3 = 0, total = 0;
+	float totalUnidade1 = 0, totalUnidade2 = 0, totalUnidade3 = 0, totalUnidadeDia1 = 0, totalUnidadeDia2 = 0, totalUnidadeDia3 = 0, totalMes = 0, totalDia = 0;
 
 	printf("\n_________________________________________________________________________\n");
 	printf("|	Relatorio de Faturamento Diario/Mensal por unidade		 |");
@@ -2579,12 +2586,16 @@ void RelatorioDeFaturamentoDiaroMensalPorUnidade(Pct* paciente, Uni* unidade, Ex
 		}
 
 	}
+	totalMes = totalUnidade1 + totalUnidade2 + totalUnidade3;
+
 	printf("	===============================\n");
 	printf("	Mes: %d\n	A unidade:%s\n	Faturou: R$%.2f\n", mes, unidade[0].nome, totalUnidade1);
 	printf("	===============================,\n");
 	printf("	Mes: %d\n	A unidade:%s\n	Faturou: R$%.2f\n", mes, unidade[1].nome, totalUnidade2);
 	printf("	===============================,\n");
 	printf("	Mes: %d\n	A unidade:%s\n	Faturou: R$%.2f\n", mes, unidade[2].nome, totalUnidade3);
+	printf("	===============================\n");
+	printf("	Mes:%d\n	Todas Unidades Faturaram: R$%.2f\n", mes, totalMes);
 	printf("	===============================\n");
 
 	do
@@ -2626,11 +2637,16 @@ void RelatorioDeFaturamentoDiaroMensalPorUnidade(Pct* paciente, Uni* unidade, Ex
 			totalUnidadeDia3 += agendamento[i].examePedido.valor;
 		}
 	}
+
+	totalDia = totalUnidadeDia1 + totalUnidadeDia2 + totalUnidadeDia3;
+
 	printf("	Dia:%d\n	A unidade:%s \n	Faturou: R$%.2f\n", dia, unidade[0].nome, totalUnidadeDia1);
 	printf("	===============================\n");
 	printf("	Dia:%d\n	A unidade:%s \n	Faturou: R$%.2f\n", dia, unidade[1].nome, totalUnidadeDia2);
 	printf("	===============================\n");
 	printf("	Dia:%d\n	A unidade:%s\n	Faturou: R$%.2f\n", dia, unidade[2].nome, totalUnidadeDia3);
+	printf("	===============================\n");
+	printf("	Dia:%d\n	Todas Unidades Faturaram: R$%.2f\n", dia, totalDia);
 	printf("	===============================\n");
 
 	system("pause");
