@@ -729,7 +729,7 @@ void gerenciaDePaciente(Pct* paciente, Uni* unidade, int* contPaciente, FILE* ar
 		case 1:
 			cadastrarPaciente(paciente, unidade, *contPaciente, identificador, arquivo);
 			*contPaciente += 1;
-			printf("%d tste92\n",*contPaciente);
+			printf("%d tste92\n", *contPaciente);
 			break;
 		case 2:
 			listarPaciente(paciente, *contPaciente);
@@ -2189,14 +2189,14 @@ void CancelarAgendamento(Agd* agendamento, Pct* paciente, Exm* exame, Uni* unida
 		scanf(" %[^\n]s", nomePaciente);
 
 		codigoPaciente = strtol(nomePaciente, NULL, 10); //Faz a conversão de alfabetico para inteiro
-
-		for (x = 0; x < contAgendamento; x++)
+		if (codigoPaciente == -1)
 		{
-			if (codigoPaciente == -1)
-			{
-				system("cls");
-				return;
-			}
+			system("cls");
+			return;
+		}
+		for (x = 0; x < *contAgendamento; x++)
+		{
+
 			if (codigoPaciente == agendamento[x].pacienteQuePediu.codigo && agendamento[x].diaMarcado == dia && agendamento[x].mesMarcado == mes && agendamento[x].anoMarcado == ano
 				|| agendamento[x].pacienteQuePediu.rg == codigoPaciente && agendamento[x].diaMarcado == dia && agendamento[x].mesMarcado == mes && agendamento[x].anoMarcado == ano)
 			{
