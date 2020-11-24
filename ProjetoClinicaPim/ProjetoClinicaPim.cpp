@@ -87,9 +87,9 @@ typedef struct
 	int mes;
 	int ano;
 	Pct PacienteQueElogiou;
-	char elogio[100];
+	char critica[100];
 	char reclamacao[100];
-}Elg;
+}Ctc;
 
 //Declaração da função que de Menu
 void menu();
@@ -136,15 +136,15 @@ void RelatorioDePacientesPorUnidade(Pct*, Uni*, int, int);
 void RelatorioDeFaturamentoTotalPorUnidade(Pct*, Uni*, Exm*, Agd*, int, int, int);
 void RelatorioDeFaturamentoDiaroMensalPorUnidade(Pct*, Uni*, Exm*, Agd*, int, int, int);
 
-void gerenciaCritica(Elg*, Pct*, int*, int);
-void CadastroCritica(Elg*, Pct*, int*, int);
-void listarCriticaDeUmPaciente(Elg*, int);
-void obterDataElogio(Elg*);
-void imprimirCritica(Elg);
+void gerenciaCritica(Ctc*, Pct*, int*, int);
+void CadastroCritica(Ctc*, Pct*, int*, int);
+void listarCriticaDeUmPaciente(Ctc*, int);
+void obterDataCritica(Ctc*);
+void imprimirCritica(Ctc);
 
 void login(User*, int*);
 
-void inicializar(Pct*, Exm*, Fnc*, Uni*, User*, Agd*, Elg*);
+void inicializar(Pct*, Exm*, Fnc*, Uni*, User*, Agd*, Ctc*);
 
 //Função Principal
 int main()
@@ -157,9 +157,9 @@ int main()
 	Agd* agendamento; //Declarando um ponteiro para estrutura agendamento
 	Uni* unidade; //Declarando um ponteiro para estrutura de uniadades hospitalares
 	User* usuario; //Declarando um ponteiro para estrutura agendamento
-	Elg* elogio; //Declarando um ponteiro para estrutura Elogios e reclamações
+	Ctc* critica; //Declarando um ponteiro para estrutura Elogios e reclamações
 
-	int contPaciente = 10, contExame = 10, contAgendamento = 10, contFuncionario = 3, contUnidade = 2, contElogio = 4, contUsuario = 4; //Inicilizando os contadores
+	int contPaciente = 10, contExame = 10, contAgendamento = 10, contFuncionario = 3, contUnidade = 2, contCritica = 4, contUsuario = 4; //Inicilizando os contadores
 
 
 	arquivo = calloc(100, sizeof(FILE));
@@ -169,7 +169,7 @@ int main()
 	usuario = calloc(50, sizeof(User));
 	funcionario = calloc(50, sizeof(Fnc));
 	unidade = calloc(50, sizeof(Uni));
-	elogio = calloc(50, sizeof(Elg));
+	critica = calloc(50, sizeof(Ctc));
 
 	int* p;
 	int a;
@@ -187,7 +187,7 @@ int main()
 
 
 
-	inicializar(paciente, exame, funcionario, unidade, usuario, agendamento, elogio);
+	inicializar(paciente, exame, funcionario, unidade, usuario, agendamento, critica);
 
 	// login(usuario, contUsuario);
 	menu();
@@ -213,7 +213,7 @@ int main()
 			gerenciaDeRelatorio(paciente, unidade, funcionario, exame, agendamento, contPaciente, contUnidade, contAgendamento);
 			break;
 		case 6:
-			gerenciaCritica(elogio, paciente, &contElogio, contPaciente);
+			gerenciaCritica(critica, paciente, &contCritica, contPaciente);
 			break;
 		default:
 			printf("	!!COMANDO INVALIDO!!\n	Entre com o comando novamente\n");
@@ -227,7 +227,7 @@ int main()
 }//fim da função principal
 
 //função para inicializar dados
-void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User* usuario, Agd* agendamento, Elg* elogio)
+void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User* usuario, Agd* agendamento, Ctc* critica)
 {
 	// inicializa Pacientes e exmes
 	for (int i = 0; i < 50; i++) {
@@ -270,12 +270,12 @@ void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User
 		agendamento[i].anoMarcado = "";
 		agendamento[i].horaMarcado = "";
 
-		elogio[i].dia = "";
-		elogio[i].mes = "";
-		elogio[i].ano = "";
-		elogio[i].PacienteQueElogiou.codigo = "";
-		strcpy(elogio[i].elogio, "");
-		strcpy(elogio[i].reclamacao, "");
+		critica[i].dia = "";
+		critica[i].mes = "";
+		critica[i].ano = "";
+		critica[i].PacienteQueElogiou.codigo = "";
+		strcpy(critica[i].critica, "");
+		strcpy(critica[i].reclamacao, "");
 	}
 
 	//Inclui dados dos usuarios
@@ -614,28 +614,28 @@ void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User
 	agendamento[8].horaMarcado = 13;
 
 	//Inclui dados da critica 1
-	elogio[0].dia = 15;
-	elogio[0].mes = 11;
-	elogio[0].ano = 2020;
-	elogio[0].PacienteQueElogiou = paciente[0];
-	strcpy(elogio[0].elogio, "Muito bom");
-	strcpy(elogio[0].reclamacao, "Nenhuma");
+	critica[0].dia = 15;
+	critica[0].mes = 11;
+	critica[0].ano = 2020;
+	critica[0].PacienteQueElogiou = paciente[0];
+	strcpy(critica[0].critica, "Muito bom");
+	strcpy(critica[0].reclamacao, "Nenhuma");
 
 	//Inclui dados da critica 2
-	elogio[1].dia = 16;
-	elogio[1].mes = 11;
-	elogio[1].ano = 2020;
-	elogio[1].PacienteQueElogiou = paciente[1];
-	strcpy(elogio[1].elogio, "Nenhuma");
-	strcpy(elogio[1].reclamacao, "Pessimo");
+	critica[1].dia = 16;
+	critica[1].mes = 11;
+	critica[1].ano = 2020;
+	critica[1].PacienteQueElogiou = paciente[1];
+	strcpy(critica[1].critica, "Nenhuma");
+	strcpy(critica[1].reclamacao, "Pessimo");
 
 	//Inclui dados da critica 2
-	elogio[2].dia = 17;
-	elogio[2].mes = 11;
-	elogio[2].ano = 2020;
-	elogio[2].PacienteQueElogiou = paciente[1];
-	strcpy(elogio[2].elogio, "Atendimento Excelente");
-	strcpy(elogio[2].reclamacao, "Pessimo");
+	critica[2].dia = 17;
+	critica[2].mes = 11;
+	critica[2].ano = 2020;
+	critica[2].PacienteQueElogiou = paciente[1];
+	strcpy(critica[2].critica, "Atendimento Excelente");
+	strcpy(critica[2].reclamacao, "Pessimo");
 }
 
 void login(User* usuario, int* contUsuario)
@@ -2758,7 +2758,7 @@ void RelatorioDeFaturamentoDiaroMensalPorUnidade(Pct* paciente, Uni* unidade, Ex
 	system("cls");
 }
 
-void gerenciaCritica(Elg* elogio, Pct* paciente, int* contElogio, int contPaciente)
+void gerenciaCritica(Ctc* critica, Pct* paciente, int* contCritica, int contPaciente)
 {
 	int opcao;
 	int identificador = 0;
@@ -2766,10 +2766,10 @@ void gerenciaCritica(Elg* elogio, Pct* paciente, int* contElogio, int contPacien
 	{
 
 		printf("\n_________________________________________________________________________\n");
-		printf("|		Gerencia de elogios e reclamacoes			 |");
+		printf("|		Gerencia de criticas e reclamacoes			 |");
 		printf("\n|________________________________________________________________________|\n\n");
-		printf("	1 - Cadastro de Elogio ou Reclamacao: \n");
-		printf("	2 - Consulta De Elogio ou Reclamacoes: \n");
+		printf("	1 - Cadastro de Critica: \n");
+		printf("	2 - Consulta De Critica: \n");
 		printf("	0 - Voltar ao menu principal\n");
 		printf("	Digite um comando para prosseguir: ");
 		scanf("%d", &opcao);
@@ -2780,10 +2780,10 @@ void gerenciaCritica(Elg* elogio, Pct* paciente, int* contElogio, int contPacien
 		case 0:menu();
 			break;
 		case 1:
-			CadastroCritica(elogio, paciente, contElogio, contPaciente);
+			CadastroCritica(critica, paciente, contCritica, contPaciente);
 			break;
 		case 2:
-			listarCriticaDeUmPaciente(elogio, *contElogio);
+			listarCriticaDeUmPaciente(critica, *contCritica);
 			break;
 		default:
 			printf("	!!OPCAO INVALIDA!!\n	Digite novamente outra opcao\n");
@@ -2794,7 +2794,7 @@ void gerenciaCritica(Elg* elogio, Pct* paciente, int* contElogio, int contPacien
 	} while (1);
 }
 
-void CadastroCritica(Elg* elogio, Pct* paciente, int* contElogio, int contPaciente)
+void CadastroCritica(Ctc* critica, Pct* paciente, int* contCritica, int contPaciente)
 {
 	char nomePaciente[50];
 	int codigoPaciente, marcador = 0;
@@ -2818,7 +2818,7 @@ void CadastroCritica(Elg* elogio, Pct* paciente, int* contElogio, int contPacien
 		}
 		if (codigoPaciente == paciente[x].codigo || paciente[x].rg == codigoPaciente)
 		{
-			elogio[*contElogio].PacienteQueElogiou.codigo = codigoPaciente;
+			critica[*contCritica].PacienteQueElogiou.codigo = codigoPaciente;
 			printf("	O paciente eh: %s\n", paciente[x].nome);
 			marcador = 1;
 			break;
@@ -2835,7 +2835,7 @@ void CadastroCritica(Elg* elogio, Pct* paciente, int* contElogio, int contPacien
 	do
 	{
 		marcador = 0;
-		printf("\n	Voce deseja fazer um elogio ou reclamao: \n");
+		printf("\n	Voce deseja fazer um critica ou reclamao: \n");
 		printf("	1 - Elogio\n");
 		printf("	2 - Reclamacao\n");
 		printf("	3 - Ambos\n");
@@ -2854,8 +2854,8 @@ void CadastroCritica(Elg* elogio, Pct* paciente, int* contElogio, int contPacien
 			{
 				printf("\n	Digite o Elogio: ");
 				scanf(" %[^\n]s", &aux);
-				strcpy(elogio[*contElogio].elogio, aux);
-				strcpy(elogio[*contElogio].reclamacao, "Nenhuma");
+				strcpy(critica[*contCritica].critica, aux);
+				strcpy(critica[*contCritica].reclamacao, "Nenhuma");
 
 				break;
 
@@ -2864,8 +2864,8 @@ void CadastroCritica(Elg* elogio, Pct* paciente, int* contElogio, int contPacien
 			{
 				printf("\n	Digite a Reclamacao: ");
 				scanf(" %[^\n]s", &aux);
-				strcpy(elogio[*contElogio].reclamacao, aux);
-				strcpy(elogio[*contElogio].elogio, "Nenhuma");
+				strcpy(critica[*contCritica].reclamacao, aux);
+				strcpy(critica[*contCritica].critica, "Nenhuma");
 				break;
 
 			}
@@ -2873,10 +2873,10 @@ void CadastroCritica(Elg* elogio, Pct* paciente, int* contElogio, int contPacien
 			{
 				printf("\n	Digite o Elogio: ");
 				scanf(" %[^\n]s", &aux);
-				strcpy(elogio[*contElogio].elogio, aux);
+				strcpy(critica[*contCritica].critica, aux);
 				printf("\n	Digite a Reclamacao: ");
 				scanf(" %[^\n]s", &aux);
-				strcpy(elogio[*contElogio].reclamacao, aux);
+				strcpy(critica[*contCritica].reclamacao, aux);
 				break;
 			}
 			else
@@ -2886,7 +2886,7 @@ void CadastroCritica(Elg* elogio, Pct* paciente, int* contElogio, int contPacien
 				system("pause");
 				system("cls");
 				printf("\n_________________________________________________________________________\n");
-				printf("|		Cadastro de Elogio ou Reclamacao			 |");
+				printf("|		Cadastro deCritica			 |");
 				printf("\n|________________________________________________________________________|\n\n");
 				continue;
 			}
@@ -2895,10 +2895,10 @@ void CadastroCritica(Elg* elogio, Pct* paciente, int* contElogio, int contPacien
 	} while (1);
 	if (marcador == 0)
 	{
-		obterDataElogio(&elogio[*contElogio]);
-		*contElogio += 1;
-		if (*contElogio == 10)
-			elogio = realloc(elogio, (*contElogio + 1) * sizeof(Elg));
+		obterDataCritica(&critica[*contCritica]);
+		*contCritica += 1;
+		if (*contCritica == 10)
+			critica = realloc(critica, (*contCritica + 1) * sizeof(Ctc));
 
 		printf("\n		CRITICA CADASTRADO SUCESSO\n");
 		system("pause");
@@ -2906,7 +2906,7 @@ void CadastroCritica(Elg* elogio, Pct* paciente, int* contElogio, int contPacien
 	}
 }
 
-void listarCriticaDeUmPaciente(Elg* elogio, int contElogio)
+void listarCriticaDeUmPaciente(Ctc* critica, int contCritica)
 {
 	char nomePaciente[50];
 	int codigoPaciente;
@@ -2926,11 +2926,11 @@ void listarCriticaDeUmPaciente(Elg* elogio, int contElogio)
 		system("cls");
 		return;
 	}
-	for (i = 0; i < contElogio; i++)
+	for (i = 0; i < contCritica; i++)
 	{//Ciclo que encontra, ordena e imprime o agendamento solicitado
-		if (elogio[i].PacienteQueElogiou.codigo == codigoPaciente || elogio[i].PacienteQueElogiou.rg == codigoPaciente)
+		if (critica[i].PacienteQueElogiou.codigo == codigoPaciente || critica[i].PacienteQueElogiou.rg == codigoPaciente)
 		{
-			imprimirCritica(elogio[i]);
+			imprimirCritica(critica[i]);
 			marcador = 1;
 		}
 	}
@@ -2942,22 +2942,22 @@ void listarCriticaDeUmPaciente(Elg* elogio, int contElogio)
 	system("cls");
 }
 
-void obterDataElogio(Elg* elogio)
+void obterDataCritica(Ctc* critica)
 {
 	time_t t = time(NULL);
 
 	struct tm data = *localtime(&t);
 
-	elogio->ano = data.tm_year + 1900;
-	elogio->mes = data.tm_mon + 1;
-	elogio->dia = data.tm_mday;
+	critica->ano = data.tm_year + 1900;
+	critica->mes = data.tm_mon + 1;
+	critica->dia = data.tm_mday;
 }
 
-void imprimirCritica(Elg elogio)
+void imprimirCritica(Ctc critica)
 {
-	printf("	Nome: %s\n", elogio.PacienteQueElogiou.nome);
-	printf("	Elogio: %s\n", elogio.elogio);
-	printf("	Reclamacao: %s\n", elogio.reclamacao);
-	printf("	Data da Critica: %d/%d/%d", elogio.dia, elogio.mes, elogio.ano);
+	printf("	Nome: %s\n", critica.PacienteQueElogiou.nome);
+	printf("	Elogio: %s\n", critica.critica);
+	printf("	Reclamacao: %s\n", critica.reclamacao);
+	printf("	Data da Critica: %d/%d/%d", critica.dia, critica.mes, critica.ano);
 	printf("\n	===============================\n");
 }
