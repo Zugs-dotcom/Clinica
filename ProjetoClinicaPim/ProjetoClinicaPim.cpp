@@ -279,21 +279,29 @@ void inicializar(Pct* paciente, Exm* exame, Fnc* funcionario, Uni* unidade, User
 	}
 
 	//Inclui dados dos usuarios
-	strcpy(usuario[0].usuario, "junior");
+	strcpy(usuario[0].usuario, "maria");
 	strcpy(usuario[0].senha, "123");
 	strcpy(usuario[0].unidade, "1");
 
-	strcpy(usuario[1].usuario, "lydia");
-	strcpy(usuario[1].senha, "123");
+	strcpy(usuario[1].usuario, "jesica");
+	strcpy(usuario[1].senha, "321");
 	strcpy(usuario[1].unidade, "1");
 
-	strcpy(usuario[2].usuario, "joao");
+	strcpy(usuario[2].usuario, "fernanda");
 	strcpy(usuario[2].senha, "123");
 	strcpy(usuario[2].unidade, "2");
 
-	strcpy(usuario[3].usuario, "julia");
-	strcpy(usuario[3].senha, "123");
+	strcpy(usuario[3].usuario, "talita");
+	strcpy(usuario[3].senha, "321");
 	strcpy(usuario[3].unidade, "2");
+
+	strcpy(usuario[4].usuario, "ana");
+	strcpy(usuario[4].senha, "123");
+	strcpy(usuario[4].unidade, "3");
+
+	strcpy(usuario[5].usuario, "barbara");
+	strcpy(usuario[5].senha, "321");
+	strcpy(usuario[5].unidade, "3");
 
 	//Inclui dados do Clinica 1
 	unidade[0].codigo = 1;
