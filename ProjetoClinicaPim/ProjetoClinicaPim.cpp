@@ -159,7 +159,8 @@ int main()
 	User* usuario; //Declarando um ponteiro para estrutura agendamento
 	Ctc* critica; //Declarando um ponteiro para estrutura Elogios e reclamações
 
-	int contPaciente = 10, contExame = 10, contAgendamento = 10, contFuncionario = 3, contUnidade = 2, contCritica = 4, contUsuario = 4; //Inicilizando os contadores
+	int* p;
+	int contPaciente = 10, contExame = 10, contAgendamento = 10, contFuncionario = 3, contUnidade = 4, contCritica = 4, contUsuario = 7; //Inicilizando os contadores
 
 
 	arquivo = calloc(100, sizeof(FILE));
@@ -171,26 +172,73 @@ int main()
 	unidade = calloc(50, sizeof(Uni));
 	critica = calloc(50, sizeof(Ctc));
 
-	int* p;
-	int a;
+	p = (int*)calloc(100, sizeof(Pct));
+	if (!p)
+	{
+		printf("** Erro: Memoria Insuficiente **");
+		return;
+	}
 
+	free(p);
+
+	p = (int*)calloc(100, sizeof(Exm));
+	if (!p)
+	{
+		printf("** Erro: Memoria Insuficiente **");
+		return;
+	}
+
+	free(p);
+
+	p = (int*)calloc(100, sizeof(Agd));
+	if (!p)
+	{
+		printf("** Erro: Memoria Insuficiente **");
+		return;
+	}
+
+	free(p);
 
 	p = (int*)calloc(50, sizeof(User));
 	if (!p)
 	{
 		printf("** Erro: Memoria Insuficiente **");
-		exit;
+		return;
 	}
 
+	free(p);
+
+	p = (int*)calloc(50, sizeof(Fnc));
+	if (!p)
+	{
+		printf("** Erro: Memoria Insuficiente **");
+		return;
+	}
+
+	free(p);
+
+	p = (int*)calloc(50, sizeof(Uni));
+	if (!p)
+	{
+		printf("** Erro: Memoria Insuficiente **");
+		return;
+	}
+
+	free(p);
+
+	p = (int*)calloc(50, sizeof(Ctc));
+	if (!p)
+	{
+		printf("** Erro: Memoria Insuficiente **");
+		return;
+	}
 
 	free(p);
 
 
-
 	inicializar(paciente, exame, funcionario, unidade, usuario, agendamento, critica);
 
-	// login(usuario, contUsuario);
-	menu();
+	login(usuario, contUsuario);
 	do {//Ciclo que controlara o funcionamento do programa
 		switch (op)
 		{
