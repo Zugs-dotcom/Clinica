@@ -706,7 +706,7 @@ void login(User* usuario, int* contUsuario)
 	{
 		marcador = 0;
 		printf("\n________________________________________________________________________\n");
-		printf("|				Clinica NoMercy				|");
+		printf("|				Rede NoMercy 				|");
 		printf("\n|_______________________________________________________________________|\n\n");
 		printf("		BEM VINDO       \n");
 		printf("		Usuario: ");
@@ -743,7 +743,7 @@ void login(User* usuario, int* contUsuario)
 void menu()
 {
 	printf("\n_________________________________________________________________________\n");
-	printf("|			Clinica NoMercy					 |");
+	printf("|			Rede NoMercy 					 |");
 	printf("\n|________________________________________________________________________|\n\n");
 	printf("	1 - Gerencia de Pacientes\n");
 	printf("	2 - Gerencia de Exame\n");
@@ -1951,6 +1951,7 @@ void imprimirAgendamento(Agd agendamento)
 	for (i = 0; i < agendamento.qtd; i++)
 	{
 		printf("\n	Exame: %s", agendamento.examePedido.nome);
+		printf("\n	Valor:R$ %.2f", agendamento.examePedido.valor);
 		printf("\n	Data de registro de agendamento: %d/%d/%d", agendamento.dia, agendamento.mes, agendamento.ano);
 		printf("\n	Hospital: %s", agendamento.UnidadeParaAgendar.nome);
 		printf("\n	Data de agendamento: %d/%d/%d %d:00", agendamento.diaMarcado, agendamento.mesMarcado, agendamento.anoMarcado, agendamento.horaMarcado);
